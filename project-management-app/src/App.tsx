@@ -2,7 +2,7 @@ import React from 'react';
 import './App.css';
 import { Routes, Route, Link } from 'react-router-dom';
 import { HomePage } from './pages/homePage/homePage';
-import { BoardsPage } from './pages/boardsPage/boardsPage';
+import { BoardsPage } from 'pages/BoardsPage/BoardsPage';
 import { AddPage } from './pages/addPage/addPage';
 import { SearchPage } from './pages/searchPage/searchPage';
 import { LangPage } from './pages/langPage/langPage';
