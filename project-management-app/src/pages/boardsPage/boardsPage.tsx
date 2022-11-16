@@ -1,11 +1,12 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { setBoard } from 'store/boardsSlice';
-import { State, IBoard } from 'types/types';
+import { addBoard } from 'store/boardsSlice';
+import { IBoard } from 'types/types';
+import * as selectors from '../../store/selectors';
 import style from './BoardsPage.module.css';
 
 export function BoardsPage() {
-  const boards = useSelector((state: State) => state.boards.userBoards);
+  const boards = useSelector(selectors.boardsSelector);
   const dispatch = useDispatch();
 
   const renderBoard = (board: IBoard, index: number) => {
@@ -23,9 +24,9 @@ export function BoardsPage() {
     );
   };
 
-  const addBoard = () => {
+  const onAddBoard = () => {
     dispatch(
-      setBoard({
+      addBoard({
         title: 'testTitle',
         owner: 'testOwner',
         users: ['testUsers'],
@@ -36,7 +37,7 @@ export function BoardsPage() {
   return (
     <div className={style.boardsContainer}>
       <h2>Boards</h2>
-      <button onClick={addBoard}>add board</button>
+      <button onClick={onAddBoard}>add board</button>
       <div className={style.boardsWrapper}>{boards.map(renderBoard)}</div>
     </div>
   );

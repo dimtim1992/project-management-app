@@ -17,14 +17,20 @@ const initialState = {
 };
 
 const boardsSlice = createSlice({
-  name: 'appBoards',
+  name: 'boards',
   initialState,
   reducers: {
-    setBoard(state, action) {
+    addBoard(state, action) {
       state.userBoards.push(action.payload);
     },
+    deleteBoard(state, action) {},
+    addColumn(state, action) {},
+    deleteColumn(state, action) {},
+    addTask(state, action) {},
+    deleteTask(state, action) {},
+    setTaskCounter(state, action) {},
   },
 });
 
 export default boardsSlice.reducer;
-export const { setBoard } = boardsSlice.actions;
+export const { addBoard } = boardsSlice.actions;
