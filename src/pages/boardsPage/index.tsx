@@ -3,9 +3,9 @@ import { useDispatch, useSelector } from 'react-redux';
 import { addBoard } from 'store/boardsSlice';
 import { IBoard } from 'types/types';
 import * as selectors from '../../store/selectors';
-import style from './BoardsPage.module.css';
+import style from './index.module.css';
 
-export function BoardsPage() {
+const BoardsPage = () => {
   const boards = useSelector(selectors.boardsSelector);
   const dispatch = useDispatch();
 
@@ -35,10 +35,12 @@ export function BoardsPage() {
   };
 
   return (
-    <div className={style.boardsContainer}>
+    <div className={style.wrapper}>
       <h2>Boards</h2>
       <button onClick={onAddBoard}>add board</button>
       <div className={style.boardsWrapper}>{boards.map(renderBoard)}</div>
     </div>
   );
-}
+};
+
+export default BoardsPage;
