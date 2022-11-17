@@ -18,7 +18,7 @@ function App() {
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/boards" element={<BoardsPage />} />
-        <Route path="/add" element={<AddPage />} />
+        {/* <Route path="/add" element={<AddPage />} /> */}
         <Route path="/search" element={<SearchPage />} />
         <Route path="/lang" element={<LangPage />} />
         <Route path="/profile" element={<ProfilePage />} />
