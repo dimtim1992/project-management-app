@@ -1,5 +1,6 @@
-.home-container {
+.search-container {
     display: flex;
     flex-direction: column;
     align-items: center;
+    flex: 1;
 }
