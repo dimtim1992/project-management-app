@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { signIn } from 'services/api';
 import { useAppDispatch } from 'types/types';
 import './signInPage.css';
+import Button from '../../components/button';
 
 export function SignInPage() {
   const dispatch = useAppDispatch();
@@ -21,7 +22,8 @@ export function SignInPage() {
       <label>Password</label>
       <input type="text" onChange={(e) => setPassword(e.target.value)} />
 
-      <button onClick={sign}>SIGNIN</button>
+      {/* <button onClick={sign}>SIGNIN</button> */}
+      <Button event={sign} name="SIGN IN" />
     </div>
   );
 }
