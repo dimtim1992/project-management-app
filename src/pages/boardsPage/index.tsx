@@ -1,7 +1,5 @@
-import Modal from 'components/modal/Modal';
-import React, { useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { addBoard, toggleAddBoardModal } from 'store/boardsSlice';
+import React from 'react';
+import { useSelector } from 'react-redux';
 import { IBoard, IColumn } from 'types/types';
 import * as selectors from '../../store/selectors';
 import style from './index.module.css';
@@ -9,20 +7,6 @@ import style from './index.module.css';
 const BoardsPage = () => {
   const boards = useSelector(selectors.boardsSelector);
   const columns = useSelector(selectors.columnsSelector);
-  const dispatch = useDispatch();
-  const [boardName, setBoardName] = useState('');
-  const [boardDescription, setBoardDescription] = useState('');
-
-  const onAddBoard = () => {
-    dispatch(
-      addBoard({
-        title: boardName,
-        owner: boardDescription,
-        users: ['testUsers'],
-      })
-    );
-    dispatch(toggleAddBoardModal(false));
-  };
 
   const renderColumn = (column: IColumn, index: number) => {
     return (
@@ -54,19 +38,6 @@ const BoardsPage = () => {
     <div className={style.wrapper}>
       <h2>Boards</h2>
       <div className={style.boardsWrapper}>{boards.map(renderBoard)}</div>
-      <Modal
-        item={
-          <>
-            <label>Board name</label>
-            <input type="text" onChange={(e) => setBoardName(e.target.value)} />
-
-            <label>Description</label>
-            <input type="text" onChange={(e) => setBoardDescription(e.target.value)} />
-            <br />
-            <button onClick={onAddBoard}>Add Board</button>
-          </>
-        }
-      />
     </div>
   );
 };

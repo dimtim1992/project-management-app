@@ -5,13 +5,19 @@ import Footer from 'components/footer';
 import HomePage from 'pages/homePage';
 import BoardsPage from 'pages/boardsPage';
 import ProfilePage from 'pages/profilePage';
-import { AddPage } from './pages/addPage/addPage';
+// import { AddPage } from './pages/addPage/addPage';
 import { SearchPage } from './pages/searchPage/searchPage';
 import { LangPage } from './pages/langPage/langPage';
 import { SignInPage } from './pages/signInPage/signInPage';
 import { SignUpPage } from './pages/signUpPage/signUpPage';
+import Modal from 'components/modal/Modal';
+import AddBoardModal from 'components/addBoardModal/AddBoardModal';
+import { useSelector } from 'react-redux';
+import { addBoardsModalSelector } from 'store/selectors';
 
 function App() {
+  const openModal = useSelector(addBoardsModalSelector);
+
   return (
     <>
       <Header />
@@ -25,6 +31,7 @@ function App() {
         <Route path="/signIn" element={<SignInPage />} />
         <Route path="/signUp" element={<SignUpPage />} />
       </Routes>
+      {openModal && <Modal item={<AddBoardModal />} />}
       <Footer />
     </>
   );

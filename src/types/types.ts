@@ -3,7 +3,15 @@ import { store } from 'store/store';
 
 export type State = {
   users: { user: IUser };
-  boards: { userBoards: IBoard[]; userColumns: IColumn[]; openAddBoardModal: boolean };
+  boards: BoardsState;
+};
+
+export type BoardsState = {
+  userBoards: IBoard[];
+  userColumns: IColumn[];
+  newBoardName: string;
+  newBoardDescription: string;
+  openAddBoardModal: boolean;
 };
 
 export interface IUser {

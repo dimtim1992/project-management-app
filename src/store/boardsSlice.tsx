@@ -1,8 +1,11 @@
 import { createSlice } from '@reduxjs/toolkit';
+import { BoardsState, IBoard } from 'types/types';
 
-const initialState = {
-  userBoards: [{}],
-  userColumns: [{}],
+const initialState: BoardsState = {
+  userBoards: [] as IBoard[],
+  userColumns: [],
+  newBoardName: '',
+  newBoardDescription: '',
   openAddBoardModal: false,
 };
 
@@ -15,6 +18,12 @@ const boardsSlice = createSlice({
     },
     addBoard(state, action) {
       state.userBoards.push(action.payload);
+    },
+    setNewBoardName(state, action) {
+      state.newBoardName = action.payload;
+    },
+    setNewBoardDescription(state, action) {
+      state.newBoardDescription = action.payload;
     },
     // deleteBoard(state, action) {},
     // addColumn(state, action) {},
@@ -29,6 +38,8 @@ export default boardsSlice.reducer;
 export const {
   toggleAddBoardModal,
   addBoard,
+  setNewBoardName,
+  setNewBoardDescription,
   // deleteBoard,
   // addColumn,
   // deleteColumn,
