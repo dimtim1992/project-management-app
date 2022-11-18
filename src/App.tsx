@@ -10,6 +10,7 @@ import { SearchPage } from './pages/searchPage/searchPage';
 import { LangPage } from './pages/langPage/langPage';
 import { SignInPage } from './pages/signInPage/signInPage';
 import { SignUpPage } from './pages/signUpPage/signUpPage';
+import NotFoundPage from 'pages/notFoundPage';
 
 function App() {
   return (
@@ -24,6 +25,7 @@ function App() {
         <Route path="/profile" element={<ProfilePage />} />
         <Route path="/signIn" element={<SignInPage />} />
         <Route path="/signUp" element={<SignUpPage />} />
+        <Route path="/*" element={<NotFoundPage />} />
       </Routes>
       <Footer />
     </>
