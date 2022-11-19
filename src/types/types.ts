@@ -2,8 +2,14 @@ import { useDispatch } from 'react-redux';
 import { store } from 'store/store';
 
 export type State = {
-  users: { user: IUser };
+  users: UsersState;
   boards: BoardsState;
+};
+
+export type UsersState = {
+  signInLogin: string;
+  users: IUser[];
+  user: IUser;
 };
 
 export type BoardsState = {
@@ -60,6 +66,12 @@ export interface IPoint {
   boardId: string;
   done: boolean;
 }
+
+export type myData = {
+  data?: {
+    token: string;
+  };
+};
 
 export type AppDispatch = typeof store.dispatch;
 export const useAppDispatch = () => useDispatch<AppDispatch>();

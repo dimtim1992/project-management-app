@@ -1,5 +1,8 @@
 import { State } from 'types/types';
 
+export const IdSelector = (state: State) => state.users.user._id;
+export const loginSelector = (state: State) => state.users.user.login;
+export const signInLoginSelector = (state: State) => state.users.signInLogin;
 export const boardsSelector = (state: State) => state.boards.userBoards;
 export const newBoardNameSelector = (state: State) => state.boards.newBoardName;
 export const newBoardDescriptionSelector = (state: State) => state.boards.newBoardDescription;

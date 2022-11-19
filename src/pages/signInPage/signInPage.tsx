@@ -1,14 +1,20 @@
 import React, { useState } from 'react';
-import { signIn } from 'services/api';
+import { getUsers, signIn } from 'services/api';
 import { useAppDispatch } from 'types/types';
 import './signInPage.css';
 import Button from '../../components/button';
+import { setSignInLogin } from 'store/usersSlice';
+import { useSelector } from 'react-redux';
+import { signInLoginSelector } from 'store/selectors';
 
 export function SignInPage() {
+  const login = useSelector(signInLoginSelector);
   const dispatch = useAppDispatch();
-  const sign = () => dispatch(signIn({ login, password }));
+  const sign = () => {
+    dispatch(signIn({ login, password }));
+    dispatch(getUsers());
+  };
 
-  const [login, setLogin] = useState('');
   const [password, setPassword] = useState('');
 
   return (
@@ -17,7 +23,7 @@ export function SignInPage() {
       <p>Sign in form</p>
 
       <label>Login</label>
-      <input type="text" onChange={(e) => setLogin(e.target.value)} />
+      <input type="text" onChange={(e) => dispatch(setSignInLogin(e.target.value))} />
 
       <label>Password</label>
       <input type="text" onChange={(e) => setPassword(e.target.value)} />
