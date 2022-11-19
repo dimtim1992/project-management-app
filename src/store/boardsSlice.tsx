@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { createBoard, getBoards } from 'services/api';
+import { createBoard, deleteBoard, getBoards } from 'services/api';
 import { BoardsState, IBoard } from 'types/types';
 
 const initialState: BoardsState = {
@@ -8,6 +8,7 @@ const initialState: BoardsState = {
   newBoardName: '',
   newBoardDescription: '',
   openAddBoardModal: false,
+  boardLoading: '',
 };
 
 const boardsSlice = createSlice({
@@ -34,15 +35,21 @@ const boardsSlice = createSlice({
     // setTaskCounter(state, action) {},
   },
   extraReducers: (builder) => {
-    builder.addCase(createBoard.pending, () => {
-      console.log('pending');
+    builder.addCase(createBoard.pending, (state) => {
+      state.boardLoading = 'pending';
     });
-    builder.addCase(createBoard.fulfilled, () => {
-      console.log('fulfilled');
+    builder.addCase(createBoard.fulfilled, (state) => {
+      state.boardLoading = 'fulfilled';
     });
     builder.addCase(getBoards.fulfilled, (state, { payload }) => {
       console.log(payload);
       state.userBoards = payload;
+    });
+    builder.addCase(deleteBoard.pending, (state) => {
+      state.boardLoading = 'pending';
+    });
+    builder.addCase(deleteBoard.fulfilled, (state) => {
+      state.boardLoading = 'fulfilled';
     });
   },
 });

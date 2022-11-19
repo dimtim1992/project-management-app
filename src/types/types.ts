@@ -11,6 +11,7 @@ export type UsersState = {
   users: IUser[];
   user: IUser;
   isAuthorized: boolean;
+  userLoading: string;
 };
 
 export type BoardsState = {
@@ -19,6 +20,7 @@ export type BoardsState = {
   newBoardName: string;
   newBoardDescription: string;
   openAddBoardModal: boolean;
+  boardLoading: string;
 };
 
 export interface IUser {

@@ -1,11 +1,17 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router';
 import { signUp } from 'services/api';
 import { useAppDispatch } from 'types/types';
 import './signUpPage.css';
 
 export function SignUpPage() {
+  const navigate = useNavigate();
   const dispatch = useAppDispatch();
-  const sign = () => dispatch(signUp({ name, login, password }));
+
+  const sign = () => {
+    dispatch(signUp({ name, login, password }));
+    navigate('/signin');
+  };
 
   const [name, setName] = useState('');
   const [login, setLogin] = useState('');

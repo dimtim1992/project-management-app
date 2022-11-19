@@ -6,13 +6,18 @@ import Button from '../../components/button';
 import { setSignInLogin } from 'store/usersSlice';
 import { useSelector } from 'react-redux';
 import { signInLoginSelector } from 'store/selectors';
+import { useNavigate } from 'react-router';
 
 export function SignInPage() {
   const login = useSelector(signInLoginSelector);
+
+  const navigate = useNavigate();
   const dispatch = useAppDispatch();
+
   const sign = () => {
-    dispatch(getUsers());
     dispatch(signIn({ login, password }));
+    dispatch(getUsers());
+    navigate('/');
   };
 
   const [password, setPassword] = useState('');
