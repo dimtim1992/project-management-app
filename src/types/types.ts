@@ -10,6 +10,7 @@ export type UsersState = {
   signInLogin: string;
   users: IUser[];
   user: IUser;
+  isAuthorized: boolean;
 };
 
 export type BoardsState = {

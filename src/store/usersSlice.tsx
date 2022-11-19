@@ -6,6 +6,7 @@ const initialState = {
   signInLogin: '',
   users: [] as IUser[],
   user: {} as IUser,
+  isAuthorized: false,
 };
 
 const usersSlice = createSlice({
@@ -18,6 +19,12 @@ const usersSlice = createSlice({
     setSignInLogin(state, action) {
       state.signInLogin = action.payload;
     },
+    logOut(state) {
+      state.isAuthorized = false;
+      state.user = {} as IUser;
+      localStorage.removeItem('userToken');
+      localStorage.removeItem('userId');
+    },
   },
   extraReducers: (builder) => {
     builder.addCase(signIn.pending, () => {
@@ -26,6 +33,7 @@ const usersSlice = createSlice({
     builder.addCase(signIn.fulfilled, (state, { payload }) => {
       localStorage.setItem('userToken', payload);
       localStorage.setItem('userId', state.user._id);
+      state.isAuthorized = true;
       console.log('fulfilled');
     });
     builder.addCase(getUsers.pending, () => {
@@ -41,4 +49,4 @@ const usersSlice = createSlice({
 });
 
 export default usersSlice.reducer;
-export const { setUser, setSignInLogin } = usersSlice.actions;
+export const { setUser, setSignInLogin, logOut } = usersSlice.actions;

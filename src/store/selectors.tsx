@@ -1,5 +1,6 @@
 import { State } from 'types/types';
 
+export const isAuthorizedSelector = (state: State) => state.users.isAuthorized;
 export const idSelector = (state: State) => state.users.user._id;
 export const nameSelector = (state: State) => state.users.user.name;
 export const loginSelector = (state: State) => state.users.user.login;

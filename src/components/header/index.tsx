@@ -1,14 +1,22 @@
 import React from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { toggleAddBoardModal } from 'store/boardsSlice';
+import { isAuthorizedSelector } from 'store/selectors';
+import { logOut } from 'store/usersSlice';
 import style from './index.module.css';
 
 const Header = () => {
+  const isAuthorized = useSelector(isAuthorizedSelector);
+
   const dispatch = useDispatch();
 
   const openModal = () => {
     dispatch(toggleAddBoardModal(true));
+  };
+
+  const onLogOut = () => {
+    dispatch(logOut());
   };
 
   return (
@@ -37,6 +45,11 @@ const Header = () => {
       <Link to="/signUp" className={style.link}>
         Sign up
       </Link>
+      {isAuthorized && (
+        <a className={style.link} onClick={onLogOut}>
+          Log out
+        </a>
+      )}
     </header>
   );
 };
