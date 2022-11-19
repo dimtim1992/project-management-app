@@ -1,4 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
+import { createBoard, getBoards } from 'services/api';
 import { BoardsState, IBoard } from 'types/types';
 
 const initialState: BoardsState = {
@@ -31,6 +32,18 @@ const boardsSlice = createSlice({
     // addTask(state, action) {},
     // deleteTask(state, action) {},
     // setTaskCounter(state, action) {},
+  },
+  extraReducers: (builder) => {
+    builder.addCase(createBoard.pending, () => {
+      console.log('pending');
+    });
+    builder.addCase(createBoard.fulfilled, () => {
+      console.log('fulfilled');
+    });
+    builder.addCase(getBoards.fulfilled, (state, { payload }) => {
+      console.log(payload);
+      state.userBoards = payload;
+    });
   },
 });
 

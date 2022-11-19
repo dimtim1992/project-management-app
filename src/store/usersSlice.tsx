@@ -3,9 +3,9 @@ import { getUsers, signIn } from 'services/api';
 import { IUser } from 'types/types';
 
 const initialState = {
-  signInLogin: '', //Логин который используется при авторизации
-  users: [] as IUser[], //Все юзеры которые зарегистрированы
-  user: {}, //Активный юзер здесь можно брать логин и id
+  signInLogin: '',
+  users: [] as IUser[],
+  user: {} as IUser,
 };
 
 const usersSlice = createSlice({
@@ -25,6 +25,7 @@ const usersSlice = createSlice({
     });
     builder.addCase(signIn.fulfilled, (state, { payload }) => {
       localStorage.setItem('userToken', payload);
+      localStorage.setItem('userId', state.user._id);
       console.log('fulfilled');
     });
     builder.addCase(getUsers.pending, () => {

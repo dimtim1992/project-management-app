@@ -11,8 +11,8 @@ export function SignInPage() {
   const login = useSelector(signInLoginSelector);
   const dispatch = useAppDispatch();
   const sign = () => {
-    dispatch(signIn({ login, password }));
     dispatch(getUsers());
+    dispatch(signIn({ login, password }));
   };
 
   const [password, setPassword] = useState('');

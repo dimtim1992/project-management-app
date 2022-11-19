@@ -5,8 +5,8 @@ export const basicUrl = 'https://final-task-backend-production-2b03.up.railway.a
 
 const signUpUrl = 'auth/signup';
 const signInUrl = 'auth/signin';
-const usersUrl = 'users';
-const boardsUrl = 'boards';
+const usersUrl = 'users/';
+const boardsUrl = 'boards/';
 
 export const signUp = createAsyncThunk(
   'users/signUp',
@@ -54,28 +54,37 @@ export const getBoards = createAsyncThunk('boards/getBoards', async () => {
         Authorization: `Bearer ${localStorage.getItem('userToken')}`,
       },
     })
-    .then(function (response) {
-      console.log(response.data);
-    })
-    .catch(function (error) {
+    .then((res) => res.data)
+    .catch((error) => {
       console.log(error);
     });
 });
 
 export const createBoard = createAsyncThunk(
   'boards/createBoard',
-  async (info: { title: string; owner: string; users: string[] }) => {
+  async (info: { title: string; owner: string | null; users: string[] }) => {
     return axios
       .post(`${basicUrl}${boardsUrl}`, info, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem('userToken')}`,
         },
       })
-      .then(function (response) {
-        console.log(response);
-      })
-      .catch(function (error) {
+      .then((res) => res.data)
+      .catch((error) => {
         console.log(error);
       });
   }
 );
+
+export const deleteBoard = createAsyncThunk('boards/createBoard', async (id: string) => {
+  return axios
+    .delete(`${basicUrl}${boardsUrl}${id}`, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('userToken')}`,
+      },
+    })
+    .then((res) => res.data)
+    .catch((error) => {
+      console.log(error);
+    });
+});
