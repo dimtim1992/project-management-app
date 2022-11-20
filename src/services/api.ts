@@ -7,6 +7,7 @@ const signUpUrl = 'auth/signup';
 const signInUrl = 'auth/signin';
 const usersUrl = 'users/';
 const boardsUrl = 'boards/';
+const columnsUrl = 'columns/';
 
 export const signUp = createAsyncThunk(
   'users/signUp',
@@ -95,18 +96,35 @@ export const deleteBoard = createAsyncThunk('boards/deleteBoard', async (id: str
     });
 });
 
-// export const getActiveBoard = createAsyncThunk(
-//   'boards/getActiveBoard',
-//   async (id: string | null) => {
-//     return axios
-//       .get(`${basicUrl}${boardsUrl}${id}`, {
-//         headers: {
-//           Authorization: `Bearer ${localStorage.getItem('userToken')}`,
-//         },
-//       })
-//       .then((res) => res.data)
-//       .catch((error) => {
-//         console.log(error);
-//       });
-//   }
-// );
+export const createColumn = createAsyncThunk(
+  'boards/createColumn',
+  async (info: { title: string; order: number; boardId: string }) => {
+    return axios
+      .post(
+        `${basicUrl}${boardsUrl}${info.boardId}/${columnsUrl}`,
+        { title: info.title, order: info.order },
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem('userToken')}`,
+          },
+        }
+      )
+      .then((res) => res.data)
+      .catch((error) => {
+        console.log(error);
+      });
+  }
+);
+
+export const getColumns = createAsyncThunk('boards/getColumns', async (boardId: string) => {
+  return axios
+    .get(`${basicUrl}${boardsUrl}${boardId}/${columnsUrl}`, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('userToken')}`,
+      },
+    })
+    .then((res) => res.data)
+    .catch((error) => {
+      console.log(error);
+    });
+});

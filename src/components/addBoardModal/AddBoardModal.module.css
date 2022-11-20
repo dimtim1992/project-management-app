@@ -1,0 +1,4 @@
+.boardModal {
+  display: flex;
+  flex-direction: column;
+}

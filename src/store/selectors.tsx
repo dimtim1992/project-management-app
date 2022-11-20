@@ -8,7 +8,9 @@ export const signInLoginSelector = (state: State) => state.users.signInLogin;
 
 export const activeBoardSelector = (state: State) => state.boards.activeBoard;
 export const boardsSelector = (state: State) => state.boards.userBoards;
-export const newBoardNameSelector = (state: State) => state.boards.newBoardName;
+export const newBoardTitleSelector = (state: State) => state.boards.newBoardTitle;
 export const newBoardDescriptionSelector = (state: State) => state.boards.newBoardDescription;
+export const newColumnTitleSelector = (state: State) => state.boards.newColumnTitle;
 export const columnsSelector = (state: State) => state.boards.userColumns;
 export const addBoardsModalSelector = (state: State) => state.boards.openAddBoardModal;
+export const addColumnsModalSelector = (state: State) => state.boards.openAddColumnModal;

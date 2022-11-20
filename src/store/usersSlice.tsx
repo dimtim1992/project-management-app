@@ -34,8 +34,6 @@ const usersSlice = createSlice({
     builder.addCase(signIn.fulfilled, (state, { payload }) => {
       localStorage.setItem('userToken', payload);
       console.log(localStorage.getItem('userToken'));
-      localStorage.setItem('userId', state.user._id);
-      console.log(localStorage.getItem('userId'));
       state.isAuthorized = true;
       console.log('fulfilled');
     });
@@ -47,6 +45,8 @@ const usersSlice = createSlice({
       console.log(state.users);
       state.user = state.users.filter((user) => user.login === state.signInLogin)[0];
       console.log(state.user);
+      localStorage.setItem('userId', state.user._id);
+      console.log(localStorage.getItem('userId'));
     });
     builder.addCase(userDelete.pending, (state) => {
       state.userLoading = 'pending';

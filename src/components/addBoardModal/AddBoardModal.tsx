@@ -2,12 +2,13 @@ import React from 'react';
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router';
 import { createBoard, getBoards } from 'services/api';
-import { setNewBoardDescription, setNewBoardName, toggleAddBoardModal } from 'store/boardsSlice';
+import { setNewBoardDescription, setNewBoardTitle, toggleAddBoardModal } from 'store/boardsSlice';
 import { useAppDispatch } from 'types/types';
 import * as selectors from '../../store/selectors';
+import style from './AddBoardModal.module.css';
 
 const AddBoardModal = () => {
-  const newBoardName = useSelector(selectors.newBoardNameSelector);
+  const newBoardTitle = useSelector(selectors.newBoardTitleSelector);
   const newBoardDescription = useSelector(selectors.newBoardDescriptionSelector);
   const owner = localStorage.getItem('userId');
   const dispatch = useAppDispatch();
@@ -18,27 +19,27 @@ const AddBoardModal = () => {
 
     dispatch(
       createBoard({
-        title: `${newBoardName}&${newBoardDescription}`,
+        title: `${newBoardTitle}&${newBoardDescription}`,
         owner: owner,
         users: ['testUsers'],
       })
     );
     dispatch(toggleAddBoardModal(false));
-    dispatch(setNewBoardName(''));
+    dispatch(setNewBoardTitle(''));
     dispatch(setNewBoardDescription(''));
     dispatch(getBoards());
   };
 
   return (
-    <>
+    <div className={style.boardModal}>
       <label>Board name</label>
-      <input type="text" onChange={(e) => dispatch(setNewBoardName(e.target.value))} />
+      <input type="text" onChange={(e) => dispatch(setNewBoardTitle(e.target.value))} />
 
       <label>Description</label>
       <input type="text" onChange={(e) => dispatch(setNewBoardDescription(e.target.value))} />
       <br />
       <button onClick={onAddBoard}>Add Board</button>
-    </>
+    </div>
   );
 };
 

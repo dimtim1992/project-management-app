@@ -13,11 +13,13 @@ import { SignUpPage } from './pages/signUpPage/signUpPage';
 import Modal from 'components/modal/Modal';
 import AddBoardModal from 'components/addBoardModal/AddBoardModal';
 import { useSelector } from 'react-redux';
-import { addBoardsModalSelector } from 'store/selectors';
+import { addBoardsModalSelector, addColumnsModalSelector } from 'store/selectors';
 import Board from 'components/board/Board';
+import AddColumnModal from 'components/addColumnModal/AddColumnModal';
 
 function App() {
-  const openModal = useSelector(addBoardsModalSelector);
+  const openBoardsModal = useSelector(addBoardsModalSelector);
+  const openColumnsModal = useSelector(addColumnsModalSelector);
 
   return (
     <>
@@ -33,7 +35,8 @@ function App() {
         <Route path="/signIn" element={<SignInPage />} />
         <Route path="/signUp" element={<SignUpPage />} />
       </Routes>
-      {openModal && <Modal item={<AddBoardModal />} />}
+      {openBoardsModal && <Modal item={<AddBoardModal />} />}
+      {openColumnsModal && <Modal item={<AddColumnModal />} />}
       <Footer />
     </>
   );

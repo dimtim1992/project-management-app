@@ -17,9 +17,11 @@ export type UsersState = {
 export type BoardsState = {
   userBoards: IBoard[];
   userColumns: IColumn[];
-  newBoardName: string;
+  newBoardTitle: string;
   newBoardDescription: string;
+  newColumnTitle: string;
   openAddBoardModal: boolean;
+  openAddColumnModal: boolean;
   boardLoading: string;
   activeBoard: IBoard;
 };
