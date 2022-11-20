@@ -94,3 +94,19 @@ export const deleteBoard = createAsyncThunk('boards/deleteBoard', async (id: str
       console.log(error);
     });
 });
+
+// export const getActiveBoard = createAsyncThunk(
+//   'boards/getActiveBoard',
+//   async (id: string | null) => {
+//     return axios
+//       .get(`${basicUrl}${boardsUrl}${id}`, {
+//         headers: {
+//           Authorization: `Bearer ${localStorage.getItem('userToken')}`,
+//         },
+//       })
+//       .then((res) => res.data)
+//       .catch((error) => {
+//         console.log(error);
+//       });
+//   }
+// );

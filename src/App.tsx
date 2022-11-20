@@ -14,6 +14,7 @@ import Modal from 'components/modal/Modal';
 import AddBoardModal from 'components/addBoardModal/AddBoardModal';
 import { useSelector } from 'react-redux';
 import { addBoardsModalSelector } from 'store/selectors';
+import Board from 'components/board/Board';
 
 function App() {
   const openModal = useSelector(addBoardsModalSelector);
@@ -24,6 +25,7 @@ function App() {
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/boards" element={<BoardsPage />} />
+        <Route path="/boards/:id" element={<Board />} />
         {/* <Route path="/add" element={<AddPage />} /> */}
         <Route path="/search" element={<SearchPage />} />
         <Route path="/lang" element={<LangPage />} />

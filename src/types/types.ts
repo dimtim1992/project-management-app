@@ -21,6 +21,7 @@ export type BoardsState = {
   newBoardDescription: string;
   openAddBoardModal: boolean;
   boardLoading: string;
+  activeBoard: IBoard;
 };
 
 export interface IUser {

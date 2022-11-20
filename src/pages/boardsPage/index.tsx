@@ -1,28 +1,20 @@
 import React, { useEffect } from 'react';
 import { useSelector } from 'react-redux';
+import { Link } from 'react-router-dom';
 import { deleteBoard, getBoards } from 'services/api';
-import { IBoard, IColumn, useAppDispatch } from 'types/types';
+import { setActiveBoard } from 'store/boardsSlice';
+import { IBoard, useAppDispatch } from 'types/types';
 import * as selectors from '../../store/selectors';
 import style from './index.module.css';
 
 const BoardsPage = () => {
   const boards = useSelector(selectors.boardsSelector);
-  const columns = useSelector(selectors.columnsSelector);
+  // const columns = useSelector(selectors.columnsSelector);
   const dispatch = useAppDispatch();
 
   useEffect(() => {
     dispatch(getBoards());
   }, [dispatch]);
-
-  const renderColumn = (column: IColumn, index: number) => {
-    return (
-      column.title && (
-        <div className={style.column} key={index}>
-          <div>{column.title}</div>
-        </div>
-      )
-    );
-  };
 
   const delBoard = (id: string) => {
     dispatch(deleteBoard(id));
@@ -32,15 +24,20 @@ const BoardsPage = () => {
   const renderBoard = (board: IBoard) => {
     return (
       board.title && (
-        <div className={style.board} key={board._id}>
-          <div>{board.title}</div>
-          <div>
-            <h2>Columns</h2>
-            <div className={style.columnsWrapper}>{columns.map(renderColumn)}</div>
-            <button>Add Column</button>
+        <Link
+          to={`/boards/${board._id}`}
+          className={style.item}
+          key={board._id}
+          onClick={() => {
+            dispatch(setActiveBoard(board._id));
+          }}
+        >
+          <div className={style.board} key={board._id}>
+            <div className={style.boardTitle}>{board.title.split('&')[0]}</div>
+            <div className={style.boardDescription}>{board.title.split('&')[1]}</div>
+            <button onClick={() => delBoard(board._id)}>delete board</button>
           </div>
-          <button onClick={() => delBoard(board._id)}>delete board</button>
-        </div>
+        </Link>
       )
     );
   };

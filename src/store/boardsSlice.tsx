@@ -1,14 +1,15 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { createBoard, deleteBoard, getBoards } from 'services/api';
-import { BoardsState, IBoard } from 'types/types';
+import { BoardsState, IBoard, IColumn } from 'types/types';
 
 const initialState: BoardsState = {
   userBoards: [] as IBoard[],
-  userColumns: [],
+  userColumns: [] as IColumn[],
   newBoardName: '',
   newBoardDescription: '',
   openAddBoardModal: false,
   boardLoading: '',
+  activeBoard: {} as IBoard,
 };
 
 const boardsSlice = createSlice({
@@ -26,6 +27,12 @@ const boardsSlice = createSlice({
     },
     setNewBoardDescription(state, action) {
       state.newBoardDescription = action.payload;
+    },
+    setActiveBoard(state, action) {
+      state.activeBoard = state.userBoards.filter((board) => board._id === action.payload)[0];
+    },
+    resetActiveBoard(state) {
+      state.activeBoard = {} as IBoard;
     },
     // deleteBoard(state, action) {},
     // addColumn(state, action) {},
@@ -51,6 +58,14 @@ const boardsSlice = createSlice({
     builder.addCase(deleteBoard.fulfilled, (state) => {
       state.boardLoading = 'fulfilled';
     });
+    // builder.addCase(getActiveBoard.pending, (state) => {
+    //   state.boardLoading = 'pending';
+    // });
+    // builder.addCase(getActiveBoard.fulfilled, (state, { payload }) => {
+    //   state.activeBoard = payload;
+    //   console.log(state.activeBoard);
+    //   state.boardLoading = 'fulfilled';
+    // });
   },
 });
 
@@ -60,6 +75,8 @@ export const {
   addBoard,
   setNewBoardName,
   setNewBoardDescription,
+  setActiveBoard,
+  resetActiveBoard,
   // deleteBoard,
   // addColumn,
   // deleteColumn,

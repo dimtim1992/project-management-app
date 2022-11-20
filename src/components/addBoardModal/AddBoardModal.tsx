@@ -18,7 +18,7 @@ const AddBoardModal = () => {
 
     dispatch(
       createBoard({
-        title: newBoardName,
+        title: `${newBoardName}&${newBoardDescription}`,
         owner: owner,
         users: ['testUsers'],
       })
