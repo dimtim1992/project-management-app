@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { createBoard, deleteBoard, getBoards, getColumns } from 'services/api';
+import { createBoard, createColumn, deleteBoard, getBoards, getColumns } from 'services/api';
 import { BoardsState, IBoard, IColumn } from 'types/types';
 
 const initialState: BoardsState = {
@@ -38,10 +38,17 @@ const boardsSlice = createSlice({
     },
     setActiveBoard(state, action) {
       state.activeBoard = state.userBoards.filter((board) => board._id === action.payload)[0];
-      localStorage.setItem('activeBoardTitle', action.payload);
+      localStorage.setItem('activeBoardId', action.payload);
+      localStorage.setItem('activeBoardTitle', state.activeBoard.title);
+      console.log(localStorage.getItem('activeBoardId'));
+      console.log(localStorage.getItem('activeBoardTitle'));
+      console.log(localStorage);
     },
     resetActiveBoard(state) {
       state.activeBoard = {} as IBoard;
+    },
+    cleanUserColumn(state) {
+      state.userColumns = [] as IColumn[];
     },
     // deleteBoard(state, action) {},
     // addColumn(state, action) {},
@@ -54,7 +61,8 @@ const boardsSlice = createSlice({
     builder.addCase(createBoard.pending, (state) => {
       state.boardLoading = 'pending';
     });
-    builder.addCase(createBoard.fulfilled, (state) => {
+    builder.addCase(createBoard.fulfilled, (state, { payload }) => {
+      state.userBoards.push(payload);
       state.boardLoading = 'fulfilled';
     });
     builder.addCase(getBoards.fulfilled, (state, { payload }) => {
@@ -68,6 +76,10 @@ const boardsSlice = createSlice({
     });
     builder.addCase(getColumns.fulfilled, (state, { payload }) => {
       state.userColumns = payload;
+    });
+    builder.addCase(createColumn.fulfilled, (state, { payload }) => {
+      state.userColumns.push(payload);
+      // state.ColumnLoading = 'fulfilled';
     });
     // builder.addCase(getActiveBoard.pending, (state) => {
     //   state.boardLoading = 'pending';
@@ -90,6 +102,7 @@ export const {
   setNewColumnTitle,
   setActiveBoard,
   resetActiveBoard,
+  cleanUserColumn,
   // deleteBoard,
   // addColumn,
   // deleteColumn,

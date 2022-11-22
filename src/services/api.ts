@@ -70,7 +70,7 @@ export const getBoards = createAsyncThunk('boards/getBoards', async () => {
 export const createBoard = createAsyncThunk(
   'boards/createBoard',
   async (info: { title: string; owner: string | null; users: string[] }) => {
-    return axios
+    return await axios
       .post(`${basicUrl}${boardsUrl}`, info, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem('userToken')}`,
@@ -116,7 +116,7 @@ export const createColumn = createAsyncThunk(
   }
 );
 
-export const getColumns = createAsyncThunk('boards/getColumns', async (boardId: string) => {
+export const getColumns = createAsyncThunk('boards/getColumns', async (boardId: string | null) => {
   return axios
     .get(`${basicUrl}${boardsUrl}${boardId}/${columnsUrl}`, {
       headers: {

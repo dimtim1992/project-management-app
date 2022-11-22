@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { createColumn, getColumns } from 'services/api';
 import { setNewColumnTitle, toggleAddColumnModal } from 'store/boardsSlice';
@@ -21,8 +21,11 @@ const AddColumnModal = () => {
     );
     dispatch(toggleAddColumnModal(false));
     dispatch(setNewColumnTitle(''));
-    dispatch(getColumns(boardId));
   };
+
+  useEffect(() => {
+    dispatch(getColumns(boardId));
+  });
 
   return (
     <div className={style.columnModal}>
