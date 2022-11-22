@@ -1,0 +1,21 @@
+.modalBackground {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  background: rgba(0, 0, 0, 0.4);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.modalCard {
+  display: flex;
+  flex-direction: column;
+  background: #fff;
+  padding: 20px;
+  border: 1px solid black;
+  border-radius: 5px;
+}

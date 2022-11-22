@@ -1,0 +1,25 @@
+.wrapper {
+    flex: 1 1 auto;
+    overflow: auto;
+}
+
+.boardsWrapper {
+    height: 100%;
+    display: flex;
+    gap: 5px;
+}
+
+.board {
+    min-width: 200px;
+    height: 300px;
+    border: 1px solid black; 
+}
+
+.board:hover {
+    cursor: pointer;
+}
+
+.boardTitle {
+    font-size: 22px;
+    font-weight: 700;
+}
