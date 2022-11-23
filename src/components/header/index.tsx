@@ -2,12 +2,15 @@ import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
 import { toggleAddBoardModal } from 'store/boardsSlice';
-import { isAuthorizedSelector } from 'store/selectors';
+import { isAuthorizedSelector, langSelector } from 'store/selectors';
 import { logOut } from 'store/usersSlice';
 import style from './index.module.css';
+import { langChange } from 'pages/langPage/langPage';
 
 const Header = () => {
   const isAuthorized = useSelector(isAuthorizedSelector);
+  const currentLang = useSelector(langSelector);
+  const lang = langChange(currentLang, 'header');
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -24,40 +27,40 @@ const Header = () => {
   return (
     <header className={style.wrapper}>
       <Link to="/" className={style.link}>
-        Home
+        {lang?.home}
       </Link>
       {isAuthorized && (
         <Link to="/boards" className={style.link}>
-          Boards
+          {lang?.boards}
         </Link>
       )}
       {isAuthorized && (
         <a className={style.link} onClick={openModal}>
-          Add board
+          {lang?.addBoard}
         </a>
       )}
       {isAuthorized && (
         <Link to="/search" className={style.link}>
-          Search
+          {lang?.search}
         </Link>
       )}
       <Link to="/lang" className={style.link}>
-        Language
+        {lang?.language}
       </Link>
       {isAuthorized && (
         <Link to="/profile" className={style.link}>
-          Profile
+          {lang?.profile}
         </Link>
       )}
       <Link to="/signIn" className={style.link}>
-        Sign in
+        {lang?.signIn}
       </Link>
       <Link to="/signUp" className={style.link}>
-        Sign up
+        {lang?.signUp}
       </Link>
       {isAuthorized && (
         <a className={style.link} onClick={onLogOut}>
-          Log out
+          {lang?.logOut}
         </a>
       )}
     </header>

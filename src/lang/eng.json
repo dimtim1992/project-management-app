@@ -1,0 +1,13 @@
+{
+  "header": {
+    "home": "home",
+    "boards": "Boards",
+    "addBoard": "Add board",
+    "search": "Search",
+    "language": "Language",
+    "profile": "Profile",
+    "signIn": "Sign in",
+    "signUp": "Sign up",
+    "logOut": "Log out"
+  }
+}

@@ -12,6 +12,7 @@ export type UsersState = {
   user: IUser;
   isAuthorized: boolean;
   userLoading: string;
+  lang: string;
 };
 
 export type BoardsState = {

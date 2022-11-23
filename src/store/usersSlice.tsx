@@ -8,6 +8,7 @@ const initialState = {
   user: {} as IUser,
   isAuthorized: !!localStorage.getItem('userId'),
   userLoading: '',
+  lang: 'eng',
 };
 
 const usersSlice = createSlice({
@@ -25,6 +26,9 @@ const usersSlice = createSlice({
       state.user = {} as IUser;
       // localStorage.removeItem('userToken');
       localStorage.removeItem('userId');
+    },
+    setLang(state, action) {
+      state.lang = action.payload;
     },
   },
   extraReducers: (builder) => {
@@ -63,4 +67,4 @@ const usersSlice = createSlice({
 });
 
 export default usersSlice.reducer;
-export const { setUser, setSignInLogin, logOut } = usersSlice.actions;
+export const { setUser, setSignInLogin, logOut, setLang } = usersSlice.actions;
