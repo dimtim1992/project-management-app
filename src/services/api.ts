@@ -7,7 +7,9 @@ const signUpUrl = 'auth/signup';
 const signInUrl = 'auth/signin';
 const usersUrl = 'users/';
 const boardsUrl = 'boards/';
-const columnsUrl = 'columns/';
+const columnsUrl = '/columns/';
+const tasksUrl = '/tasks';
+const tasksSetUrl = 'tasksSet/';
 
 export const signUp = createAsyncThunk(
   'users/signUp',
@@ -98,10 +100,10 @@ export const deleteBoard = createAsyncThunk('boards/deleteBoard', async (id: str
 
 export const createColumn = createAsyncThunk(
   'boards/createColumn',
-  async (info: { title: string; order: number; boardId: string }) => {
+  async (info: { title: string; order: number; boardId: string | null }) => {
     return axios
       .post(
-        `${basicUrl}${boardsUrl}${info.boardId}/${columnsUrl}`,
+        `${basicUrl}${boardsUrl}${info.boardId}${columnsUrl}`,
         { title: info.title, order: info.order },
         {
           headers: {
@@ -118,7 +120,7 @@ export const createColumn = createAsyncThunk(
 
 export const getColumns = createAsyncThunk('boards/getColumns', async (boardId: string | null) => {
   return axios
-    .get(`${basicUrl}${boardsUrl}${boardId}/${columnsUrl}`, {
+    .get(`${basicUrl}${boardsUrl}${boardId}${columnsUrl}`, {
       headers: {
         Authorization: `Bearer ${localStorage.getItem('userToken')}`,
       },
@@ -128,3 +130,85 @@ export const getColumns = createAsyncThunk('boards/getColumns', async (boardId: 
       console.log(error);
     });
 });
+
+export const deleteColumn = createAsyncThunk(
+  'boards/deleteColumn',
+  async (info: { boardId: string; columnId: string }) => {
+    return axios
+      .delete(`${basicUrl}${boardsUrl}${info.boardId}${columnsUrl}${info.columnId}`, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('userToken')}`,
+        },
+      })
+      .then((res) => res.data)
+      .catch((error) => {
+        console.log(error);
+      });
+  }
+);
+
+export const createTask = createAsyncThunk(
+  'boards/createTask',
+  async (info: {
+    boardId: string | null;
+    columnId: string;
+    title: string;
+    order: number;
+    description: string;
+    userId: number;
+    users: string;
+  }) => {
+    return axios
+      .post(
+        `${basicUrl}${boardsUrl}${info.boardId}${columnsUrl}${info.columnId}${tasksUrl}`,
+        {
+          title: info.title,
+          order: info.order,
+          description: info.description,
+          userId: info.userId,
+          users: [info.users],
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem('userToken')}`,
+          },
+        }
+      )
+      .then((res) => res.data)
+      .catch((error) => {
+        console.log(error);
+      });
+  }
+);
+
+export const getTasks = createAsyncThunk(
+  'boards/getTasks',
+  async (info: { boardId: string | null; columnId: string }) => {
+    return axios
+      .get(`${basicUrl}${boardsUrl}${info.boardId}${columnsUrl}${info.columnId}${tasksUrl}`, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('userToken')}`,
+        },
+      })
+      .then((res) => res.data)
+      .catch((error) => {
+        console.log(error);
+      });
+  }
+);
+
+export const getTasksSet = createAsyncThunk(
+  'boards/getTasksSet',
+  async (boardId: string | null) => {
+    return axios
+      .get(`${basicUrl}${tasksSetUrl}${boardId}`, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('userToken')}`,
+        },
+      })
+      .then((res) => res.data)
+      .catch((error) => {
+        console.log(error);
+      });
+  }
+);

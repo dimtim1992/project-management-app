@@ -1,10 +1,21 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { createBoard, createColumn, deleteBoard, getBoards, getColumns } from 'services/api';
-import { BoardsState, IBoard, IColumn } from 'types/types';
+import {
+  createBoard,
+  createColumn,
+  createTask,
+  deleteBoard,
+  deleteColumn,
+  getBoards,
+  getColumns,
+  getTasks,
+  getTasksSet,
+} from 'services/api';
+import { BoardsState, IBoard, IColumn, ITask } from 'types/types';
 
 const initialState: BoardsState = {
   userBoards: [] as IBoard[],
   userColumns: [] as IColumn[],
+  userTasks: [] as ITask[],
   newBoardTitle: '',
   newBoardDescription: '',
   newColumnTitle: '',
@@ -80,6 +91,19 @@ const boardsSlice = createSlice({
     builder.addCase(createColumn.fulfilled, (state, { payload }) => {
       state.userColumns.push(payload);
       // state.ColumnLoading = 'fulfilled';
+    });
+    builder.addCase(deleteColumn.fulfilled, (state, { payload }) => {
+      state.userColumns = state.userColumns.filter((column) => column._id !== payload._id);
+    });
+    builder.addCase(createTask.fulfilled, (state, { payload }) => {
+      state.userTasks.push(payload);
+      console.log(payload);
+    });
+    // builder.addCase(getTasks.fulfilled, (state, { payload }) => {
+    //   state.userTasks = payload;
+    // });
+    builder.addCase(getTasksSet.fulfilled, (state, { payload }) => {
+      state.userTasks = payload;
     });
     // builder.addCase(getActiveBoard.pending, (state) => {
     //   state.boardLoading = 'pending';

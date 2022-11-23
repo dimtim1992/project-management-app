@@ -14,9 +14,9 @@ export function SignInPage() {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
 
-  const sign = () => {
-    dispatch(signIn({ login, password }));
-    dispatch(getUsers());
+  const sign = async () => {
+    await dispatch(signIn({ login, password }));
+    await dispatch(getUsers());
     navigate('/');
   };
 

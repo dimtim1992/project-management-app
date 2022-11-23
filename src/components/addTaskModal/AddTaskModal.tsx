@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useSelector } from 'react-redux';
-import { createColumn } from 'services/api';
+import { createColumn, getColumns } from 'services/api';
 import { setNewColumnTitle, toggleAddColumnModal } from 'store/boardsSlice';
 import { useAppDispatch } from 'types/types';
 import * as selectors from '../../store/selectors';
@@ -8,7 +8,7 @@ import style from './AddColumnModal.module.css';
 
 const AddColumnModal = () => {
   const newColumnTitle = useSelector(selectors.newColumnTitleSelector);
-  const boardId = localStorage.getItem('activeBoardId');
+  const boardId = useSelector(selectors.activeBoardSelector)._id;
   const dispatch = useAppDispatch();
 
   const onAddColumn = () => {
@@ -22,6 +22,10 @@ const AddColumnModal = () => {
     dispatch(toggleAddColumnModal(false));
     dispatch(setNewColumnTitle(''));
   };
+
+  useEffect(() => {
+    dispatch(getColumns(boardId));
+  });
 
   return (
     <div className={style.columnModal}>

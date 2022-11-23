@@ -18,6 +18,7 @@ export type UsersState = {
 export type BoardsState = {
   userBoards: IBoard[];
   userColumns: IColumn[];
+  userTasks: ITask[];
   newBoardTitle: string;
   newBoardDescription: string;
   newColumnTitle: string;

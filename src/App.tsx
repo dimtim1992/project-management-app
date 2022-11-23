@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Routes, Route } from 'react-router-dom';
 import Header from 'components/header';
 import Footer from 'components/footer';
@@ -24,7 +24,9 @@ function App() {
 
   const dispatch = useDispatch();
 
-  dispatch(setLang(localStorage.getItem('langKey')));
+  useEffect(() => {
+    dispatch(setLang(localStorage.getItem('langKey')));
+  });
 
   return (
     <>

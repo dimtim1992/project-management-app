@@ -24,7 +24,7 @@ const usersSlice = createSlice({
     logOut(state) {
       state.isAuthorized = false;
       state.user = {} as IUser;
-      // localStorage.removeItem('userToken');
+      localStorage.removeItem('userToken');
       localStorage.removeItem('userId');
     },
     setLang(state, action) {

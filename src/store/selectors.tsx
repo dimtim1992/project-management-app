@@ -13,5 +13,6 @@ export const newBoardTitleSelector = (state: State) => state.boards.newBoardTitl
 export const newBoardDescriptionSelector = (state: State) => state.boards.newBoardDescription;
 export const newColumnTitleSelector = (state: State) => state.boards.newColumnTitle;
 export const columnsSelector = (state: State) => state.boards.userColumns;
+export const tasksSelector = (state: State) => state.boards.userTasks;
 export const addBoardsModalSelector = (state: State) => state.boards.openAddBoardModal;
 export const addColumnsModalSelector = (state: State) => state.boards.openAddColumnModal;

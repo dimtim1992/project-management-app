@@ -9,7 +9,7 @@ import style from './AddBoardModal.module.css';
 
 const AddBoardModal = () => {
   const newBoardTitle = useSelector(selectors.newBoardTitleSelector);
-  const newBoardDescription = useSelector(selectors.newColumnTitleSelector);
+  const newBoardDescription = useSelector(selectors.newBoardDescriptionSelector);
   const owner = localStorage.getItem('userId');
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
