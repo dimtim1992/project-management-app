@@ -6,6 +6,7 @@ import { isAuthorizedSelector, langSelector } from 'store/selectors';
 import { logOut } from 'store/usersSlice';
 import style from './index.module.css';
 import { selectLang } from 'pages/langPage/langPage';
+import { LangChoice } from 'components/LangChoise/LangChoise';
 
 const Header = () => {
   const langKey = useSelector(langSelector);
@@ -51,9 +52,9 @@ const Header = () => {
           {lang.header.search}
         </Link>
       )}
-      <Link to="/lang" className={style.link}>
-        {lang.header.language}
-      </Link>
+      <a className={style.link}>
+        <LangChoice />
+      </a>
       {isAuthorized && (
         <Link to="/profile" className={style.link}>
           {lang.header.profile}
