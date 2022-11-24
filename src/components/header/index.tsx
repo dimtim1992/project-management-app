@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
 import { toggleAddBoardModal } from 'store/boardsSlice';
@@ -24,8 +24,15 @@ const Header = () => {
     navigate('/');
   };
 
+  const [sticky, setSticky] = useState(false);
+
+  const handleScroll = () => {
+    window.pageYOffset > 14 ? setSticky(true) : setSticky(false);
+  };
+  window.addEventListener('scroll', handleScroll);
+
   return (
-    <header className={style.wrapper}>
+    <header className={sticky ? style.stickyWrapper : style.wrapper}>
       <Link to="/" className={style.link}>
         {lang?.home}
       </Link>
