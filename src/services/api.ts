@@ -8,7 +8,7 @@ const signInUrl = 'auth/signin';
 const usersUrl = 'users/';
 const boardsUrl = 'boards/';
 const columnsUrl = '/columns/';
-const tasksUrl = '/tasks';
+const tasksUrl = '/tasks/';
 const tasksSetUrl = 'tasksSet/';
 
 export const signUp = createAsyncThunk(
@@ -151,7 +151,7 @@ export const createTask = createAsyncThunk(
   'boards/createTask',
   async (info: {
     boardId: string | null;
-    columnId: string;
+    columnId: string | null;
     title: string;
     order: number;
     description: string;
@@ -206,6 +206,25 @@ export const getTasksSet = createAsyncThunk(
           Authorization: `Bearer ${localStorage.getItem('userToken')}`,
         },
       })
+      .then((res) => res.data)
+      .catch((error) => {
+        console.log(error);
+      });
+  }
+);
+
+export const deleteTask = createAsyncThunk(
+  'boards/deleteTask',
+  async (info: { boardId: string; columnId: string; taskId: string }) => {
+    return axios
+      .delete(
+        `${basicUrl}${boardsUrl}${info.boardId}${columnsUrl}${info.columnId}${tasksUrl}${info.taskId}`,
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem('userToken')}`,
+          },
+        }
+      )
       .then((res) => res.data)
       .catch((error) => {
         console.log(error);

@@ -5,6 +5,7 @@ import {
   createTask,
   deleteBoard,
   deleteColumn,
+  deleteTask,
   getBoards,
   getColumns,
   getTasksSet,
@@ -18,8 +19,11 @@ const initialState: BoardsState = {
   newBoardTitle: '',
   newBoardDescription: '',
   newColumnTitle: '',
+  newTaskTitle: '',
+  newTaskDescription: ' ',
   openAddBoardModal: false,
   openAddColumnModal: false,
+  openAddTaskModal: false,
   boardLoading: '',
   activeBoard: {} as IBoard,
 };
@@ -34,6 +38,9 @@ const boardsSlice = createSlice({
     toggleAddColumnModal(state, action) {
       state.openAddColumnModal = action.payload;
     },
+    toggleAddTaskModal(state, action) {
+      state.openAddTaskModal = action.payload;
+    },
     addBoard(state, action) {
       state.userBoards.push(action.payload);
     },
@@ -45,6 +52,12 @@ const boardsSlice = createSlice({
     },
     setNewColumnTitle(state, action) {
       state.newColumnTitle = action.payload;
+    },
+    setNewTaskTitle(state, action) {
+      state.newTaskTitle = action.payload;
+    },
+    setNewTaskDescription(state, action) {
+      state.newTaskDescription = action.payload;
     },
     setActiveBoard(state, action) {
       state.activeBoard = state.userBoards.filter((board) => board._id === action.payload)[0];
@@ -104,6 +117,9 @@ const boardsSlice = createSlice({
     builder.addCase(getTasksSet.fulfilled, (state, { payload }) => {
       state.userTasks = payload;
     });
+    builder.addCase(deleteTask.fulfilled, (state, { payload }) => {
+      state.userTasks = state.userTasks.filter((task) => task._id !== payload._id);
+    });
     // builder.addCase(getActiveBoard.pending, (state) => {
     //   state.boardLoading = 'pending';
     // });
@@ -119,10 +135,13 @@ export default boardsSlice.reducer;
 export const {
   toggleAddBoardModal,
   toggleAddColumnModal,
+  toggleAddTaskModal,
   addBoard,
   setNewBoardTitle,
   setNewBoardDescription,
   setNewColumnTitle,
+  setNewTaskTitle,
+  setNewTaskDescription,
   setActiveBoard,
   resetActiveBoard,
   cleanUserColumn,

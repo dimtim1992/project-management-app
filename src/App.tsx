@@ -13,14 +13,20 @@ import { SignUpPage } from './pages/signUpPage/signUpPage';
 import Modal from 'components/modal/Modal';
 import AddBoardModal from 'components/addBoardModal/AddBoardModal';
 import { useDispatch, useSelector } from 'react-redux';
-import { addBoardsModalSelector, addColumnsModalSelector } from 'store/selectors';
+import {
+  addBoardsModalSelector,
+  addColumnsModalSelector,
+  addTaskModalSelector,
+} from 'store/selectors';
 import Board from 'components/board/Board';
 import AddColumnModal from 'components/addColumnModal/AddColumnModal';
 import { setLang } from 'store/usersSlice';
+import AddTaskModal from 'components/AddTaskModal/AddTaskModal';
 
 function App() {
   const openBoardsModal = useSelector(addBoardsModalSelector);
   const openColumnsModal = useSelector(addColumnsModalSelector);
+  const openTasksModal = useSelector(addTaskModalSelector);
 
   const dispatch = useDispatch();
 
@@ -44,6 +50,7 @@ function App() {
       </Routes>
       {openBoardsModal && <Modal item={<AddBoardModal />} />}
       {openColumnsModal && <Modal item={<AddColumnModal />} />}
+      {openTasksModal && <Modal item={<AddTaskModal />} />}
       <Footer />
     </>
   );

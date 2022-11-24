@@ -1,8 +1,12 @@
 import React, { useEffect, useMemo } from 'react';
 import { createPortal } from 'react-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { toggleAddBoardModal, toggleAddColumnModal } from 'store/boardsSlice';
-import { addBoardsModalSelector, addColumnsModalSelector } from 'store/selectors';
+import { toggleAddBoardModal, toggleAddColumnModal, toggleAddTaskModal } from 'store/boardsSlice';
+import {
+  addBoardsModalSelector,
+  addColumnsModalSelector,
+  addTaskModalSelector,
+} from 'store/selectors';
 import style from './Modal.module.css';
 
 const modalRootElement = document.getElementById('modal');
@@ -13,24 +17,27 @@ export const Modal = (props: {
   const element = useMemo(() => document.createElement('div'), []);
   const openBoardsModal = useSelector(addBoardsModalSelector);
   const openColumnsModal = useSelector(addColumnsModalSelector);
+  const openTasksModal = useSelector(addTaskModalSelector);
+
   const dispatch = useDispatch();
 
   const closeModal = () => {
     dispatch(toggleAddBoardModal(false));
     dispatch(toggleAddColumnModal(false));
+    dispatch(toggleAddTaskModal(false));
   };
 
   useEffect(() => {
-    if (openBoardsModal || openColumnsModal) {
+    if (openBoardsModal || openColumnsModal || openTasksModal) {
       modalRootElement?.appendChild(element);
 
       return () => {
         modalRootElement?.removeChild(element);
       };
     }
-  }, [element, openBoardsModal, openColumnsModal]);
+  }, [element, openBoardsModal, openColumnsModal, openTasksModal]);
 
-  if (openBoardsModal || openColumnsModal) {
+  if (openBoardsModal || openColumnsModal || openTasksModal) {
     return createPortal(
       <div className={style.modalBackground} onClick={closeModal}>
         <div

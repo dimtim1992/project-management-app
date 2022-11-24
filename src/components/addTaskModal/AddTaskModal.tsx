@@ -1,46 +1,64 @@
-// import React, { useEffect } from 'react';
-// import { useSelector } from 'react-redux';
-// import { createColumn, getColumns } from 'services/api';
-// import { setNewColumnTitle, toggleAddColumnModal } from 'store/boardsSlice';
-// import { useAppDispatch } from 'types/types';
-// import * as selectors from '../../store/selectors';
-// import style from './AddColumnModal.module.css';
+import React from 'react';
+import { useSelector } from 'react-redux';
+import { createTask } from 'services/api';
+import { setNewTaskDescription, setNewTaskTitle, toggleAddTaskModal } from 'store/boardsSlice';
+import { useAppDispatch } from 'types/types';
+import * as selectors from '../../store/selectors';
+import style from './AddTaskModal.module.css';
 
-// const AddColumnModal = () => {
-//   const newColumnTitle = useSelector(selectors.newColumnTitleSelector);
-//   const boardId = useSelector(selectors.activeBoardSelector)._id;
-//   const dispatch = useAppDispatch();
+export const AddTaskModal = () => {
+  const columnId = localStorage.getItem('activeColumn');
+  const taskTitle = useSelector(selectors.newTaskTitleSelector);
+  const taskDescription = useSelector(selectors.newTaskDescriptionSelector);
+  const dispatch = useAppDispatch();
 
-//   const onAddColumn = () => {
-//     dispatch(
-//       createColumn({
-//         title: newColumnTitle,
-//         order: 1,
-//         boardId: boardId,
-//       })
-//     );
-//     dispatch(toggleAddColumnModal(false));
-//     dispatch(setNewColumnTitle(''));
-//   };
+  const onAddTask = () => {
+    console.log({
+      boardId: localStorage.getItem('activeBoardId'),
+      columnId: columnId,
+      title: taskTitle,
+      order: 3,
+      description: taskDescription,
+      userId: 2,
+      users: 'test users',
+    });
+    dispatch(
+      createTask({
+        boardId: localStorage.getItem('activeBoardId'),
+        columnId: columnId,
+        title: taskTitle,
+        order: 3,
+        description: taskDescription,
+        userId: 2,
+        users: 'test users',
+      })
+    );
+    dispatch(toggleAddTaskModal(false));
+    dispatch(setNewTaskTitle(''));
+    dispatch(setNewTaskDescription(' '));
+  };
 
-//   useEffect(() => {
-//     dispatch(getColumns(boardId));
-//   });
+  return (
+    <div className={style.columnModal}>
+      <label>Task title</label>r
+      <input
+        type="text"
+        onChange={(e) => {
+          dispatch(setNewTaskTitle(e.target.value));
+        }}
+      />
+      <label>Task description</label>
+      <input
+        type="text"
+        required
+        onChange={(e) => {
+          dispatch(setNewTaskDescription(e.target.value));
+        }}
+      />
+      <br />
+      <button onClick={onAddTask}>Add Task</button>
+    </div>
+  );
+};
 
-//   return (
-//     <div className={style.columnModal}>
-//       <label>Column name</label>
-//       <input
-//         type="text"
-//         onChange={(e) => {
-//           dispatch(setNewColumnTitle(e.target.value));
-//         }}
-//       />
-
-//       <br />
-//       <button onClick={onAddColumn}>Add Column</button>
-//     </div>
-//   );
-// };
-
-// export default AddColumnModal;
+export default AddTaskModal;
