@@ -19,3 +19,4 @@ export const tasksSelector = (state: State) => state.boards.userTasks;
 export const addBoardsModalSelector = (state: State) => state.boards.openAddBoardModal;
 export const addColumnsModalSelector = (state: State) => state.boards.openAddColumnModal;
 export const addTaskModalSelector = (state: State) => state.boards.openAddTaskModal;
+export const loadingSelector = (state: State) => state.boards.isLoading;

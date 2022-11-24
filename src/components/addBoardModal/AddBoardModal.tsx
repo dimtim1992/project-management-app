@@ -34,7 +34,7 @@ const AddBoardModal = () => {
 
   useEffect(() => {
     dispatch(getBoards());
-  });
+  }, [dispatch]);
 
   return (
     <div className={style.boardModal}>

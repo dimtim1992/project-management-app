@@ -29,6 +29,7 @@ export type BoardsState = {
   openAddTaskModal: boolean;
   boardLoading: string;
   activeBoard: IBoard;
+  isLoading: boolean;
 };
 
 export interface IUser {
