@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router';
 import { createBoard, getBoards } from 'services/api';
@@ -27,8 +27,11 @@ const AddBoardModal = () => {
     dispatch(toggleAddBoardModal(false));
     dispatch(setNewBoardTitle(''));
     dispatch(setNewBoardDescription(''));
-    dispatch(getBoards());
   };
+
+  useEffect(() => {
+    dispatch(getBoards());
+  });
 
   return (
     <div className={style.boardModal}>

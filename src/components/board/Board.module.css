@@ -7,11 +7,13 @@
 
 .boardWrapper {
     width: 100%;
+    min-height: 100%;
     display: flex;
+    overflow: auto;
 }
 
 .column {
-    width: 200px;
+    min-width: 200px;
     height: 400px;
     border: 1px solid black;
     margin: 10px;

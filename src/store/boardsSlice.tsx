@@ -1,10 +1,21 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { createBoard, deleteBoard, getBoards, getColumns } from 'services/api';
-import { BoardsState, IBoard, IColumn } from 'types/types';
+import {
+  createBoard,
+  createColumn,
+  createTask,
+  deleteBoard,
+  deleteColumn,
+  getBoards,
+  getColumns,
+  getTasks,
+  getTasksSet,
+} from 'services/api';
+import { BoardsState, IBoard, IColumn, ITask } from 'types/types';
 
 const initialState: BoardsState = {
   userBoards: [] as IBoard[],
   userColumns: [] as IColumn[],
+  userTasks: [] as ITask[],
   newBoardTitle: '',
   newBoardDescription: '',
   newColumnTitle: '',
@@ -38,10 +49,17 @@ const boardsSlice = createSlice({
     },
     setActiveBoard(state, action) {
       state.activeBoard = state.userBoards.filter((board) => board._id === action.payload)[0];
-      localStorage.setItem('activeBoardTitle', action.payload);
+      localStorage.setItem('activeBoardId', action.payload);
+      localStorage.setItem('activeBoardTitle', state.activeBoard.title);
+      console.log(localStorage.getItem('activeBoardId'));
+      console.log(localStorage.getItem('activeBoardTitle'));
+      console.log(localStorage);
     },
     resetActiveBoard(state) {
       state.activeBoard = {} as IBoard;
+    },
+    cleanUserColumn(state) {
+      state.userColumns = [] as IColumn[];
     },
     // deleteBoard(state, action) {},
     // addColumn(state, action) {},
@@ -54,7 +72,8 @@ const boardsSlice = createSlice({
     builder.addCase(createBoard.pending, (state) => {
       state.boardLoading = 'pending';
     });
-    builder.addCase(createBoard.fulfilled, (state) => {
+    builder.addCase(createBoard.fulfilled, (state, { payload }) => {
+      state.userBoards.push(payload);
       state.boardLoading = 'fulfilled';
     });
     builder.addCase(getBoards.fulfilled, (state, { payload }) => {
@@ -68,6 +87,23 @@ const boardsSlice = createSlice({
     });
     builder.addCase(getColumns.fulfilled, (state, { payload }) => {
       state.userColumns = payload;
+    });
+    builder.addCase(createColumn.fulfilled, (state, { payload }) => {
+      state.userColumns.push(payload);
+      // state.ColumnLoading = 'fulfilled';
+    });
+    builder.addCase(deleteColumn.fulfilled, (state, { payload }) => {
+      state.userColumns = state.userColumns.filter((column) => column._id !== payload._id);
+    });
+    builder.addCase(createTask.fulfilled, (state, { payload }) => {
+      state.userTasks.push(payload);
+      console.log(payload);
+    });
+    // builder.addCase(getTasks.fulfilled, (state, { payload }) => {
+    //   state.userTasks = payload;
+    // });
+    builder.addCase(getTasksSet.fulfilled, (state, { payload }) => {
+      state.userTasks = payload;
     });
     // builder.addCase(getActiveBoard.pending, (state) => {
     //   state.boardLoading = 'pending';
@@ -90,6 +126,7 @@ export const {
   setNewColumnTitle,
   setActiveBoard,
   resetActiveBoard,
+  cleanUserColumn,
   // deleteBoard,
   // addColumn,
   // deleteColumn,

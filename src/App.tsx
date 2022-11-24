@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Routes, Route } from 'react-router-dom';
 import Header from 'components/header';
 import Footer from 'components/footer';
@@ -12,14 +12,21 @@ import { SignInPage } from './pages/signInPage/signInPage';
 import { SignUpPage } from './pages/signUpPage/signUpPage';
 import Modal from 'components/modal/Modal';
 import AddBoardModal from 'components/addBoardModal/AddBoardModal';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { addBoardsModalSelector, addColumnsModalSelector } from 'store/selectors';
 import Board from 'components/board/Board';
 import AddColumnModal from 'components/addColumnModal/AddColumnModal';
+import { setLang } from 'store/usersSlice';
 
 function App() {
   const openBoardsModal = useSelector(addBoardsModalSelector);
   const openColumnsModal = useSelector(addColumnsModalSelector);
+
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(setLang(localStorage.getItem('langKey')));
+  });
 
   return (
     <>
