@@ -1,9 +1,12 @@
 import React from 'react';
-import './langPage.css';
+import style from './index.module.css';
 import ru from '../../lang/ru.json';
 import eng from '../../lang/eng.json';
 import { setLang } from 'store/usersSlice';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { langSelector } from 'store/selectors';
+import ruIcon from '../../assets/images/ru.png';
+import enIcon from '../../assets/images/en.png';
 
 export const langChange = (key: string | null = 'eng', info: string) => {
   if (key === 'ru' && info === 'header') {
@@ -15,6 +18,7 @@ export const langChange = (key: string | null = 'eng', info: string) => {
 
 export function LangPage() {
   const dispatch = useDispatch();
+  const currentLang = useSelector(langSelector);
 
   const onRu = () => {
     localStorage.setItem('langKey', 'ru');
@@ -27,11 +31,25 @@ export function LangPage() {
   };
 
   return (
-    <div className="lang-container">
+    <div className={style.wrapper}>
       <h2>Language</h2>
-      <p>Choose the language</p>
-      <button onClick={onRu}>Ru</button>
-      <button onClick={onEng}>Eng</button>
+      <label>
+        Choose the language:
+        <div className={style.langChoice}>
+          <img src={ruIcon} alt="ru" className={style.flag} onClick={onRu} />
+          <input
+            type="range"
+            className={style.range}
+            min={1}
+            max={2}
+            value={currentLang === 'ru' ? 1 : 2}
+            onChange={(e) => {
+              e.target.value === '1' ? onRu() : onEng();
+            }}
+          />
+          <img src={enIcon} alt="eng" className={style.flag} onClick={onEng} />
+        </div>
+      </label>
     </div>
   );
 }

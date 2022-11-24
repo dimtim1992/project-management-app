@@ -1,0 +1,30 @@
+.wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    flex: 1;
+}
+
+.wrapper label {
+    font-size: x-large;
+}
+
+.langChoice {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 1em;
+}
+
+.range {
+    background: rgb(221, 220, 220);
+    width: 50px;
+    height: 15px;
+    border-radius: 10px;
+    appearance: none;
+    margin-left: 4px;
+}
+
+.flag {
+    width: 1em;
+}
