@@ -8,8 +8,7 @@ import { useDispatch } from 'react-redux';
 export const langChange = (key: string | null = 'eng', info: string) => {
   if (key === 'ru' && info === 'header') {
     return ru.header;
-  }
-  if (key === 'eng' && info === 'header') {
+  } else {
     return eng.header;
   }
 };
