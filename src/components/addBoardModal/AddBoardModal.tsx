@@ -1,3 +1,4 @@
+import { selectLang } from 'pages/langPage/langPage';
 import React, { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router';
@@ -13,6 +14,8 @@ const AddBoardModal = () => {
   const owner = localStorage.getItem('userId');
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
+  const langKey = useSelector(selectors.langSelector);
+  const lang = selectLang(langKey);
 
   const onAddBoard = () => {
     navigate('/boards');
@@ -35,13 +38,13 @@ const AddBoardModal = () => {
 
   return (
     <div className={style.boardModal}>
-      <label>Board name</label>
+      <label>{lang.addBoardsModal.boardName}</label>
       <input type="text" onChange={(e) => dispatch(setNewBoardTitle(e.target.value))} />
 
-      <label>Description</label>
+      <label>{lang.addBoardsModal.description}</label>
       <input type="text" onChange={(e) => dispatch(setNewBoardDescription(e.target.value))} />
       <br />
-      <button onClick={onAddBoard}>Add Board</button>
+      <button onClick={onAddBoard}>{lang.addBoardsModal.button}</button>
     </div>
   );
 };

@@ -9,5 +9,50 @@
     "signIn": "Sign in",
     "signUp": "Sign up",
     "logOut": "Log out"
+  },
+  "profilePage": {
+    "text": "Profile info with edit and delete buttons"
+  },
+  "home": {
+    "name": "Home",
+    "title": "About app and team",
+    "text": "Lorem ipsum dolor sit amet consectetur, adipisicing elit. Minus numquam excepturi, nisi qui at possimus repellendus sit cupiditate, nesciunt nam, aut esse optio neque. Quasi exercitationem tempore nostrum natus maxime?"
+  },
+  "boards": {
+    "name": "Boards",
+    "deleteBoard": "Delete board"
+  },
+  "addBoardsModal": {
+    "boardName": "Board name",
+    "description": "Description",
+    "button": "Add board"
+  },
+  "search": {
+    "name": "Search",
+    "title": "Search boards by name"
+  },
+  "signIn": {
+    "name": "Sign in",
+    "title": "Sign in form",
+    "login": "Login",
+    "password": "Password",
+    "button": "Sign in"
+  },
+  "signUp": {
+    "name": "Sign Up",
+    "title": "You are ready?",
+    "userName": "Name",
+    "login": "Login",
+    "password": "Password",
+    "button": "Register"
+  },
+  "board": {
+    "addColumnButton": "Add column",
+    "addTaskButton": "Add task",
+    "deleteColumnButton": "Delete column"
+  },
+  "addColumnsModal": {
+    "columnName": "Column name",
+    "button": "Add column"
   }
 }

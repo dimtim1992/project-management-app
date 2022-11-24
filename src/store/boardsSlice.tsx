@@ -7,7 +7,6 @@ import {
   deleteColumn,
   getBoards,
   getColumns,
-  getTasks,
   getTasksSet,
 } from 'services/api';
 import { BoardsState, IBoard, IColumn, ITask } from 'types/types';

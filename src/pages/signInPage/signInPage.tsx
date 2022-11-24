@@ -5,11 +5,14 @@ import './signInPage.css';
 import Button from '../../components/button';
 import { setSignInLogin } from 'store/usersSlice';
 import { useSelector } from 'react-redux';
-import { signInLoginSelector } from 'store/selectors';
+import { langSelector, signInLoginSelector } from 'store/selectors';
 import { useNavigate } from 'react-router';
+import { selectLang } from 'pages/langPage/langPage';
 
 export function SignInPage() {
   const login = useSelector(signInLoginSelector);
+  const langKey = useSelector(langSelector);
+  const lang = selectLang(langKey);
 
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
@@ -24,17 +27,17 @@ export function SignInPage() {
 
   return (
     <div className="sign-in-container">
-      <h2>Sign in</h2>
-      <p>Sign in form</p>
+      <h2>{lang.signIn.name}</h2>
+      <p>{lang.signIn.title}</p>
 
-      <label>Login</label>
+      <label>{lang.signIn.login}</label>
       <input type="text" onChange={(e) => dispatch(setSignInLogin(e.target.value))} />
 
-      <label>Password</label>
+      <label>{lang.signIn.password}</label>
       <input type="text" onChange={(e) => setPassword(e.target.value)} />
 
       {/* <button onClick={sign}>SIGNIN</button> */}
-      <Button event={sign} name="SIGN IN" />
+      <Button event={sign} name={lang.signIn.name} />
     </div>
   );
 }

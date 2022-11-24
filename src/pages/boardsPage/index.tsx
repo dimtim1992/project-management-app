@@ -1,3 +1,4 @@
+import { selectLang } from 'pages/langPage/langPage';
 import React, { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
@@ -11,6 +12,8 @@ const BoardsPage = () => {
   const boards = useSelector(selectors.boardsSelector);
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
+  const langKey = useSelector(selectors.langSelector);
+  const lang = selectLang(langKey);
 
   useEffect(() => {
     dispatch(getBoards());
@@ -41,7 +44,7 @@ const BoardsPage = () => {
                 delBoard(board._id);
               }}
             >
-              delete board
+              {lang.boards.deleteBoard}
             </button>
           </div>
         </div>
@@ -51,7 +54,7 @@ const BoardsPage = () => {
 
   return (
     <div className={style.wrapper}>
-      <h2>Boards</h2>
+      <h2>{lang.boards.name}</h2>
       <div className={style.boardsWrapper}>{boards.map(renderBoard)}</div>
     </div>
   );

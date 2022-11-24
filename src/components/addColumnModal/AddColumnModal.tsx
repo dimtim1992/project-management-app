@@ -1,3 +1,4 @@
+import { selectLang } from 'pages/langPage/langPage';
 import React from 'react';
 import { useSelector } from 'react-redux';
 import { createColumn } from 'services/api';
@@ -10,6 +11,8 @@ const AddColumnModal = () => {
   const newColumnTitle = useSelector(selectors.newColumnTitleSelector);
   const boardId = localStorage.getItem('activeBoardId');
   const dispatch = useAppDispatch();
+  const langKey = useSelector(selectors.langSelector);
+  const lang = selectLang(langKey);
 
   const onAddColumn = () => {
     dispatch(
@@ -25,7 +28,7 @@ const AddColumnModal = () => {
 
   return (
     <div className={style.columnModal}>
-      <label>Column name</label>
+      <label>{lang.addColumnsModal.columnName}</label>
       <input
         type="text"
         onChange={(e) => {
@@ -34,7 +37,7 @@ const AddColumnModal = () => {
       />
 
       <br />
-      <button onClick={onAddColumn}>Add Column</button>
+      <button onClick={onAddColumn}>{lang.addColumnsModal.button}</button>
     </div>
   );
 };

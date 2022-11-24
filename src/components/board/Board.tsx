@@ -1,3 +1,4 @@
+import { selectLang } from 'pages/langPage/langPage';
 import React, { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { createTask, deleteColumn, getBoards, getColumns, getTasksSet } from 'services/api';
@@ -11,6 +12,8 @@ export const Board = () => {
   const columns = useSelector(selectors.columnsSelector);
   const tasks = useSelector(selectors.tasksSelector);
   const saveTitle = localStorage.getItem('activeBoardTitle');
+  const langKey = useSelector(selectors.langSelector);
+  const lang = selectLang(langKey);
 
   const dispatch = useAppDispatch();
 
@@ -59,14 +62,14 @@ export const Board = () => {
     return (
       <div className={style.column} key={column._id}>
         <div>{column.title}</div>
-        <button onClick={() => onAddTask(column._id)}>Add task</button>
+        <button onClick={() => onAddTask(column._id)}>{lang.board.addTaskButton}</button>
         <div className={style.taskWrapper}>{tasks.map(RenderTask)}</div>
         <button
           onClick={() => {
             dispatch(deleteColumn({ boardId: activeBoard._id, columnId: column._id }));
           }}
         >
-          Delete column
+          {lang.board.deleteColumnButton}
         </button>
       </div>
     );
@@ -80,7 +83,7 @@ export const Board = () => {
     <div className={style.boardContainer}>
       <h2>{saveTitle ? saveTitle.split('&')[0] : activeBoard.title.split('&')[0]}</h2>
       <p>{saveTitle ? saveTitle.split('&')[1] : activeBoard.title.split('&')[1]}</p>
-      <button onClick={openModal}>Add column</button>
+      <button onClick={openModal}>{lang.board.addColumnButton}</button>
       <div className={style.boardWrapper}>{columns.map(RenderColumn)}</div>
     </div>
   );
