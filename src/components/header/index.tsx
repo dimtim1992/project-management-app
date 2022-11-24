@@ -59,12 +59,16 @@ const Header = () => {
           {lang?.profile}
         </Link>
       )}
-      <Link to="/signIn" className={style.link}>
-        {lang?.signIn}
-      </Link>
-      <Link to="/signUp" className={style.link}>
-        {lang?.signUp}
-      </Link>
+      {!isAuthorized && (
+        <Link to="/signIn" className={style.link}>
+          {lang?.signIn}
+        </Link>
+      )}
+      {!isAuthorized && (
+        <Link to="/signUp" className={style.link}>
+          {lang?.signUp}
+        </Link>
+      )}
       {isAuthorized && (
         <a className={style.link} onClick={onLogOut}>
           {lang?.logOut}
