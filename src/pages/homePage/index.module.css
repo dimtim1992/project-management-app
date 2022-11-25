@@ -4,3 +4,7 @@
     align-items: center;
     flex: 1;
 }
+
+p {
+    font-size: xx-large;
+}
