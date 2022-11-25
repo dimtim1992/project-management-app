@@ -20,3 +20,7 @@ export const addBoardsModalSelector = (state: State) => state.boards.openAddBoar
 export const addColumnsModalSelector = (state: State) => state.boards.openAddColumnModal;
 export const addTaskModalSelector = (state: State) => state.boards.openAddTaskModal;
 export const loadingSelector = (state: State) => state.boards.isLoading;
+export const deleteToggleSelector = (state: State) => state.boards.deleteToggle;
+export const taskToBeDeletedSelector = (state: State) => state.boards.taskToBeDeleted;
+export const columnToBeDeletedSelector = (state: State) => state.boards.columnToBeDeleted;
+export const boardToBeDeletedSelector = (state: State) => state.boards.boardToBeDeleted;

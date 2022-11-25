@@ -1,0 +1,4 @@
+.taskModal {
+  display: flex;
+  flex-direction: column;
+}

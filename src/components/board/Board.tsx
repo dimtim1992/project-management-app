@@ -1,8 +1,15 @@
 import { selectLang } from 'pages/langPage/langPage';
 import React, { useEffect } from 'react';
 import { useSelector } from 'react-redux';
-import { deleteColumn, deleteTask, getBoards, getColumns, getTasksSet } from 'services/api';
-import { cleanUserColumn, toggleAddColumnModal, toggleAddTaskModal } from 'store/boardsSlice';
+import { getBoards, getColumns, getTasksSet } from 'services/api';
+import {
+  cleanUserColumn,
+  setColumnToBeDeleted,
+  setDeleteToggle,
+  setTaskToBeDeleted,
+  toggleAddColumnModal,
+  toggleAddTaskModal,
+} from 'store/boardsSlice';
 import * as selectors from 'store/selectors';
 import { IColumn, ITask, useAppDispatch } from 'types/types';
 import style from './Board.module.css';
@@ -33,9 +40,10 @@ export const Board = () => {
     };
   }, [activeBoard._id, dispatch]);
 
-  const onDeleteTask = (columnId: string, taskId: string) => {
+  const onDeleteTaskInit = (columnId: string, taskId: string) => {
+    dispatch(setDeleteToggle(true));
     dispatch(
-      deleteTask({
+      setTaskToBeDeleted({
         boardId: activeBoard._id,
         columnId: columnId,
         taskId: taskId,
@@ -50,14 +58,25 @@ export const Board = () => {
           <div className={style.task} key={task._id}>
             <div>{task.title}</div>
             <div>{task.description}</div>
-            <button onClick={() => onDeleteTask(column._id, task._id)}>Delete task</button>
+            <button onClick={() => onDeleteTaskInit(column._id, task._id)}>
+              {lang.board.deleteTaskButton}
+            </button>
           </div>
         );
       }
     };
 
+    const onDeleteColumnInit = (columnId: string) => {
+      dispatch(setDeleteToggle(true));
+      dispatch(
+        setColumnToBeDeleted({
+          boardId: activeBoard._id,
+          columnId: columnId,
+        })
+      );
+    };
+
     const openTaskModal = (id: string) => {
-      console.log(id);
       dispatch(toggleAddTaskModal(true));
       localStorage.setItem('activeColumn', id);
     };
@@ -69,7 +88,7 @@ export const Board = () => {
         <div className={style.taskWrapper}>{tasks.map(RenderTask)}</div>
         <button
           onClick={() => {
-            dispatch(deleteColumn({ boardId: activeBoard._id, columnId: column._id }));
+            onDeleteColumnInit(column._id);
           }}
         >
           {lang.board.deleteColumnButton}

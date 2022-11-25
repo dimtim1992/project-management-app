@@ -28,7 +28,7 @@ const AddColumnModal = () => {
 
   return (
     <div className={style.columnModal}>
-      <label>{lang.addColumnsModal.columnName}</label>
+      <label>{lang.addColumnsModal.columnTitle}</label>
       <input
         type="text"
         onChange={(e) => {
@@ -37,7 +37,7 @@ const AddColumnModal = () => {
       />
 
       <br />
-      <button onClick={onAddColumn}>{lang.addColumnsModal.button}</button>
+      <button onClick={onAddColumn}>{lang.addColumnsModal.addColumnButton}</button>
     </div>
   );
 };

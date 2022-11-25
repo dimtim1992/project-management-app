@@ -27,6 +27,10 @@ const initialState: BoardsState = {
   boardLoading: '',
   activeBoard: {} as IBoard,
   isLoading: false,
+  deleteToggle: false,
+  taskToBeDeleted: null,
+  columnToBeDeleted: null,
+  boardToBeDeleted: null,
 };
 
 const boardsSlice = createSlice({
@@ -74,12 +78,18 @@ const boardsSlice = createSlice({
     cleanUserColumn(state) {
       state.userColumns = [] as IColumn[];
     },
-    // deleteBoard(state, action) {},
-    // addColumn(state, action) {},
-    // deleteColumn(state, action) {},
-    // addTask(state, action) {},
-    // deleteTask(state, action) {},
-    // setTaskCounter(state, action) {},
+    setDeleteToggle(state, action) {
+      state.deleteToggle = action.payload;
+    },
+    setTaskToBeDeleted(state, action) {
+      state.taskToBeDeleted = action.payload;
+    },
+    setColumnToBeDeleted(state, action) {
+      state.columnToBeDeleted = action.payload;
+    },
+    setBoardToBeDeleted(state, action) {
+      state.boardToBeDeleted = action.payload;
+    },
   },
   extraReducers: (builder) => {
     builder.addCase(createBoard.pending, (state) => {
@@ -130,9 +140,6 @@ const boardsSlice = createSlice({
       state.userTasks.push(payload);
       state.isLoading = false;
     });
-    // builder.addCase(getTasks.fulfilled, (state, { payload }) => {
-    //   state.userTasks = payload;
-    // });
     builder.addCase(getTasksSet.pending, (state) => {
       state.isLoading = true;
     });
@@ -147,14 +154,6 @@ const boardsSlice = createSlice({
       state.userTasks = state.userTasks.filter((task) => task._id !== payload._id);
       state.isLoading = false;
     });
-    // builder.addCase(getActiveBoard.pending, (state) => {
-    //   state.boardLoading = 'pending';
-    // });
-    // builder.addCase(getActiveBoard.fulfilled, (state, { payload }) => {
-    //   state.activeBoard = payload;
-    //   console.log(state.activeBoard);
-    //   state.boardLoading = 'fulfilled';
-    // });
   },
 });
 
@@ -172,10 +171,8 @@ export const {
   setActiveBoard,
   resetActiveBoard,
   cleanUserColumn,
-  // deleteBoard,
-  // addColumn,
-  // deleteColumn,
-  // addTask,
-  // deleteTask,
-  // setTaskCounter,
+  setDeleteToggle,
+  setTaskToBeDeleted,
+  setColumnToBeDeleted,
+  setBoardToBeDeleted,
 } = boardsSlice.actions;

@@ -38,10 +38,10 @@ const AddBoardModal = () => {
 
   return (
     <div className={style.boardModal}>
-      <label>{lang.addBoardsModal.boardName}</label>
+      <label>{lang.addBoardsModal.boardTitle}</label>
       <input type="text" onChange={(e) => dispatch(setNewBoardTitle(e.target.value))} />
 
-      <label>{lang.addBoardsModal.description}</label>
+      <label>{lang.addBoardsModal.boardDescription}</label>
       <input type="text" onChange={(e) => dispatch(setNewBoardDescription(e.target.value))} />
       <br />
       <button onClick={onAddBoard}>{lang.addBoardsModal.button}</button>

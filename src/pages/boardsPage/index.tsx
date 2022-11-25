@@ -2,8 +2,8 @@ import { selectLang } from 'pages/langPage/langPage';
 import React, { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { deleteBoard, getBoards } from 'services/api';
-import { setActiveBoard } from 'store/boardsSlice';
+import { getBoards } from 'services/api';
+import { setActiveBoard, setBoardToBeDeleted, setDeleteToggle } from 'store/boardsSlice';
 import { IBoard, useAppDispatch } from 'types/types';
 import * as selectors from '../../store/selectors';
 import style from './index.module.css';
@@ -19,9 +19,9 @@ const BoardsPage = () => {
     dispatch(getBoards());
   }, [dispatch]);
 
-  const delBoard = (id: string) => {
-    dispatch(deleteBoard(id));
-    dispatch(getBoards());
+  const onDeleteBoardInit = (boardId: string) => {
+    dispatch(setDeleteToggle(true));
+    dispatch(setBoardToBeDeleted(boardId));
   };
 
   const renderBoard = (board: IBoard) => {
@@ -41,10 +41,10 @@ const BoardsPage = () => {
             <button
               onClick={(e) => {
                 e.stopPropagation();
-                delBoard(board._id);
+                onDeleteBoardInit(board._id);
               }}
             >
-              {lang.boards.deleteBoard}
+              {lang.boards.deleteBoardButton}
             </button>
           </div>
         </div>

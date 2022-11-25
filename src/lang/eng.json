@@ -20,11 +20,11 @@
   },
   "boards": {
     "name": "Boards",
-    "deleteBoard": "Delete board"
+    "deleteBoardButton": "Delete board"
   },
   "addBoardsModal": {
-    "boardName": "Board name",
-    "description": "Description",
+    "boardTitle": "Board title",
+    "boardDescription": "Description",
     "button": "Add board"
   },
   "search": {
@@ -49,10 +49,16 @@
   "board": {
     "addColumnButton": "Add column",
     "addTaskButton": "Add task",
-    "deleteColumnButton": "Delete column"
+    "deleteColumnButton": "Delete column",
+    "deleteTaskButton": "Delete task"
   },
   "addColumnsModal": {
-    "columnName": "Column name",
-    "button": "Add column"
+    "columnTitle": "Column title",
+    "addColumnButton": "Add column"
+  },
+  "addTasksModal": {
+    "taskTitle": "Task title",
+    "taskDescription": "Task description",
+    "addTaskButton": "Add column"
   }
 }

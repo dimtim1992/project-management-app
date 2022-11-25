@@ -20,11 +20,11 @@
   },
   "boards": {
     "name": "Доски",
-    "deleteBoard": "Удалить доску"
+    "deleteBoardButton": "Удалить доску"
   },
   "addBoardsModal": {
-    "boardName": "Название доски",
-    "description": "Описание",
+    "boardTitle": "Название доски",
+    "boardDescription": "Описание",
     "button": "Добавить доску"
   },
   "search": {
@@ -49,10 +49,16 @@
   "board": {
     "addColumnButton": "Добавить колонку",
     "addTaskButton": "Добавить задачу",
-    "deleteColumnButton": "Удалить колонку"
+    "deleteColumnButton": "Удалить колонку",
+    "deleteTaskButton": "Удалить задачу"
   },
   "addColumnsModal": {
-    "columnName": "Название колонки",
-    "button": "Добавить колонку"
+    "columnTitle": "Название колонки",
+    "addColumnButton": "Добавить колонку"
+  },
+  "addTasksModal": {
+    "taskTitle": "Название задачи",
+    "taskDescription": "Описание задачи",
+    "addTaskButton": "Добавить задачу"
   }
 }

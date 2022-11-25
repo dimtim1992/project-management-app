@@ -133,9 +133,9 @@ export const getColumns = createAsyncThunk('boards/getColumns', async (boardId: 
 
 export const deleteColumn = createAsyncThunk(
   'boards/deleteColumn',
-  async (info: { boardId: string; columnId: string }) => {
+  async (info: { boardId: string; columnId: string } | null) => {
     return axios
-      .delete(`${basicUrl}${boardsUrl}${info.boardId}${columnsUrl}${info.columnId}`, {
+      .delete(`${basicUrl}${boardsUrl}${info?.boardId}${columnsUrl}${info?.columnId}`, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem('userToken')}`,
         },
@@ -215,10 +215,10 @@ export const getTasksSet = createAsyncThunk(
 
 export const deleteTask = createAsyncThunk(
   'boards/deleteTask',
-  async (info: { boardId: string; columnId: string; taskId: string }) => {
+  async (info: { boardId: string; columnId: string; taskId: string } | null) => {
     return axios
       .delete(
-        `${basicUrl}${boardsUrl}${info.boardId}${columnsUrl}${info.columnId}${tasksUrl}${info.taskId}`,
+        `${basicUrl}${boardsUrl}${info?.boardId}${columnsUrl}${info?.columnId}${tasksUrl}${info?.taskId}`,
         {
           headers: {
             Authorization: `Bearer ${localStorage.getItem('userToken')}`,
