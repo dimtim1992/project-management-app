@@ -38,6 +38,9 @@ const AddBoardModal = () => {
 
   return (
     <div className={style.boardModal}>
+      <div className={style.cross} onClick={() => dispatch(toggleAddBoardModal(false))}>
+        ×
+      </div>
       <label>{lang.addBoardsModal.boardTitle}</label>
       <input type="text" onChange={(e) => dispatch(setNewBoardTitle(e.target.value))} />
 

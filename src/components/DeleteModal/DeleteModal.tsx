@@ -47,6 +47,9 @@ export const DeleteModal = () => {
 
   return (
     <div className={style.deleteModal}>
+      <div className={style.cross} onClick={() => dispatch(setDeleteToggle(false))}>
+        ×
+      </div>
       {taskToBeDeleted && <span>Are you sure you want to delete the TASK?</span>}
       {columnToBeDeleted && <span>Are you sure you want to delete the COLUMN?</span>}
       {boardToBeDeleted && <span>Are you sure you want to delete the BOARD?</span>}

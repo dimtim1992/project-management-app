@@ -43,6 +43,9 @@ export const AddTaskModal = () => {
 
   return (
     <div className={style.taskModal}>
+      <div className={style.cross} onClick={() => dispatch(toggleAddTaskModal(false))}>
+        ×
+      </div>
       <label>{lang.addTasksModal.taskTitle}</label>
       <input
         type="text"

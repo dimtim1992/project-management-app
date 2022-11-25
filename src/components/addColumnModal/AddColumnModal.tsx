@@ -28,6 +28,9 @@ const AddColumnModal = () => {
 
   return (
     <div className={style.columnModal}>
+      <div className={style.cross} onClick={() => dispatch(toggleAddColumnModal(false))}>
+        ×
+      </div>
       <label>{lang.addColumnsModal.columnTitle}</label>
       <input
         type="text"
