@@ -2,7 +2,10 @@ import React, { useEffect, useMemo } from 'react';
 import { createPortal } from 'react-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import {
+  setBoardToBeDeleted,
+  setColumnToBeDeleted,
   setDeleteToggle,
+  setTaskToBeDeleted,
   toggleAddBoardModal,
   toggleAddColumnModal,
   toggleAddTaskModal,
@@ -33,6 +36,9 @@ export const Modal = (props: {
     dispatch(toggleAddColumnModal(false));
     dispatch(toggleAddTaskModal(false));
     dispatch(setDeleteToggle(false));
+    dispatch(setTaskToBeDeleted(null));
+    dispatch(setColumnToBeDeleted(null));
+    dispatch(setBoardToBeDeleted(null));
   };
 
   useEffect(() => {
