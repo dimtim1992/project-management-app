@@ -1,16 +1,17 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { getUsers, signIn } from 'services/api';
 import { useAppDispatch } from 'types/types';
 import './signInPage.css';
 import Button from '../../components/button';
-import { setSignInLogin } from 'store/usersSlice';
+import { setSignInLogin, setSignInPassword } from 'store/usersSlice';
 import { useSelector } from 'react-redux';
-import { langSelector, signInLoginSelector } from 'store/selectors';
+import { langSelector, signInLoginSelector, signInPasswordSelector } from 'store/selectors';
 import { useNavigate } from 'react-router';
 import { selectLang } from 'pages/langPage/langPage';
 
 export function SignInPage() {
   const login = useSelector(signInLoginSelector);
+  const password = useSelector(signInPasswordSelector);
   const langKey = useSelector(langSelector);
   const lang = selectLang(langKey);
 
@@ -23,8 +24,6 @@ export function SignInPage() {
     navigate('/');
   };
 
-  const [password, setPassword] = useState('');
-
   return (
     <div className="sign-in-container">
       <h2>{lang.signIn.name}</h2>
@@ -34,7 +33,7 @@ export function SignInPage() {
       <input type="text" onChange={(e) => dispatch(setSignInLogin(e.target.value))} />
 
       <label>{lang.signIn.password}</label>
-      <input type="text" onChange={(e) => setPassword(e.target.value)} />
+      <input type="text" onChange={(e) => dispatch(setSignInPassword(e.target.value))} />
 
       {/* <button onClick={sign}>SIGNIN</button> */}
       <Button event={sign} name={lang.signIn.name} />

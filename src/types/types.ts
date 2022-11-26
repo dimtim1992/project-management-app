@@ -8,11 +8,18 @@ export type State = {
 
 export type UsersState = {
   signInLogin: string;
+  signInPassword: string;
   users: IUser[];
   user: IUser;
   isAuthorized: boolean;
   userLoading: string;
   lang: string;
+  isLoading: boolean;
+  userProfile: {
+    name: string;
+    login: string;
+    password: string;
+  };
 };
 
 export type BoardsState = {

@@ -43,7 +43,7 @@ export const getUsers = createAsyncThunk('users/getUsers', async () => {
     });
 });
 
-export const userDelete = createAsyncThunk('users/deleteUsers', async (id: string) => {
+export const userDelete = createAsyncThunk('users/deleteUsers', async (id: string | null) => {
   return axios
     .delete(`${basicUrl}${usersUrl}/${id}`, {
       headers: {
@@ -55,6 +55,35 @@ export const userDelete = createAsyncThunk('users/deleteUsers', async (id: strin
       console.log(error.response.data);
     });
 });
+
+export const userUpdate = createAsyncThunk(
+  'users/UpdateUser',
+  async (info: {
+    id: string | null;
+    name: string | null;
+    login: string | null;
+    password: string | null;
+  }) => {
+    return axios
+      .put(
+        `${basicUrl}${usersUrl}/${info.id}`,
+        {
+          name: info.name,
+          login: info.login,
+          password: info.password,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem('userToken')}`,
+          },
+        }
+      )
+      .then((res) => res.data)
+      .catch((error) => {
+        console.log(error.response.data);
+      });
+  }
+);
 
 export const getBoards = createAsyncThunk('boards/getBoards', async () => {
   return axios
