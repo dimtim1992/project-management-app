@@ -1,8 +1,9 @@
+import { selectLang } from 'pages/langPage/langPage';
 import React, { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { deleteBoard, getBoards } from 'services/api';
-import { setActiveBoard } from 'store/boardsSlice';
+import { getBoards } from 'services/api';
+import { setActiveBoard, setBoardToBeDeleted, setDeleteToggle } from 'store/boardsSlice';
 import { IBoard, useAppDispatch } from 'types/types';
 import * as selectors from '../../store/selectors';
 import style from './index.module.css';
@@ -11,14 +12,16 @@ const BoardsPage = () => {
   const boards = useSelector(selectors.boardsSelector);
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
+  const langKey = useSelector(selectors.langSelector);
+  const lang = selectLang(langKey);
 
   useEffect(() => {
     dispatch(getBoards());
   }, [dispatch]);
 
-  const delBoard = (id: string) => {
-    dispatch(deleteBoard(id));
-    dispatch(getBoards());
+  const onDeleteBoardInit = (boardId: string) => {
+    dispatch(setDeleteToggle(true));
+    dispatch(setBoardToBeDeleted(boardId));
   };
 
   const renderBoard = (board: IBoard) => {
@@ -38,10 +41,10 @@ const BoardsPage = () => {
             <button
               onClick={(e) => {
                 e.stopPropagation();
-                delBoard(board._id);
+                onDeleteBoardInit(board._id);
               }}
             >
-              delete board
+              {lang.boards.deleteBoardButton}
             </button>
           </div>
         </div>
@@ -51,7 +54,7 @@ const BoardsPage = () => {
 
   return (
     <div className={style.wrapper}>
-      <h2>Boards</h2>
+      <h2>{lang.boards.name}</h2>
       <div className={style.boardsWrapper}>{boards.map(renderBoard)}</div>
     </div>
   );

@@ -1,4 +1,3 @@
-import { selectLang } from 'pages/langPage/langPage';
 import React from 'react';
 import { useSelector } from 'react-redux';
 import { createTask } from 'services/api';
@@ -11,8 +10,6 @@ export const AddTaskModal = () => {
   const columnId = localStorage.getItem('activeColumn');
   const taskTitle = useSelector(selectors.newTaskTitleSelector);
   const taskDescription = useSelector(selectors.newTaskDescriptionSelector);
-  const langKey = useSelector(selectors.langSelector);
-  const lang = selectLang(langKey);
   const dispatch = useAppDispatch();
 
   const onAddTask = () => {
@@ -42,18 +39,15 @@ export const AddTaskModal = () => {
   };
 
   return (
-    <div className={style.taskModal}>
-      <div className={style.cross} onClick={() => dispatch(toggleAddTaskModal(false))}>
-        ×
-      </div>
-      <label>{lang.addTasksModal.taskTitle}</label>
+    <div className={style.columnModal}>
+      <label>Task title</label>r
       <input
         type="text"
         onChange={(e) => {
           dispatch(setNewTaskTitle(e.target.value));
         }}
       />
-      <label>{lang.addTasksModal.taskDescription}</label>
+      <label>Task description</label>
       <input
         type="text"
         required
@@ -62,7 +56,7 @@ export const AddTaskModal = () => {
         }}
       />
       <br />
-      <button onClick={onAddTask}>{lang.addTasksModal.addTaskButton}</button>
+      <button onClick={onAddTask}>Add Task</button>
     </div>
   );
 };

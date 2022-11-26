@@ -1,8 +1,3 @@
-.columnModal {
-  display: flex;
-  flex-direction: column;
-}
-
 .cross {
   position: absolute;
   top: -9px;

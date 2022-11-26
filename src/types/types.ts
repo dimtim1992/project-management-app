@@ -22,10 +22,25 @@ export type BoardsState = {
   newBoardTitle: string;
   newBoardDescription: string;
   newColumnTitle: string;
+  newTaskTitle: string;
+  newTaskDescription: string;
   openAddBoardModal: boolean;
   openAddColumnModal: boolean;
+  openAddTaskModal: boolean;
   boardLoading: string;
   activeBoard: IBoard;
+  isLoading: boolean;
+  deleteToggle: boolean;
+  taskToBeDeleted: {
+    boardId: string;
+    columnId: string;
+    taskId: string;
+  } | null;
+  columnToBeDeleted: {
+    boardId: string;
+    columnId: string;
+  } | null;
+  boardToBeDeleted: string | null;
 };
 
 export interface IUser {

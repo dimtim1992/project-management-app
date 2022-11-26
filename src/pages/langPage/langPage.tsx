@@ -8,11 +8,11 @@ import { langSelector } from 'store/selectors';
 import ruIcon from '../../assets/images/ru.png';
 import enIcon from '../../assets/images/en.png';
 
-export const langChange = (key: string | null = 'eng', info: string) => {
-  if (key === 'ru' && info === 'header') {
-    return ru.header;
+export const selectLang = (key: string) => {
+  if (key === 'ru') {
+    return ru;
   } else {
-    return eng.header;
+    return eng;
   }
 };
 

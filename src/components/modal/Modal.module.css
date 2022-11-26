@@ -12,6 +12,7 @@
 }
 
 .modalCard {
+  position: relative;
   display: flex;
   flex-direction: column;
   background: #fff;

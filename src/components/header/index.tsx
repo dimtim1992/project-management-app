@@ -5,12 +5,13 @@ import { toggleAddBoardModal } from 'store/boardsSlice';
 import { isAuthorizedSelector, langSelector } from 'store/selectors';
 import { logOut } from 'store/usersSlice';
 import style from './index.module.css';
-import { langChange } from 'pages/langPage/langPage';
+import { selectLang } from 'pages/langPage/langPage';
+import { LangChoice } from 'components/LangChoise/LangChoise';
 
 const Header = () => {
+  const langKey = useSelector(langSelector);
   const isAuthorized = useSelector(isAuthorizedSelector);
-  const currentLang = useSelector(langSelector);
-  const lang = langChange(currentLang, 'header');
+  const lang = selectLang(langKey);
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -34,44 +35,44 @@ const Header = () => {
   return (
     <header className={sticky ? style.stickyWrapper : style.wrapper}>
       <Link to="/" className={style.link}>
-        {lang?.home}
+        {lang.header.home}
       </Link>
       {isAuthorized && (
         <Link to="/boards" className={style.link}>
-          {lang?.boards}
+          {lang.header.boards}
         </Link>
       )}
       {isAuthorized && (
         <a className={style.link} onClick={openModal}>
-          {lang?.addBoard}
+          {lang.header.addBoard}
         </a>
       )}
       {isAuthorized && (
         <Link to="/search" className={style.link}>
-          {lang?.search}
+          {lang.header.search}
         </Link>
       )}
-      <Link to="/lang" className={style.link}>
-        {lang?.language}
-      </Link>
+      <a className={style.link}>
+        <LangChoice />
+      </a>
       {isAuthorized && (
         <Link to="/profile" className={style.link}>
-          {lang?.profile}
+          {lang.header.profile}
         </Link>
       )}
       {!isAuthorized && (
         <Link to="/signIn" className={style.link}>
-          {lang?.signIn}
+          {lang.header.signIn}
         </Link>
       )}
       {!isAuthorized && (
         <Link to="/signUp" className={style.link}>
-          {lang?.signUp}
+          {lang.header.signUp}
         </Link>
       )}
       {isAuthorized && (
         <a className={style.link} onClick={onLogOut}>
-          {lang?.logOut}
+          {lang.header.logOut}
         </a>
       )}
     </header>
