@@ -8,6 +8,7 @@ const signInUrl = 'auth/signin';
 const usersUrl = 'users/';
 const boardsUrl = 'boards/';
 const columnsUrl = '/columns/';
+const columnsSetUrl = 'columnsSet/';
 const tasksUrl = '/tasks/';
 const tasksSetUrl = 'tasksSet/';
 
@@ -140,6 +141,22 @@ export const createColumn = createAsyncThunk(
           },
         }
       )
+      .then((res) => res.data)
+      .catch((error) => {
+        console.log(error);
+      });
+  }
+);
+
+export const patchColumn = createAsyncThunk(
+  'boards/patchColumn',
+  async (info: { _id: string; order: number }[]) => {
+    return axios
+      .patch(`${basicUrl}${columnsSetUrl}`, info, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('userToken')}`,
+        },
+      })
       .then((res) => res.data)
       .catch((error) => {
         console.log(error);

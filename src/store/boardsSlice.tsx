@@ -9,6 +9,7 @@ import {
   getBoards,
   getColumns,
   getTasksSet,
+  patchColumn,
 } from 'services/api';
 import { BoardsState, IBoard, IColumn, ITask } from 'types/types';
 
@@ -90,6 +91,9 @@ const boardsSlice = createSlice({
     setBoardToBeDeleted(state, action) {
       state.boardToBeDeleted = action.payload;
     },
+    setColumnOrder(state, action) {
+      state.userColumns = action.payload;
+    },
   },
   extraReducers: (builder) => {
     builder.addCase(createBoard.pending, (state) => {
@@ -116,7 +120,9 @@ const boardsSlice = createSlice({
       state.isLoading = true;
     });
     builder.addCase(getColumns.fulfilled, (state, { payload }) => {
-      state.userColumns = payload;
+      state.userColumns = payload.sort((a: { order: number }, b: { order: number }) => {
+        return a.order - b.order;
+      });
       state.isLoading = false;
     });
     builder.addCase(createColumn.pending, (state) => {
@@ -124,6 +130,15 @@ const boardsSlice = createSlice({
     });
     builder.addCase(createColumn.fulfilled, (state, { payload }) => {
       state.userColumns.push(payload);
+      state.isLoading = false;
+    });
+    builder.addCase(patchColumn.pending, (state) => {
+      state.isLoading = true;
+    });
+    builder.addCase(patchColumn.fulfilled, (state, { payload }) => {
+      state.userColumns = payload.sort((a: { order: number }, b: { order: number }) => {
+        return a.order - b.order;
+      });
       state.isLoading = false;
     });
     builder.addCase(deleteColumn.pending, (state) => {
@@ -175,4 +190,5 @@ export const {
   setTaskToBeDeleted,
   setColumnToBeDeleted,
   setBoardToBeDeleted,
+  setColumnOrder,
 } = boardsSlice.actions;
