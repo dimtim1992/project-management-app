@@ -64,6 +64,6 @@
   "addTasksModal": {
     "taskTitle": "Task title",
     "taskDescription": "Task description",
-    "addTaskButton": "Add column"
+    "addTaskButton": "Add task"
   }
 }

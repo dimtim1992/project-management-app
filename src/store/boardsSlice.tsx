@@ -10,6 +10,8 @@ import {
   getColumns,
   getTasksSet,
   patchColumn,
+  patchTask,
+  putTask,
 } from 'services/api';
 import { BoardsState, IBoard, IColumn, ITask } from 'types/types';
 
@@ -94,6 +96,16 @@ const boardsSlice = createSlice({
     setColumnOrder(state, action) {
       state.userColumns = action.payload;
     },
+    setTaskOrder(state, action) {
+      state.userTasks = action.payload;
+    },
+    setNewColumnIdForTask(state, action) {
+      state.userTasks.map((task) => {
+        if (task._id === action.payload.taskId) {
+          task.columnId = action.payload.newColumnId;
+        }
+      });
+    },
   },
   extraReducers: (builder) => {
     builder.addCase(createBoard.pending, (state) => {
@@ -155,6 +167,13 @@ const boardsSlice = createSlice({
       state.userTasks.push(payload);
       state.isLoading = false;
     });
+    builder.addCase(patchTask.pending, (state) => {
+      state.isLoading = true;
+    });
+    builder.addCase(patchTask.fulfilled, (state, { payload }) => {
+      state.userTasks = payload;
+      state.isLoading = false;
+    });
     builder.addCase(getTasksSet.pending, (state) => {
       state.isLoading = true;
     });
@@ -167,6 +186,14 @@ const boardsSlice = createSlice({
     });
     builder.addCase(deleteTask.fulfilled, (state, { payload }) => {
       state.userTasks = state.userTasks.filter((task) => task._id !== payload._id);
+      state.isLoading = false;
+    });
+    builder.addCase(putTask.pending, (state) => {
+      state.isLoading = true;
+    });
+    builder.addCase(putTask.fulfilled, (state, { payload }) => {
+      state.userTasks = [...state.userTasks.filter((task) => task._id !== payload._id), payload];
+      console.log(state.userTasks);
       state.isLoading = false;
     });
   },
@@ -191,4 +218,6 @@ export const {
   setColumnToBeDeleted,
   setBoardToBeDeleted,
   setColumnOrder,
+  setTaskOrder,
+  setNewColumnIdForTask,
 } = boardsSlice.actions;

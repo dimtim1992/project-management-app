@@ -14,13 +14,14 @@ export const AddTaskModal = () => {
   const langKey = useSelector(selectors.langSelector);
   const lang = selectLang(langKey);
   const dispatch = useAppDispatch();
+  const tasks = useSelector(selectors.tasksSelector);
 
   const onAddTask = () => {
     console.log({
       boardId: localStorage.getItem('activeBoardId'),
       columnId: columnId,
       title: taskTitle,
-      order: 3,
+      order: tasks.length,
       description: taskDescription,
       userId: 2,
       users: 'test users',

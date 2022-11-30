@@ -1,5 +1,6 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
+import { ITask } from 'types/types';
 
 export const basicUrl = 'https://final-task-backend-production-2b03.up.railway.app/';
 
@@ -213,6 +214,49 @@ export const createTask = createAsyncThunk(
           description: info.description,
           userId: info.userId,
           users: [info.users],
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem('userToken')}`,
+          },
+        }
+      )
+      .then((res) => res.data)
+      .catch((error) => {
+        console.log(error);
+      });
+  }
+);
+
+export const patchTask = createAsyncThunk(
+  'boards/patchTask',
+  async (info: { _id: string; order: number; columnId: string }[]) => {
+    return axios
+      .patch(`${basicUrl}${tasksSetUrl}`, info, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('userToken')}`,
+        },
+      })
+      .then((res) => res.data)
+      .catch((error) => {
+        console.log(error);
+      });
+  }
+);
+
+export const putTask = createAsyncThunk(
+  'boards/putTask',
+  async (info: { newColumnId: string; task: ITask }) => {
+    return axios
+      .put(
+        `${basicUrl}${boardsUrl}${info.task.boardId}${columnsUrl}${info.task.columnId}${tasksUrl}${info.task._id}`,
+        {
+          title: info.task.title,
+          order: info.task.order,
+          description: info.task.description,
+          columnId: info.newColumnId,
+          userId: info.task.userId,
+          users: ['string'],
         },
         {
           headers: {

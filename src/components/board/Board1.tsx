@@ -1,13 +1,12 @@
 import { selectLang } from 'pages/langPage/langPage';
 import React, { useEffect } from 'react';
 import { useSelector } from 'react-redux';
-import { getBoards, getColumns, getTasksSet, patchColumn, patchTask, putTask } from 'services/api';
+import { getBoards, getColumns, getTasksSet, patchColumn } from 'services/api';
 import {
   cleanUserColumn,
   setColumnOrder,
   setColumnToBeDeleted,
   setDeleteToggle,
-  setTaskOrder,
   setTaskToBeDeleted,
   toggleAddColumnModal,
   toggleAddTaskModal,
@@ -62,25 +61,16 @@ export const Board = () => {
   };
 
   const RenderColumn = (column: IColumn, index: number) => {
-    const RenderTask = (task: ITask, index: number) => {
+    const RenderTask = (task: ITask) => {
       if (task.columnId === column._id) {
         return (
-          <Draggable key={task._id} draggableId={task._id} index={index}>
-            {(provided: DraggableProvided) => (
-              <div
-                className={style.task}
-                {...provided.draggableProps}
-                {...provided.dragHandleProps}
-                ref={provided.innerRef}
-              >
-                <div>{task.title}</div>
-                <div>{task.description}</div>
-                <button onClick={() => onDeleteTaskInit(column._id, task._id)}>
-                  {lang.board.deleteTaskButton}
-                </button>
-              </div>
-            )}
-          </Draggable>
+          <div className={style.task} key={task._id}>
+            <div>{task.title}</div>
+            <div>{task.description}</div>
+            <button onClick={() => onDeleteTaskInit(column._id, task._id)}>
+              {lang.board.deleteTaskButton}
+            </button>
+          </div>
         );
       }
     };
@@ -111,18 +101,7 @@ export const Board = () => {
           >
             <div>{column.title}</div>
             <button onClick={() => openTaskModal(column._id)}>{lang.board.addTaskButton}</button>
-            <Droppable droppableId={column._id} type="task">
-              {(provided: DroppableProvided) => (
-                <div
-                  className={style.taskWrapper}
-                  {...provided.droppableProps}
-                  ref={provided.innerRef}
-                >
-                  {tasks.map(RenderTask)}
-                  {provided.placeholder}
-                </div>
-              )}
-            </Droppable>
+            <div className={style.taskWrapper}>{tasks.map(RenderTask)}</div>
             <button
               onClick={() => {
                 onDeleteColumnInit(column._id);
@@ -140,55 +119,18 @@ export const Board = () => {
     dispatch(toggleAddColumnModal(true));
   };
 
-  const onDragEnd = async (result: DropResult) => {
+  const onDragEnd = (result: DropResult) => {
     if (!result.destination) return;
-    const { source, destination, type } = result;
-    if (type === 'column') {
-      const items = Array.from(columns);
-      const [reorderedItem] = items.splice(source.index, 1);
-      items.splice(destination.index, 0, reorderedItem);
+    const items = Array.from(columns);
+    const [reorderedItem] = items.splice(result.source.index, 1);
+    items.splice(result.destination.index, 0, reorderedItem);
 
-      const columnOrders = [] as { _id: string; order: number }[];
-      items.map((column: IColumn, index: number) => {
-        columnOrders.push({ _id: column._id, order: index });
-      });
-      dispatch(setColumnOrder(items));
-      dispatch(patchColumn(columnOrders));
-    }
-    if (source.droppableId !== destination.droppableId) {
-      console.log(result);
-      const items = Array.from(tasks);
-      const [reorderedItem] = items.splice(source.index, 1);
-      console.log('reorderedItem', reorderedItem);
-
-      items.splice(destination.index, 0, {
-        _id: reorderedItem._id,
-        title: reorderedItem.title,
-        order: reorderedItem.order,
-        boardId: reorderedItem.boardId,
-        columnId: destination.droppableId,
-        description: reorderedItem.description,
-        userId: reorderedItem.userId,
-        users: reorderedItem.users,
-      });
-      const taskOrders = [] as { _id: string; order: number; columnId: string }[];
-      items.map((task: ITask, index: number) => {
-        taskOrders.push({ _id: task._id, order: index, columnId: task.columnId });
-      });
-      dispatch(setTaskOrder(items));
-      await dispatch(putTask({ newColumnId: destination.droppableId, task: reorderedItem }));
-      await dispatch(patchTask(taskOrders));
-    } else {
-      const items = Array.from(tasks);
-      const [reorderedItem] = items.splice(source.index, 1);
-      items.splice(destination.index, 0, reorderedItem);
-      const taskOrders = [] as { _id: string; order: number; columnId: string }[];
-      items.map((task: ITask, index: number) => {
-        taskOrders.push({ _id: task._id, order: index, columnId: task.columnId });
-      });
-      dispatch(setTaskOrder(items));
-      dispatch(patchTask(taskOrders));
-    }
+    const columnOrders = [] as { _id: string; order: number }[];
+    items.map((column: IColumn, index: number) => {
+      columnOrders.push({ _id: column._id, order: index });
+    });
+    dispatch(setColumnOrder(items));
+    dispatch(patchColumn(columnOrders));
   };
 
   return (
@@ -197,6 +139,7 @@ export const Board = () => {
         <h2>{saveTitle ? saveTitle.split('&')[0] : activeBoard.title.split('&')[0]}</h2>
         <p>{saveTitle ? saveTitle.split('&')[1] : activeBoard.title.split('&')[1]}</p>
         <button onClick={openModal}>{lang.board.addColumnButton}</button>
+
         <Droppable droppableId="droppable" direction="horizontal" type="column">
           {(provided: DroppableProvided) => (
             <div
