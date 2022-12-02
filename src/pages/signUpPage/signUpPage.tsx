@@ -28,13 +28,13 @@ export function SignUpPage() {
       <p>{lang.signUp.title}</p>
 
       <label>{lang.signUp.userName}</label>
-      <input type="text" onChange={(e) => setName(e.target.value)} />
+      <input type="text" onChange={(e) => setName(e.target.value)} required />
 
       <label>{lang.signUp.login}</label>
-      <input type="text" onChange={(e) => setLogin(e.target.value)} />
+      <input type="text" onChange={(e) => setLogin(e.target.value)} required />
 
       <label>{lang.signUp.password}</label>
-      <input type="text" onChange={(e) => setPassword(e.target.value)} />
+      <input type="text" onChange={(e) => setPassword(e.target.value)} required />
 
       <button onClick={sign}>{lang.signUp.button}</button>
     </div>

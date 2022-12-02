@@ -20,7 +20,7 @@ export function SignInPage() {
   const sign = async () => {
     await dispatch(signIn({ login, password }));
     await dispatch(getUsers());
-    navigate('/');
+    navigate('/boards');
   };
 
   const [password, setPassword] = useState('');
@@ -31,10 +31,10 @@ export function SignInPage() {
       <p>{lang.signIn.title}</p>
 
       <label>{lang.signIn.login}</label>
-      <input type="text" onChange={(e) => dispatch(setSignInLogin(e.target.value))} />
+      <input type="text" onChange={(e) => dispatch(setSignInLogin(e.target.value))} required />
 
       <label>{lang.signIn.password}</label>
-      <input type="text" onChange={(e) => setPassword(e.target.value)} />
+      <input type="text" onChange={(e) => setPassword(e.target.value)} required />
 
       {/* <button onClick={sign}>SIGNIN</button> */}
       <Button event={sign} name={lang.signIn.name} />

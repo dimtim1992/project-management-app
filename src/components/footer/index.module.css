@@ -33,3 +33,7 @@
 .link:active {
   text-decoration: underline;
 }
+
+.RSSImage {
+  height: 35px;
+}
