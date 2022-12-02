@@ -21,7 +21,14 @@
   "home": {
     "name": "Home",
     "title": "About app and team",
-    "text": "Lorem ipsum dolor sit amet consectetur, adipisicing elit. Minus numquam excepturi, nisi qui at possimus repellendus sit cupiditate, nesciunt nam, aut esse optio neque. Quasi exercitationem tempore nostrum natus maxime?"
+    "text": "Lorem ipsum dolor sit amet consectetur, adipisicing elit. Minus numquam excepturi, nisi qui at possimus repellendus sit cupiditate, nesciunt nam, aut esse optio neque. Quasi exercitationem tempore nostrum natus maxime?",
+    "textApp": "Optimize your time with PMA",
+    "titleVideo": "Video instruction",
+    "textCourse": "The application was made as part of the React 2022 Q3 course from RS School",
+    "titleTeam": "Our team",
+    "nameAlex": "Alexey",
+    "nameDima": "Dmitry",
+    "nameMax": "Maksim"
   },
   "boards": {
     "name": "Boards",

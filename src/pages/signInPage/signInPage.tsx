@@ -36,7 +36,7 @@ function SignInPage() {
       <p>{lang.signIn.title}</p>
 
       <label>{lang.signIn.login}</label>
-      <input type="text" onChange={(e) => dispatch(setSignInLogin(e.target.value))} />
+      <input type="text" onChange={(e) => dispatch(setSignInLogin(e.target.value))} required />
 
       <label>{lang.signIn.password}</label>
       <input type="text" onChange={(e) => dispatch(setSignInPassword(e.target.value))} />
