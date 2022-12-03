@@ -67,6 +67,7 @@ const usersSlice = createSlice({
     });
     builder.addCase(signIn.fulfilled, (state, { payload }) => {
       localStorage.setItem('userToken', payload);
+      console.log(localStorage.getItem('userToken'));
       state.isAuthorized = true;
       state.isLoading = false;
     });

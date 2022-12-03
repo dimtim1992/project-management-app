@@ -13,13 +13,12 @@ const AddColumnModal = () => {
   const dispatch = useAppDispatch();
   const langKey = useSelector(selectors.langSelector);
   const lang = selectLang(langKey);
-  const columns = useSelector(selectors.columnsSelector);
 
   const onAddColumn = () => {
     dispatch(
       createColumn({
         title: newColumnTitle,
-        order: columns.length,
+        order: 2,
         boardId: boardId,
       })
     );

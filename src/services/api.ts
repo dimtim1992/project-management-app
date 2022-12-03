@@ -203,7 +203,7 @@ export const createTask = createAsyncThunk(
     order: number;
     description: string;
     userId: number;
-    users: string;
+    users: string[];
   }) => {
     return axios
       .post(
@@ -213,7 +213,7 @@ export const createTask = createAsyncThunk(
           order: info.order,
           description: info.description,
           userId: info.userId,
-          users: [info.users],
+          users: info.users,
         },
         {
           headers: {

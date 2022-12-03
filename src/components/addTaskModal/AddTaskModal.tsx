@@ -21,20 +21,20 @@ export const AddTaskModal = () => {
       boardId: localStorage.getItem('activeBoardId'),
       columnId: columnId,
       title: taskTitle,
-      order: tasks.length,
+      order: tasks.filter((task) => task.columnId === columnId).length + 1,
       description: taskDescription,
       userId: 2,
-      users: 'test users',
+      users: ['test users'],
     });
     dispatch(
       createTask({
         boardId: localStorage.getItem('activeBoardId'),
         columnId: columnId,
         title: taskTitle,
-        order: 3,
+        order: tasks.filter((task) => task.columnId === columnId).length + 1,
         description: taskDescription,
         userId: 2,
-        users: 'test users',
+        users: ['test users'],
       })
     );
     dispatch(toggleAddTaskModal(false));

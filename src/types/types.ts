@@ -24,7 +24,7 @@ export type UsersState = {
 
 export type BoardsState = {
   userBoards: IBoard[];
-  userColumns: IColumn[];
+  userColumns: w;
   userTasks: ITask[];
   newBoardTitle: string;
   newBoardDescription: string;
@@ -105,3 +105,11 @@ export type myData = {
 
 export type AppDispatch = typeof store.dispatch;
 export const useAppDispatch = () => useDispatch<AppDispatch>();
+
+export interface w {
+  [u: string]: newColumn;
+}
+
+export interface newColumn extends IColumn {
+  items: ITask[];
+}
