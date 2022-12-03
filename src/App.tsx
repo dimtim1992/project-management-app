@@ -16,8 +16,9 @@ import {
   addBoardsModalSelector,
   addColumnsModalSelector,
   addTaskModalSelector,
+  boardLoadingSelector,
   deleteToggleSelector,
-  loadingSelector,
+  userLoadingSelector,
 } from 'store/selectors';
 import Board from 'components/board/Board';
 import AddColumnModal from 'components/addColumnModal/AddColumnModal';
@@ -30,7 +31,8 @@ function App() {
   const openBoardsModal = useSelector(addBoardsModalSelector);
   const openColumnsModal = useSelector(addColumnsModalSelector);
   const openTasksModal = useSelector(addTaskModalSelector);
-  const loading = useSelector(loadingSelector);
+  const boardsLoading = useSelector(boardLoadingSelector);
+  const userLoading = useSelector(userLoadingSelector);
   const deleteToggle = useSelector(deleteToggleSelector);
 
   const dispatch = useDispatch();
@@ -56,7 +58,7 @@ function App() {
       {openColumnsModal && <Modal item={<AddColumnModal />} />}
       {openTasksModal && <Modal item={<AddTaskModal />} />}
       {deleteToggle && <Modal item={<DeleteModal />} />}
-      {!openBoardsModal && loading && <LoadingModal />}
+      {!openBoardsModal && (boardsLoading || userLoading) && <LoadingModal />}
       <Footer />
     </>
   );

@@ -8,16 +8,23 @@ export type State = {
 
 export type UsersState = {
   signInLogin: string;
+  signInPassword: string;
   users: IUser[];
   user: IUser;
   isAuthorized: boolean;
   userLoading: string;
   lang: string;
+  isLoading: boolean;
+  userProfile: {
+    name: string;
+    login: string;
+    password: string;
+  };
 };
 
 export type BoardsState = {
   userBoards: IBoard[];
-  userColumns: IColumn[];
+  userColumns: w;
   userTasks: ITask[];
   newBoardTitle: string;
   newBoardDescription: string;
@@ -98,3 +105,11 @@ export type myData = {
 
 export type AppDispatch = typeof store.dispatch;
 export const useAppDispatch = () => useDispatch<AppDispatch>();
+
+export interface w {
+  [u: string]: newColumn;
+}
+
+export interface newColumn extends IColumn {
+  items: ITask[];
+}

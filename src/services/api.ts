@@ -1,5 +1,6 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
+import { ITask } from 'types/types';
 
 export const basicUrl = 'https://final-task-backend-production-2b03.up.railway.app/';
 
@@ -8,6 +9,7 @@ const signInUrl = 'auth/signin';
 const usersUrl = 'users/';
 const boardsUrl = 'boards/';
 const columnsUrl = '/columns/';
+const columnsSetUrl = 'columnsSet/';
 const tasksUrl = '/tasks/';
 const tasksSetUrl = 'tasksSet/';
 
@@ -43,7 +45,7 @@ export const getUsers = createAsyncThunk('users/getUsers', async () => {
     });
 });
 
-export const userDelete = createAsyncThunk('users/deleteUsers', async (id: string) => {
+export const userDelete = createAsyncThunk('users/deleteUsers', async (id: string | null) => {
   return axios
     .delete(`${basicUrl}${usersUrl}/${id}`, {
       headers: {
@@ -55,6 +57,35 @@ export const userDelete = createAsyncThunk('users/deleteUsers', async (id: strin
       console.log(error.response.data);
     });
 });
+
+export const userUpdate = createAsyncThunk(
+  'users/UpdateUser',
+  async (info: {
+    id: string | null;
+    name: string | null;
+    login: string | null;
+    password: string | null;
+  }) => {
+    return axios
+      .put(
+        `${basicUrl}${usersUrl}/${info.id}`,
+        {
+          name: info.name,
+          login: info.login,
+          password: info.password,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem('userToken')}`,
+          },
+        }
+      )
+      .then((res) => res.data)
+      .catch((error) => {
+        console.log(error.response.data);
+      });
+  }
+);
 
 export const getBoards = createAsyncThunk('boards/getBoards', async () => {
   return axios
@@ -118,6 +149,22 @@ export const createColumn = createAsyncThunk(
   }
 );
 
+export const patchColumn = createAsyncThunk(
+  'boards/patchColumn',
+  async (info: { _id: string; order: number }[]) => {
+    return axios
+      .patch(`${basicUrl}${columnsSetUrl}`, info, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('userToken')}`,
+        },
+      })
+      .then((res) => res.data)
+      .catch((error) => {
+        console.log(error);
+      });
+  }
+);
+
 export const getColumns = createAsyncThunk('boards/getColumns', async (boardId: string | null) => {
   return axios
     .get(`${basicUrl}${boardsUrl}${boardId}${columnsUrl}`, {
@@ -156,7 +203,7 @@ export const createTask = createAsyncThunk(
     order: number;
     description: string;
     userId: number;
-    users: string;
+    users: string[];
   }) => {
     return axios
       .post(
@@ -166,7 +213,50 @@ export const createTask = createAsyncThunk(
           order: info.order,
           description: info.description,
           userId: info.userId,
-          users: [info.users],
+          users: info.users,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem('userToken')}`,
+          },
+        }
+      )
+      .then((res) => res.data)
+      .catch((error) => {
+        console.log(error);
+      });
+  }
+);
+
+export const patchTask = createAsyncThunk(
+  'boards/patchTask',
+  async (info: { _id: string; order: number; columnId: string }[]) => {
+    return axios
+      .patch(`${basicUrl}${tasksSetUrl}`, info, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('userToken')}`,
+        },
+      })
+      .then((res) => res.data)
+      .catch((error) => {
+        console.log(error);
+      });
+  }
+);
+
+export const putTask = createAsyncThunk(
+  'boards/putTask',
+  async (info: { newColumnId: string; task: ITask }) => {
+    return axios
+      .put(
+        `${basicUrl}${boardsUrl}${info.task.boardId}${columnsUrl}${info.task.columnId}${tasksUrl}${info.task._id}`,
+        {
+          title: info.task.title,
+          order: info.task.order,
+          description: info.task.description,
+          columnId: info.newColumnId,
+          userId: info.task.userId,
+          users: ['string'],
         },
         {
           headers: {
