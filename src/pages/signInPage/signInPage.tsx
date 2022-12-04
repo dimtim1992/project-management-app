@@ -9,7 +9,7 @@ import { langSelector, signInLoginSelector, signInPasswordSelector } from 'store
 import { useNavigate } from 'react-router';
 import { selectLang } from 'pages/langPage/langPage';
 
-export function SignInPage() {
+function SignInPage() {
   const login = useSelector(signInLoginSelector);
   const password = useSelector(signInPasswordSelector);
   const langKey = useSelector(langSelector);
@@ -18,10 +18,16 @@ export function SignInPage() {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
 
-  const sign = async () => {
-    await dispatch(signIn({ login, password }));
-    await dispatch(getUsers());
-    navigate('/');
+  const sign = () => {
+    dispatch(signIn({ login, password })).then((res) => {
+      if (res.type === 'users/signIn/fulfilled') {
+        dispatch(getUsers()).then((res) => {
+          if (res.type === 'users/getUsers/fulfilled') {
+            navigate('/boards');
+          }
+        });
+      }
+    });
   };
 
   return (
@@ -40,3 +46,5 @@ export function SignInPage() {
     </div>
   );
 }
+
+export default SignInPage;

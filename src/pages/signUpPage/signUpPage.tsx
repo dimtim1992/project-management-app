@@ -8,7 +8,7 @@ import { setUserLogin, setUserName, setUserPassword } from 'store/usersSlice';
 import { useAppDispatch } from 'types/types';
 import './signUpPage.css';
 
-export function SignUpPage() {
+function SignUpPage() {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const langKey = useSelector(langSelector);
@@ -50,3 +50,5 @@ export function SignUpPage() {
     </div>
   );
 }
+
+export default SignUpPage;
