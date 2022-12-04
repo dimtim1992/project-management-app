@@ -21,7 +21,14 @@
   "home": {
     "name": "Home",
     "title": "About app and team",
-    "text": "Lorem ipsum dolor sit amet consectetur, adipisicing elit. Minus numquam excepturi, nisi qui at possimus repellendus sit cupiditate, nesciunt nam, aut esse optio neque. Quasi exercitationem tempore nostrum natus maxime?"
+    "text": "Lorem ipsum dolor sit amet consectetur, adipisicing elit. Minus numquam excepturi, nisi qui at possimus repellendus sit cupiditate, nesciunt nam, aut esse optio neque. Quasi exercitationem tempore nostrum natus maxime?",
+    "textApp": "Optimize your time with PMA",
+    "titleVideo": "Video instruction",
+    "textCourse": "The application was made as part of the React 2022 Q3 course from RS School",
+    "titleTeam": "Our team",
+    "nameAlex": "Alexey",
+    "nameDima": "Dmitry",
+    "nameMax": "Maksim"
   },
   "boards": {
     "name": "Boards",
@@ -34,14 +41,16 @@
   },
   "search": {
     "name": "Search",
-    "title": "Search boards by name"
+    "title": "Search jobs by title, description, and the name of the owners or responsible users"
   },
   "signIn": {
     "name": "Sign in",
     "title": "Sign in form",
     "login": "Login",
     "password": "Password",
-    "button": "Sign in"
+    "button": "Sign in",
+    "validationRequired": "This field is required",
+    "validationMinLength": "You must enter min three symbols"
   },
   "signUp": {
     "name": "Sign Up",
@@ -49,7 +58,9 @@
     "userName": "Name",
     "login": "Login",
     "password": "Password",
-    "button": "Register"
+    "button": "Register",
+    "validationRequired": "This field is required",
+    "validationMinLength": "You must enter min three symbols"
   },
   "board": {
     "addColumnButton": "Add column",

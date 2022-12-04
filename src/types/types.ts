@@ -97,6 +97,17 @@ export interface IPoint {
   done: boolean;
 }
 
+export interface ISignUp {
+  name: string;
+  login: string;
+  password: string;
+}
+
+export interface ISignIn {
+  login: string;
+  password: string;
+}
+
 export type myData = {
   data?: {
     token: string;

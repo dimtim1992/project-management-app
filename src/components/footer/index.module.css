@@ -35,6 +35,11 @@
   text-decoration: underline;
 }
 
+
+.RSSImage {
+  height: 35px;
+ }
+
 @media (max-width: 683px) {
   .list{
     flex-direction: column;
