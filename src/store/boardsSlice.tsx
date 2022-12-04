@@ -13,7 +13,7 @@ import {
   patchTask,
   putTask,
 } from 'services/api';
-import { BoardsState, IBoard, ITask, w } from 'types/types';
+import { BoardsState, IBoard, IColumn, IPatchTask, ITask, w } from 'types/types';
 
 const initialState: BoardsState = {
   userBoards: [] as IBoard[],
@@ -34,6 +34,7 @@ const initialState: BoardsState = {
   taskToBeDeleted: null,
   columnToBeDeleted: null,
   boardToBeDeleted: null,
+  patchedTasks: [] as IPatchTask[],
 };
 
 const boardsSlice = createSlice({
@@ -112,8 +113,8 @@ const boardsSlice = createSlice({
       const sourceItems = sourceColumn.items;
       const destItems = destColumn.items;
       const [removed] = sourceItems.splice(payload.source.index, 1);
+      removed.columnId = payload.destination.droppableId;
       destItems.splice(payload.destination.index, 0, removed);
-
       state.userColumns = {
         ...state.userColumns,
         [payload.source.droppableId]: {
@@ -125,15 +126,27 @@ const boardsSlice = createSlice({
           items: destItems,
         },
       };
-      // const ordered = [...current(sourceItems), ...current(destItems)];
-      // const reordered = ordered.map(
-      //   ({ _id, order, columnId }) =>
-      //     new Object({ _id, order, columnId }) as { _id: string; order: number; columnId: string }
-      // );
+
+      const taskSourceOrders = [] as { _id: string; order: number; columnId: string }[];
+      const taskDestOrders = [] as { _id: string; order: number; columnId: string }[];
+      sourceItems.map((task: ITask, index: number) => {
+        taskSourceOrders.push({
+          _id: task._id,
+          order: index,
+          columnId: payload.source.droppableId,
+        });
+      });
+      destItems.map((task: ITask, index: number) => {
+        taskDestOrders.push({
+          _id: task._id,
+          order: index,
+          columnId: payload.destination.droppableId,
+        });
+      });
+      state.patchedTasks = [...taskSourceOrders, ...taskDestOrders];
     },
     setTasks2(state, { payload }) {
       const column = current(state.userColumns)[payload.source.droppableId];
-      console.log('111111', column);
       const copiedItems = [...column.items];
       const [removed] = copiedItems.splice(payload.source.index, 1);
       copiedItems.splice(payload.destination.index, 0, removed);
@@ -144,7 +157,11 @@ const boardsSlice = createSlice({
           items: copiedItems,
         },
       };
-      console.log('state.userColumns', state.userColumns);
+      const taskOrders = [] as { _id: string; order: number; columnId: string }[];
+      copiedItems.map((task: ITask, index: number) => {
+        taskOrders.push({ _id: task._id, order: index, columnId: task.columnId });
+      });
+      state.patchedTasks = taskOrders;
     },
   },
   extraReducers: (builder) => {
@@ -172,6 +189,8 @@ const boardsSlice = createSlice({
       state.isLoading = true;
     });
     builder.addCase(getColumns.fulfilled, (state, { payload }) => {
+      payload.sort((a: IColumn, b: IColumn) => a.order - b.order);
+
       state.userColumns = Object.assign(
         {},
         ...payload.map((column: { _id: string }) => ({
@@ -192,14 +211,13 @@ const boardsSlice = createSlice({
     builder.addCase(patchColumn.pending, () => {
       // state.isLoading = true;
     });
-    builder.addCase(patchColumn.fulfilled, (state, { payload }) => {
+    builder.addCase(patchColumn.fulfilled, (state) => {
       // state.userColumns = Object.assign(
       //   {},
       //   ...payload.map((column: { _id: string }) => ({
       //     [column._id]: { ...column, items: [] as ITask[] },
       //   }))
       // );
-      console.log(payload);
       state.isLoading = false;
     });
     builder.addCase(deleteColumn.pending, (state) => {
@@ -218,26 +236,26 @@ const boardsSlice = createSlice({
       } else {
         state.userColumns[payload.columnId].items = [payload];
       }
-      console.log(state.userColumns);
       state.isLoading = false;
     });
     builder.addCase(patchTask.pending, (state) => {
       state.isLoading = true;
     });
-    builder.addCase(patchTask.fulfilled, (state, { payload }) => {
-      payload.map((item: ITask) => {
-        if (state.userColumns[item.columnId].items) {
-          state.userColumns[item.columnId].items.push(item);
-        } else {
-          state.userColumns[item.columnId].items = [item];
-        }
-      });
+    builder.addCase(patchTask.fulfilled, (state) => {
+      state.patchedTasks = [] as IPatchTask[];
+      // payload.sort((a: ITask, b: ITask) => a.order - b.order);
+
+      // state.userColumns[payload[0].columnId].items = payload;
+      state.isLoading = false;
+
       state.isLoading = false;
     });
     builder.addCase(getTasksSet.pending, () => {
       // state.isLoading = true;
     });
     builder.addCase(getTasksSet.fulfilled, (state, { payload }) => {
+      payload.sort((a: ITask, b: ITask) => a.order - b.order);
+
       payload.map((item: ITask) => state.userColumns[item.columnId].items.push(item));
       state.isLoading = false;
     });
@@ -245,7 +263,10 @@ const boardsSlice = createSlice({
       state.isLoading = true;
     });
     builder.addCase(deleteTask.fulfilled, (state, { payload }) => {
-      state.userTasks = state.userTasks.filter((task) => task._id !== payload._id);
+      console.log(payload);
+      state.userColumns[payload.columnId].items = state.userColumns[payload.columnId].items.filter(
+        (task) => task._id !== payload._id
+      );
       state.isLoading = false;
     });
     builder.addCase(putTask.pending, () => {

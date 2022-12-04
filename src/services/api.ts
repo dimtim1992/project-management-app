@@ -202,7 +202,7 @@ export const createTask = createAsyncThunk(
     title: string;
     order: number;
     description: string;
-    userId: number;
+    userId: string | null;
     users: string[];
   }) => {
     return axios

@@ -48,7 +48,14 @@ export type BoardsState = {
     columnId: string;
   } | null;
   boardToBeDeleted: string | null;
+  patchedTasks: IPatchTask[];
 };
+
+export interface IPatchTask {
+  _id: string;
+  order: number;
+  columnId: string;
+}
 
 export interface IUser {
   _id: string;

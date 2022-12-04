@@ -2,7 +2,7 @@
 import { selectLang } from 'pages/langPage/langPage';
 import React, { useEffect } from 'react';
 import { useSelector } from 'react-redux';
-import { getBoards, getColumns, getTasksSet, patchColumn } from 'services/api';
+import { getBoards, getColumns, getTasksSet, patchColumn, patchTask } from 'services/api';
 import {
   setColumnOrder,
   setColumnToBeDeleted,
@@ -14,7 +14,7 @@ import {
   toggleAddTaskModal,
 } from 'store/boardsSlice';
 import * as selectors from 'store/selectors';
-import { IColumn, useAppDispatch } from 'types/types';
+import { IColumn, ITask, useAppDispatch } from 'types/types';
 import {
   DragDropContext,
   Draggable,
@@ -30,6 +30,7 @@ export const Board = () => {
   const saveTitle = localStorage.getItem('activeBoardTitle');
   const columns = useSelector(selectors.columnsSelector);
   const langKey = useSelector(selectors.langSelector);
+  const patchedTasks = useSelector(selectors.patchedTasksSelector);
   const lang = selectLang(langKey);
   const dispatch = useAppDispatch();
 
@@ -42,11 +43,15 @@ export const Board = () => {
     };
     const f = async () => {
       dispatch(getBoards);
+
       await dispatch(getColumns(saveId()));
       await dispatch(getTasksSet(saveId()));
     };
     f();
     return function cleanup() {
+      if (patchedTasks) {
+        dispatch(patchTask(patchedTasks));
+      }
       // dispatch(cleanUserColumn());
     };
   }, [activeBoard._id, dispatch]);
@@ -99,11 +104,13 @@ export const Board = () => {
     if (type !== 'column') {
       if (source.droppableId !== destination.droppableId) {
         dispatch(setTasks({ source: source, destination: destination }));
-        // const sourceColumn = columns[source.droppableId];
-        // const destColumn = columns[destination.droppableId];
-        // const sourceItems = sourceColumn.items;
-        // const destItems = destColumn.items;
-        // const removed = sourceItems[source.index];
+        const sourceColumn = columns[source.droppableId];
+        const destColumn = columns[destination.droppableId];
+        const sourceItems = sourceColumn.items;
+        const newSourceItems = sourceColumn.items.filter((item, index) => index !== source.index);
+        const destItems = destColumn.items;
+        const removed = sourceItems[source.index];
+        const newDestItems = [...destItems, removed];
         // const newOrderedItem = {
         //   _id: removed._id,
         //   title: removed.title,
@@ -114,15 +121,21 @@ export const Board = () => {
         //   userId: removed.userId,
         //   users: removed.users,
         // };
+        const taskSourceOrders = [] as { _id: string; order: number; columnId: string }[];
+        const taskDestOrders = [] as { _id: string; order: number; columnId: string }[];
+        newSourceItems.map((task: ITask, index: number) => {
+          taskSourceOrders.push({ _id: task._id, order: index, columnId: source.droppableId });
+        });
+        newDestItems.map((task: ITask, index: number) => {
+          taskDestOrders.push({ _id: task._id, order: index, columnId: destination.droppableId });
+        });
         // dispatch(putTask({ newColumnId: destination.droppableId, task: newOrderedItem }));
-        // patchTask(reordered);
+        dispatch(patchTask([...taskSourceOrders, ...taskDestOrders]));
       } else {
         dispatch(setTasks2({ source: source, destination: destination }));
       }
     }
   };
-
-  console.log(columns);
 
   return (
     <div className={style.boardContainer}>
