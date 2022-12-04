@@ -91,7 +91,7 @@ export const Board = () => {
     if (!result.destination) return;
     const { source, destination, type } = result;
     if (type === 'column') {
-      const items = Object.entries(columns).map(([columnId, column], index) => column);
+      const items = Object.entries(columns).map((columns) => columns[1]);
       const [reorderedItem] = items.splice(source.index, 1);
       items.splice(destination.index, 0, reorderedItem);
 
@@ -125,10 +125,10 @@ export const Board = () => {
         const taskSourceOrders = [] as { _id: string; order: number; columnId: string }[];
         const taskDestOrders = [] as { _id: string; order: number; columnId: string }[];
         newSourceItems.map((task: ITask, index: number) => {
-          taskSourceOrders.push({ _id: task._id, order: index, columnId: source.droppableId });
+          taskSourceOrders.push({ _id: task._id, order: index, columnId: sourceColumn._id });
         });
         newDestItems.map((task: ITask, index: number) => {
-          taskDestOrders.push({ _id: task._id, order: index, columnId: destination.droppableId });
+          taskDestOrders.push({ _id: task._id, order: index, columnId: destColumn._id });
         });
         // dispatch(putTask({ newColumnId: destination.droppableId, task: newOrderedItem }));
         dispatch(patchTask([...taskSourceOrders, ...taskDestOrders]));
