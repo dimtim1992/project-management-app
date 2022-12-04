@@ -70,7 +70,7 @@ const usersSlice = createSlice({
       state.isAuthorized = true;
       state.isLoading = false;
     });
-    builder.addCase(signIn.rejected, (state, { payload }) => {
+    builder.addCase(signIn.rejected, (state) => {
       state.isLoading = false;
       alert('User is not found');
     });

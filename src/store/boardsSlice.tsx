@@ -238,8 +238,8 @@ const boardsSlice = createSlice({
       }
       state.isLoading = false;
     });
-    builder.addCase(patchTask.pending, (state) => {
-      state.isLoading = true;
+    builder.addCase(patchTask.pending, () => {
+      // state.isLoading = true;
     });
     builder.addCase(patchTask.fulfilled, (state) => {
       state.patchedTasks = [] as IPatchTask[];
