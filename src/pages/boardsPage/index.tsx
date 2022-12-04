@@ -1,10 +1,10 @@
 import { selectLang } from 'pages/langPage/langPage';
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { getBoards } from 'services/api';
+import { getBoards, getTasksBySearch } from 'services/api';
 import { setActiveBoard, setBoardToBeDeleted, setDeleteToggle } from 'store/boardsSlice';
-import { IBoard, useAppDispatch } from 'types/types';
+import { IBoard, ITask, useAppDispatch } from 'types/types';
 import * as selectors from '../../store/selectors';
 import style from './index.module.css';
 
@@ -14,6 +14,9 @@ const BoardsPage = () => {
   const navigate = useNavigate();
   const langKey = useSelector(selectors.langSelector);
   const lang = selectLang(langKey);
+
+  const [inputValue, setInputValue] = useState<string>('');
+  const [searchResults, setSearchResults] = useState<ITask[]>([]);
 
   useEffect(() => {
     dispatch(getBoards());
@@ -52,8 +55,33 @@ const BoardsPage = () => {
     );
   };
 
+  const handleChange = (event: { target: { value: string } }) => {
+    setInputValue(event?.target?.value);
+  };
+
+  const handleSubmit = async () => {
+    setSearchResults(await getTasksBySearch(inputValue));
+  };
+
+  const searchResultsTag = searchResults.map((item: ITask) => {
+    return (
+      <li key={item._id}>
+        <p>{item.title}</p>
+        <p>{item.description}</p>
+      </li>
+    );
+  });
+
   return (
     <div className={style.wrapper}>
+      <form onSubmit={handleSubmit} className="form">
+        <label>
+          Search request. In title, description and names of owner and responsible users:
+          <input type="text" onChange={handleChange} value={inputValue} />
+        </label>
+        <button>Submit</button>
+      </form>
+      {inputValue && <ul>{searchResultsTag}</ul>}
       <h2>{lang.boards.name}</h2>
       <div className={style.boardsWrapper}>{boards.map(renderBoard)}</div>
     </div>
