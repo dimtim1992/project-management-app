@@ -5,7 +5,7 @@ import Footer from 'components/footer';
 import HomePage from 'pages/homePage';
 import BoardsPage from 'pages/boardsPage';
 import ProfilePage from 'pages/profilePage';
-import { SearchPage } from './pages/searchPage/searchPage';
+// import { SearchPage } from './pages/searchPage/searchPage';
 import { LangPage } from './pages/langPage/langPage';
 import { SignInPage } from './pages/signInPage/signInPage';
 import { SignUpPage } from './pages/signUpPage/signUpPage';
@@ -46,7 +46,7 @@ function App() {
         <Route path="/" element={<HomePage />} />
         <Route path="/boards" element={<BoardsPage />} />
         <Route path="/boards/:id" element={<Board />} />
-        <Route path="/search" element={<SearchPage />} />
+        {/* <Route path="/search" element={<SearchPage />} /> */}
         <Route path="/lang" element={<LangPage />} />
         <Route path="/profile" element={<ProfilePage />} />
         <Route path="/signIn" element={<SignInPage />} />
