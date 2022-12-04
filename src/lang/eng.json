@@ -27,7 +27,8 @@
   },
   "boards": {
     "name": "Boards",
-    "deleteBoardButton": "Delete board"
+    "deleteBoardButton": "Delete board",
+    "searchTitle": "Search jobs by title, description, and the name of the owners or responsible users"
   },
   "addBoardsModal": {
     "boardTitle": "Board title",
