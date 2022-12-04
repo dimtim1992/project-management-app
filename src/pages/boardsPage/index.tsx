@@ -76,7 +76,7 @@ const BoardsPage = () => {
     <div className={style.wrapper}>
       <form onSubmit={handleSubmit} className="form">
         <label>
-          Search request. In title, description and names of owner and responsible users:
+          {lang.boards.searchTitle}:
           <input type="text" onChange={handleChange} value={inputValue} />
         </label>
         <button>Submit</button>

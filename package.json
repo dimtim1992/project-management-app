@@ -12,7 +12,6 @@
     "react": "^18.2.0",
     "react-beautiful-dnd": "^13.1.1",
     "react-dom": "^18.2.0",
-    "react-hook-form": "^7.39.1",
     "react-redux": "^8.0.4",
     "react-router": "^6.4.1",
     "react-router-dom": "^6.4.1",
@@ -56,6 +55,7 @@
     "eslint-plugin-react": "^7.31.8",
     "husky": "^8.0.1",
     "lint-staged": "^13.0.3",
-    "prettier": "^2.7.1"
+    "prettier": "^2.7.1",
+    "react-hook-form": "^7.40.0"
   }
 }

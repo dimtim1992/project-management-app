@@ -32,7 +32,8 @@
   },
   "boards": {
     "name": "Доски",
-    "deleteBoardButton": "Удалить доску"
+    "deleteBoardButton": "Удалить доску",
+    "searchTitle": "Поиск заданий по названию, описанию и имени владельцев либо ответственных пользователей"
   },
   "addBoardsModal": {
     "boardTitle": "Название доски",
