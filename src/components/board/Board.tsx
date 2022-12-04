@@ -24,6 +24,7 @@ import {
   DropResult,
 } from 'react-beautiful-dnd';
 import style from './Board.module.css';
+import Button from 'components/button';
 
 export const Board = () => {
   const activeBoard = useSelector(selectors.activeBoardSelector);
@@ -141,7 +142,7 @@ export const Board = () => {
     <div className={style.boardContainer}>
       <h2>{saveTitle ? saveTitle.split('&')[0] : activeBoard.title.split('&')[0]}</h2>
       <p>{saveTitle ? saveTitle.split('&')[1] : activeBoard.title.split('&')[1]}</p>
-      <button onClick={openModal}>{lang.board.addColumnButton}</button>
+      <Button event={openModal} name={lang.board.addColumnButton} />
       <DragDropContext onDragEnd={(result) => onDragEnd(result)}>
         <Droppable droppableId="droppable" direction="horizontal" type="column">
           {(provided: DroppableProvided) => (
@@ -167,7 +168,11 @@ export const Board = () => {
                         <Droppable droppableId={columnId} key={columnId}>
                           {(provided) => {
                             return (
-                              <div {...provided.droppableProps} ref={provided.innerRef}>
+                              <div
+                                {...provided.droppableProps}
+                                ref={provided.innerRef}
+                                className={style.droppable}
+                              >
                                 {column.items &&
                                   column.items.map((item, index) => {
                                     return (
