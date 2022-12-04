@@ -7,6 +7,7 @@ import { langSelector, userProfileSelector } from 'store/selectors';
 import { setUserLogin, setUserName, setUserPassword } from 'store/usersSlice';
 import { useAppDispatch } from 'types/types';
 import './signUpPage.css';
+import { useForm, SubmitHandler } from 'react-hook-form';
 
 function SignUpPage() {
   const navigate = useNavigate();
@@ -21,7 +22,7 @@ function SignUpPage() {
   };
 
   return (
-    <div className="sign-up-container">
+    <form onSubmit={handleSubmit(sign)} className="sign-up-container">
       <h2>{lang.signUp.name}</h2>
       <p>{lang.signUp.title}</p>
 
@@ -46,8 +47,8 @@ function SignUpPage() {
         value={profile.password}
       />
 
-      <button onClick={sign}>{lang.signUp.button}</button>
-    </div>
+      <button>{lang.signUp.button}</button>
+    </form>
   );
 }
 

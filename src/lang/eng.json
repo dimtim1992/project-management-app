@@ -32,8 +32,7 @@
   },
   "boards": {
     "name": "Boards",
-    "deleteBoardButton": "Delete board",
-    "searchTitle": "Search jobs by title, description, and the name of the owners or responsible users"
+    "deleteBoardButton": "Delete board"
   },
   "addBoardsModal": {
     "boardTitle": "Board title",
@@ -42,14 +41,16 @@
   },
   "search": {
     "name": "Search",
-    "title": "Search boards by name"
+    "title": "Search jobs by title, description, and the name of the owners or responsible users"
   },
   "signIn": {
     "name": "Sign in",
     "title": "Sign in form",
     "login": "Login",
     "password": "Password",
-    "button": "Sign in"
+    "button": "Sign in",
+    "validationRequired": "This field is required",
+    "validationMinLength": "You must enter min three symbols"
   },
   "signUp": {
     "name": "Sign Up",
@@ -57,7 +58,9 @@
     "userName": "Name",
     "login": "Login",
     "password": "Password",
-    "button": "Register"
+    "button": "Register",
+    "validationRequired": "This field is required",
+    "validationMinLength": "You must enter min three symbols"
   },
   "board": {
     "addColumnButton": "Add column",

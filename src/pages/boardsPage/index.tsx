@@ -76,7 +76,7 @@ const BoardsPage = () => {
     <div className={style.wrapper}>
       <form onSubmit={handleSubmit} className="form">
         <label>
-          {lang.boards.searchTitle}:
+          {lang.search.title}:
           <input type="text" onChange={handleChange} value={inputValue} />
         </label>
         <button>Submit</button>
