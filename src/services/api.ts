@@ -231,3 +231,16 @@ export const deleteTask = createAsyncThunk(
       });
   }
 );
+
+export const getTasksBySearch = async (searchValue: string) => {
+  return axios
+    .get(`${basicUrl}tasksSet?search=${searchValue}`, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('userToken')}`,
+      },
+    })
+    .then((res) => res.data)
+    .catch((error) => {
+      console.log(error);
+    });
+};
