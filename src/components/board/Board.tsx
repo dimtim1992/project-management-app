@@ -154,7 +154,11 @@ export const Board = () => {
                         <Droppable droppableId={columnId} key={columnId}>
                           {(provided) => {
                             return (
-                              <div {...provided.droppableProps} ref={provided.innerRef}>
+                              <div
+                                {...provided.droppableProps}
+                                ref={provided.innerRef}
+                                className={style.droppable}
+                              >
                                 {column.items &&
                                   column.items.map((item, index) => {
                                     return (
