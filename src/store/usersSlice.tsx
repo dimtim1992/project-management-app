@@ -67,19 +67,18 @@ const usersSlice = createSlice({
     });
     builder.addCase(signIn.fulfilled, (state, { payload }) => {
       localStorage.setItem('userToken', payload);
-      console.log(localStorage.getItem('userToken'));
       state.isAuthorized = true;
       state.isLoading = false;
     });
     builder.addCase(signIn.rejected, (state, { payload }) => {
-      console.log(payload);
+      state.isLoading = false;
+      alert('User is not found');
     });
     builder.addCase(getUsers.pending, (state) => {
       state.isLoading = true;
     });
     builder.addCase(getUsers.fulfilled, (state, { payload }) => {
       state.users = payload;
-      console.log(state.users);
       state.user = payload.filter((user: IUser) => user.login === state.signInLogin)[0];
       localStorage.setItem('userId', state.user._id);
       state.userProfile.name = state.user.name;

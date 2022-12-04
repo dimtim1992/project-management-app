@@ -18,10 +18,16 @@ export function SignInPage() {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
 
-  const sign = async () => {
-    await dispatch(signIn({ login, password }));
-    await dispatch(getUsers());
-    navigate('/');
+  const sign = () => {
+    dispatch(signIn({ login, password })).then((res) => {
+      if (res.type === 'users/signIn/fulfilled') {
+        dispatch(getUsers()).then((res) => {
+          if (res.type === 'users/getUsers/fulfilled') {
+            navigate('/boards');
+          }
+        });
+      }
+    });
   };
 
   return (

@@ -23,7 +23,7 @@ import {
 import Board from 'components/board/Board';
 import AddColumnModal from 'components/addColumnModal/AddColumnModal';
 import { setLang } from 'store/usersSlice';
-import AddTaskModal from 'components/AddTaskModal/AddTaskModal';
+import AddTaskModal from 'components/addTaskModal/AddTaskModal';
 import LoadingModal from 'components/LoadingModal/LoadingModal';
 import DeleteModal from 'components/DeleteModal/DeleteModal';
 
