@@ -9,7 +9,7 @@ import { langSelector, signInLoginSelector, signInPasswordSelector } from 'store
 import { useNavigate } from 'react-router';
 import { selectLang } from 'pages/langPage/langPage';
 
-export function SignInPage() {
+function SignInPage() {
   const login = useSelector(signInLoginSelector);
   const password = useSelector(signInPasswordSelector);
   const langKey = useSelector(langSelector);
@@ -46,3 +46,5 @@ export function SignInPage() {
     </div>
   );
 }
+
+export default SignInPage;
