@@ -27,12 +27,8 @@ function SignUpPage() {
     formState: { errors },
   } = useForm<ISignUp>();
 
-  const [name, setName] = useState('');
-  const [login, setLogin] = useState('');
-  const [password, setPassword] = useState('');
-
   return (
-    <form onSubmit={handleSubmit(sign)} className="sign-up-container">
+    <form onSubmit={handleSubmit(sign)} className="sign-up-container" autoComplete="off">
       <h2>{lang.signUp.name}</h2>
       <p>{lang.signUp.title}</p>
 
@@ -71,8 +67,8 @@ function SignUpPage() {
           name="password"
           value={profile.password}
         />
-        {errors.login?.type === 'required' && <span>{lang.signUp.validationRequired}</span>}
-        {errors.login?.type === 'minLength' && <span>{lang.signUp.validationMinLength}</span>}
+        {errors.password?.type === 'required' && <span>{lang.signUp.validationRequired}</span>}
+        {errors.password?.type === 'minLength' && <span>{lang.signUp.validationMinLength}</span>}
       </label>
 
       <button>{lang.signUp.button}</button>

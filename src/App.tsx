@@ -1,18 +1,6 @@
 import React, { Suspense, useEffect, lazy } from 'react';
 import { Routes, Route } from 'react-router-dom';
 
-import Header from 'components/header';
-import Footer from 'components/footer';
-import HomePage from 'pages/homePage';
-import BoardsPage from 'pages/boardsPage';
-import ProfilePage from 'pages/profilePage';
-// import { SearchPage } from './pages/searchPage/searchPage';
-import { LangPage } from './pages/langPage/langPage';
-import { SignInPage } from './pages/signInPage/signInPage';
-import { SignUpPage } from './pages/signUpPage/signUpPage';
-import Modal from 'components/modal/Modal';
-import AddBoardModal from 'components/addBoardModal/AddBoardModal';
-
 import { useDispatch, useSelector } from 'react-redux';
 import {
   addBoardsModalSelector,
@@ -20,6 +8,7 @@ import {
   addTaskModalSelector,
   boardLoadingSelector,
   deleteToggleSelector,
+  isAuthorizedSelector,
   userLoadingSelector,
 } from 'store/selectors';
 import { setLang } from 'store/usersSlice';
@@ -37,7 +26,6 @@ const NotFoundPage = lazy(() => import('pages/notFoundPage'));
 const HomePage = lazy(() => import('pages/homePage'));
 const BoardsPage = lazy(() => import('pages/boardsPage'));
 const ProfilePage = lazy(() => import('pages/profilePage'));
-const SearchPage = lazy(() => import('pages/searchPage/searchPage'));
 const LangPage = lazy(() => import('pages/langPage/langPage'));
 const SignInPage = lazy(() => import('pages/signInPage/signInPage'));
 const SignUpPage = lazy(() => import('pages/signUpPage/signUpPage'));
@@ -49,6 +37,7 @@ function App() {
   const boardsLoading = useSelector(boardLoadingSelector);
   const userLoading = useSelector(userLoadingSelector);
   const deleteToggle = useSelector(deleteToggleSelector);
+  const isAuthorized = useSelector(isAuthorizedSelector);
 
   const dispatch = useDispatch();
 
@@ -67,6 +56,8 @@ function App() {
           {/* <Route path="/search" element={<SearchPage />} /> */}
           <Route path="/lang" element={<LangPage />} />
           <Route path="/profile" element={<ProfilePage />} />
+          {isAuthorized && <Route path="/signIn" element={<HomePage />} />}
+          {isAuthorized && <Route path="/signUp" element={<HomePage />} />}
           <Route path="/signIn" element={<SignInPage />} />
           <Route path="/signUp" element={<SignUpPage />} />
           <Route path="/*" element={<NotFoundPage />} />
