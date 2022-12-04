@@ -28,7 +28,7 @@ function SignUpPage() {
   } = useForm<ISignUp>();
 
   return (
-    <form onSubmit={handleSubmit(sign)} className="sign-up-container">
+    <form onSubmit={handleSubmit(sign)} className="sign-up-container" autoComplete="off">
       <h2>{lang.signUp.name}</h2>
       <p>{lang.signUp.title}</p>
 
@@ -46,12 +46,18 @@ function SignUpPage() {
         value={profile.login}
       />
 
-      <label>{lang.signUp.password}</label>
-      <input
-        type="password"
-        onChange={(e) => dispatch(setUserPassword(e.target.value))}
-        value={profile.password}
-      />
+      <label>
+        {lang.signUp.password}
+        <input
+          type="password"
+          {...register('password', { required: true, minLength: 3 })}
+          onChange={(e) => dispatch(setUserPassword(e.target.value))}
+          name="password"
+          value={profile.password}
+        />
+        {errors.password?.type === 'required' && <span>{lang.signUp.validationRequired}</span>}
+        {errors.password?.type === 'minLength' && <span>{lang.signUp.validationMinLength}</span>}
+      </label>
 
       <button>{lang.signUp.button}</button>
     </form>

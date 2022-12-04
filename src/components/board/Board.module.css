@@ -4,11 +4,12 @@
     align-items: center;
     flex: 1;
     padding: 20px;
+    overflow-x: auto;
 }
 
 .boardWrapper {
     display: flex;
-    flex-wrap: wrap;
+    /* flex-wrap: wrap; */
     justify-content: center;
     margin-top: 2em;
     gap: 10px;

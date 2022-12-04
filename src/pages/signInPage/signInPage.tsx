@@ -18,7 +18,6 @@ function SignInPage() {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
 
-
   const sign = () => {
     dispatch(signIn({ login, password })).then((res) => {
       if (res.type === 'users/signIn/fulfilled') {
@@ -33,13 +32,12 @@ function SignInPage() {
 
   const {
     register,
+    handleSubmit,
     formState: { errors },
   } = useForm<ISignIn>();
 
-  const [password, setPassword] = useState('');
-
   return (
-    <form className="sign-in-container">
+    <form onSubmit={handleSubmit(sign)} className="sign-in-container" autoComplete="off">
       <h2>{lang.signIn.name}</h2>
       <p>{lang.signIn.title}</p>
 
@@ -50,6 +48,7 @@ function SignInPage() {
           {...register('login', { required: true, minLength: 3 })}
           onChange={(e) => dispatch(setSignInLogin(e.target.value))}
           name="login"
+          value={login}
         />
         {errors.login?.type === 'required' && <span>{lang.signIn.validationRequired}</span>}
         {errors.login?.type === 'minLength' && <span>{lang.signIn.validationMinLength}</span>}
@@ -63,15 +62,18 @@ function SignInPage() {
         <input
           type="password"
           {...register('password', { required: true, minLength: 3 })}
-          onChange={(e) => dispatch(setSignInPassword(e.target.value))
+          onChange={(e) => dispatch(setSignInPassword(e.target.value))}
           name="password"
+          value={password}
         />
-        {errors.login?.type === 'required' && <span>{lang.signIn.validationRequired}</span>}
-        {errors.login?.type === 'minLength' && <span>{lang.signIn.validationMinLength}</span>}
+        {errors.password?.type === 'required' && <span>{lang.signIn.validationRequired}</span>}
+        {errors.password?.type === 'minLength' && <span>{lang.signIn.validationMinLength}</span>}
       </label>
 
-      {/* <button onClick={sign}>SIGNIN</button> */}
-      <Button event={sign} name={lang.signIn.name} />
+      {/* <button>SIGNIN</button> */}
+      <button className="submitButton">
+        <Button event={sign} name={lang.signIn.name} />
+      </button>
     </form>
   );
 }
