@@ -18,7 +18,7 @@ const AddColumnModal = () => {
     dispatch(
       createColumn({
         title: newColumnTitle,
-        order: 1,
+        order: 2,
         boardId: boardId,
       })
     );

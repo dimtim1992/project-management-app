@@ -1,38 +1,44 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { getUsers, signIn } from 'services/api';
 import { ISignIn, useAppDispatch } from 'types/types';
 import './signInPage.css';
 import Button from '../../components/button';
-import { setSignInLogin } from 'store/usersSlice';
+import { setSignInLogin, setSignInPassword } from 'store/usersSlice';
 import { useSelector } from 'react-redux';
-import { langSelector, signInLoginSelector } from 'store/selectors';
+import { langSelector, signInLoginSelector, signInPasswordSelector } from 'store/selectors';
 import { useNavigate } from 'react-router';
 import { selectLang } from 'pages/langPage/langPage';
 import { useForm } from 'react-hook-form';
 
-export function SignInPage() {
+function SignInPage() {
   const login = useSelector(signInLoginSelector);
+  const password = useSelector(signInPasswordSelector);
   const langKey = useSelector(langSelector);
   const lang = selectLang(langKey);
 
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
 
-  const sign = async () => {
-    await dispatch(signIn({ login, password }));
-    await dispatch(getUsers());
-    navigate('/boards');
+  const sign = () => {
+    dispatch(signIn({ login, password })).then((res) => {
+      if (res.type === 'users/signIn/fulfilled') {
+        dispatch(getUsers()).then((res) => {
+          if (res.type === 'users/getUsers/fulfilled') {
+            navigate('/boards');
+          }
+        });
+      }
+    });
   };
 
   const {
     register,
+    handleSubmit,
     formState: { errors },
   } = useForm<ISignIn>();
 
-  const [password, setPassword] = useState('');
-
   return (
-    <form className="sign-in-container">
+    <form onSubmit={handleSubmit(sign)} className="sign-in-container" autoComplete="off">
       <h2>{lang.signIn.name}</h2>
       <p>{lang.signIn.title}</p>
 
@@ -43,6 +49,7 @@ export function SignInPage() {
           {...register('login', { required: true, minLength: 3 })}
           onChange={(e) => dispatch(setSignInLogin(e.target.value))}
           name="login"
+          value={login}
         />
         {errors.login?.type === 'required' && <span>{lang.signIn.validationRequired}</span>}
         {errors.login?.type === 'minLength' && <span>{lang.signIn.validationMinLength}</span>}
@@ -53,15 +60,20 @@ export function SignInPage() {
         <input
           type="password"
           {...register('password', { required: true, minLength: 3 })}
-          onChange={(e) => setPassword(e.target.value)}
+          onChange={(e) => dispatch(setSignInPassword(e.target.value))}
           name="password"
+          value={password}
         />
-        {errors.login?.type === 'required' && <span>{lang.signIn.validationRequired}</span>}
-        {errors.login?.type === 'minLength' && <span>{lang.signIn.validationMinLength}</span>}
+        {errors.password?.type === 'required' && <span>{lang.signIn.validationRequired}</span>}
+        {errors.password?.type === 'minLength' && <span>{lang.signIn.validationMinLength}</span>}
       </label>
 
-      {/* <button onClick={sign}>SIGNIN</button> */}
-      <Button event={sign} name={lang.signIn.name} />
+      {/* <button>SIGNIN</button> */}
+      <button className="submitButton">
+        <Button event={sign} name={lang.signIn.name} />
+      </button>
     </form>
   );
 }
+
+export default SignInPage;

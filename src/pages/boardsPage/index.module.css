@@ -7,13 +7,15 @@
     height: 100%;
     display: flex;
     flex-wrap: wrap;
-    gap: 5px;
+    gap: 10px;
 }
 
 .board {
     min-width: 200px;
     height: 300px;
-    border: 1px solid black; 
+    border-radius: 5px; 
+    box-shadow: 0 2px 7px grey;
+    padding: 10px;
 }
 
 .board:hover {
