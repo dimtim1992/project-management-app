@@ -3,50 +3,81 @@ import React from 'react';
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router';
 import { signUp } from 'services/api';
+import { ISignUp, useAppDispatch } from 'types/types';
 import { langSelector, userProfileSelector } from 'store/selectors';
 import { setUserLogin, setUserName, setUserPassword } from 'store/usersSlice';
-import { useAppDispatch } from 'types/types';
 import './signUpPage.css';
+import { useForm, SubmitHandler } from 'react-hook-form';
 
-export function SignUpPage() {
+function SignUpPage() {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const langKey = useSelector(langSelector);
   const lang = selectLang(langKey);
   const profile = useSelector(userProfileSelector);
 
-  const sign = async () => {
+  const sign: SubmitHandler<ISignUp> = async () => {
     await dispatch(signUp(profile));
     navigate('/signin');
   };
 
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<ISignUp>();
+
+  const [name, setName] = useState('');
+  const [login, setLogin] = useState('');
+  const [password, setPassword] = useState('');
+
   return (
-    <div className="sign-up-container">
+    <form onSubmit={handleSubmit(sign)} className="sign-up-container">
       <h2>{lang.signUp.name}</h2>
       <p>{lang.signUp.title}</p>
 
-      <label>{lang.signUp.userName}</label>
-      <input
-        type="text"
-        onChange={(e) => dispatch(setUserName(e.target.value))}
-        value={profile.name}
-      />
+      <label>
+        {lang.signUp.userName}
+        <input
+          type="text"
+          {...register('name', { required: true, minLength: 3 })}
+          onChange={(e) => dispatch(setUserName(e.target.value))}
+          name="name"
+          value={profile.name}
+        />
+        {errors.name?.type === 'required' && <span>{lang.signUp.validationRequired}</span>}
+        {errors.name?.type === 'minLength' && <span>{lang.signUp.validationMinLength}</span>}
+      </label>
 
-      <label>{lang.signUp.login}</label>
-      <input
-        type="text"
-        onChange={(e) => dispatch(setUserLogin(e.target.value))}
-        value={profile.login}
-      />
+      <label>
+        {lang.signUp.login}
+        <input
+          type="text"
+          {...register('login', { required: true, minLength: 3 })}
+          onChange={(e) => dispatch(setUserLogin(e.target.value))}
+          name="login"
+          value={profile.login}
+        />
+        {errors.login?.type === 'required' && <span>{lang.signUp.validationRequired}</span>}
+        {errors.login?.type === 'minLength' && <span>{lang.signUp.validationMinLength}</span>}
+      </label>
 
-      <label>{lang.signUp.password}</label>
-      <input
-        type="password"
-        onChange={(e) => dispatch(setUserPassword(e.target.value))}
-        value={profile.password}
-      />
+      <label>
+        {lang.signUp.password}
+        <input
+          type="password"
+          {...register('password', { required: true, minLength: 3 })}
+          onChange={(e) => dispatch(setUserPassword(e.target.value))}
+          name="password"
+          value={profile.password}
+        />
+        {errors.login?.type === 'required' && <span>{lang.signUp.validationRequired}</span>}
+        {errors.login?.type === 'minLength' && <span>{lang.signUp.validationMinLength}</span>}
+      </label>
 
-      <button onClick={sign}>{lang.signUp.button}</button>
-    </div>
+      <button>{lang.signUp.button}</button>
+    </form>
   );
 }
+
+export default SignUpPage;

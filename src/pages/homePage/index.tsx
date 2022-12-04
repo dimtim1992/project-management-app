@@ -9,16 +9,51 @@ const HomePage = () => {
   const lang = selectLang(langKey);
 
   return (
-    <div className={style.wrapper}>
-      <h2>{lang.home.name}</h2>
-      <p>{lang.home.title}</p>
-      <p>{lang.home.text}</p>
-      <p>{lang.home.text}</p>
-      <p>{lang.home.text}</p>
-      <p>{lang.home.text}</p>
-      <p>{lang.home.text}</p>
-      <p>{lang.home.text}</p>
-    </div>
+    <article className={style.wrapper}>
+      <section className={style.app}>
+        <p>{lang.home.textApp}</p>
+        <h2>{lang.home.titleVideo}</h2>
+        <iframe
+          width="560"
+          height="315"
+          src="https://www.youtube.com/embed/pz11ftTb2Pk"
+          title="YouTube video player"
+          frameBorder="0"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+          allowFullScreen
+        ></iframe>
+        <p>{lang.home.textCourse}</p>
+      </section>
+      <section className={style.team}>
+        <h2>{lang.home.titleTeam}</h2>
+        <ul className={style.teamList}>
+          <li className={style.teamMember}>
+            <img
+              className={style.teamMemberImage}
+              src="https://avatars.githubusercontent.com/u/95276425?v=4"
+              alt="alex-image"
+            />
+            <h3>{lang.home.nameAlex}</h3>
+          </li>
+          <li className={style.teamMember}>
+            <img
+              className={style.teamMemberImage}
+              src="https://avatars.githubusercontent.com/u/36646929?v=4"
+              alt="dima-image"
+            />
+            <h3>{lang.home.nameDima}</h3>
+          </li>
+          <li className={style.teamMember}>
+            <img
+              className={style.teamMemberImage}
+              src="https://avatars.githubusercontent.com/u/99993317?v=4"
+              alt="max-image"
+            />
+            <h3>{lang.home.nameMax}</h3>
+          </li>
+        </ul>
+      </section>
+    </article>
   );
 };
 

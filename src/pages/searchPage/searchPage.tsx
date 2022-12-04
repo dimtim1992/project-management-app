@@ -4,7 +4,7 @@ import { useSelector } from 'react-redux';
 import { langSelector } from 'store/selectors';
 import './searchPage.css';
 
-export function SearchPage() {
+function SearchPage() {
   const langKey = useSelector(langSelector);
   const lang = selectLang(langKey);
   return (
@@ -14,3 +14,5 @@ export function SearchPage() {
     </div>
   );
 }
+
+export default SearchPage;

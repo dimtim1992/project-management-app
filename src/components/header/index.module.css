@@ -1,13 +1,16 @@
 .wrapper,
 .stickyWrapper {
+  display: flex;
+  flex-wrap: wrap;
+  align-content: center;
+  align-items: center;
+  justify-content: center;
   position: sticky;
   top: 0;
   height: 70px;
   background-color: #000000;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 20px;
+  row-gap: 5px;
+  column-gap: 20px;
   font-size: 20px;
   color: white;
   padding: 10px;
@@ -34,4 +37,23 @@
 
 .link:hover {
   cursor: pointer;
+}
+
+@media (max-width: 683px) {
+  .wrapper {
+    height: 150px;
+  }
+  .stickyWrapper {
+    height: 90px;
+  }
+}
+
+@media (max-width: 375px) {
+  .wrapper {
+    height: 200px;
+  }
+
+  .stickyWrapper {
+    height: 130px;
+  }
 }

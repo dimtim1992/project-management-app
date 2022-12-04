@@ -1,5 +1,6 @@
 import React from 'react';
 import style from './index.module.css';
+import RSSIcon from '../../assets/images/RSS.png';
 
 const Footer = () => {
   return (
@@ -17,7 +18,7 @@ const Footer = () => {
         </a>
       </ul>
       <a className={style.link} href="https://rs.school/react/">
-        RSSchool
+        <img className={style.RSSImage} src={RSSIcon} alt="RSS" />
       </a>
     </footer>
   );
