@@ -16,7 +16,7 @@ export const selectLang = (key: string) => {
   }
 };
 
-export function LangPage() {
+function LangPage() {
   const dispatch = useDispatch();
   const currentLang = useSelector(langSelector);
 
@@ -53,3 +53,5 @@ export function LangPage() {
     </div>
   );
 }
+
+export default LangPage;

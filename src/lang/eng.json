@@ -11,7 +11,12 @@
     "logOut": "Log out"
   },
   "profilePage": {
-    "text": "Profile info with edit and delete buttons"
+    "text": "Profile info with edit and delete buttons",
+    "name": "Name",
+    "login": "Login",
+    "password": "Password",
+    "save": "Save",
+    "deleteUser": "Delete user"
   },
   "home": {
     "name": "Home",
@@ -70,6 +75,6 @@
   "addTasksModal": {
     "taskTitle": "Task title",
     "taskDescription": "Task description",
-    "addTaskButton": "Add column"
+    "addTaskButton": "Add task"
   }
 }

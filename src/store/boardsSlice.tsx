@@ -1,4 +1,4 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice, current } from '@reduxjs/toolkit';
 import {
   createBoard,
   createColumn,
@@ -9,12 +9,15 @@ import {
   getBoards,
   getColumns,
   getTasksSet,
+  patchColumn,
+  patchTask,
+  putTask,
 } from 'services/api';
-import { BoardsState, IBoard, IColumn, ITask } from 'types/types';
+import { BoardsState, IBoard, ITask, w } from 'types/types';
 
 const initialState: BoardsState = {
   userBoards: [] as IBoard[],
-  userColumns: [] as IColumn[],
+  userColumns: {} as w,
   userTasks: [] as ITask[],
   newBoardTitle: '',
   newBoardDescription: '',
@@ -76,7 +79,7 @@ const boardsSlice = createSlice({
       state.activeBoard = {} as IBoard;
     },
     cleanUserColumn(state) {
-      state.userColumns = [] as IColumn[];
+      state.userColumns = {} as w;
     },
     setDeleteToggle(state, action) {
       state.deleteToggle = action.payload;
@@ -89,6 +92,59 @@ const boardsSlice = createSlice({
     },
     setBoardToBeDeleted(state, action) {
       state.boardToBeDeleted = action.payload;
+    },
+    setColumnOrder(state, action) {
+      state.userColumns = action.payload;
+    },
+    setTaskOrder(state, action) {
+      state.userTasks = action.payload;
+    },
+    setNewColumnIdForTask(state, action) {
+      state.userTasks.map((task) => {
+        if (task._id === action.payload.taskId) {
+          task.columnId = action.payload.newColumnId;
+        }
+      });
+    },
+    setTasks(state, { payload }) {
+      const sourceColumn = state.userColumns[payload.source.droppableId];
+      const destColumn = state.userColumns[payload.destination.droppableId];
+      const sourceItems = sourceColumn.items;
+      const destItems = destColumn.items;
+      const [removed] = sourceItems.splice(payload.source.index, 1);
+      destItems.splice(payload.destination.index, 0, removed);
+
+      state.userColumns = {
+        ...state.userColumns,
+        [payload.source.droppableId]: {
+          ...sourceColumn,
+          items: sourceItems,
+        },
+        [payload.destination.droppableId]: {
+          ...destColumn,
+          items: destItems,
+        },
+      };
+      // const ordered = [...current(sourceItems), ...current(destItems)];
+      // const reordered = ordered.map(
+      //   ({ _id, order, columnId }) =>
+      //     new Object({ _id, order, columnId }) as { _id: string; order: number; columnId: string }
+      // );
+    },
+    setTasks2(state, { payload }) {
+      const column = current(state.userColumns)[payload.source.droppableId];
+      console.log('111111', column);
+      const copiedItems = [...column.items];
+      const [removed] = copiedItems.splice(payload.source.index, 1);
+      copiedItems.splice(payload.destination.index, 0, removed);
+      state.userColumns = {
+        ...current(state.userColumns),
+        [payload.source.droppableId]: {
+          ...column,
+          items: copiedItems,
+        },
+      };
+      console.log('state.userColumns', state.userColumns);
     },
   },
   extraReducers: (builder) => {
@@ -116,35 +172,73 @@ const boardsSlice = createSlice({
       state.isLoading = true;
     });
     builder.addCase(getColumns.fulfilled, (state, { payload }) => {
-      state.userColumns = payload;
+      state.userColumns = Object.assign(
+        {},
+        ...payload.map((column: { _id: string }) => ({
+          [column._id]: { ...column, items: [] as ITask[] },
+        }))
+      );
       state.isLoading = false;
     });
     builder.addCase(createColumn.pending, (state) => {
       state.isLoading = true;
     });
     builder.addCase(createColumn.fulfilled, (state, { payload }) => {
-      state.userColumns.push(payload);
+      console.log(current(state.userColumns));
+      console.log(payload);
+      state.userColumns[payload._id] = payload;
+      state.isLoading = false;
+    });
+    builder.addCase(patchColumn.pending, () => {
+      // state.isLoading = true;
+    });
+    builder.addCase(patchColumn.fulfilled, (state, { payload }) => {
+      // state.userColumns = Object.assign(
+      //   {},
+      //   ...payload.map((column: { _id: string }) => ({
+      //     [column._id]: { ...column, items: [] as ITask[] },
+      //   }))
+      // );
+      console.log(payload);
       state.isLoading = false;
     });
     builder.addCase(deleteColumn.pending, (state) => {
       state.isLoading = true;
     });
     builder.addCase(deleteColumn.fulfilled, (state, { payload }) => {
-      state.userColumns = state.userColumns.filter((column) => column._id !== payload._id);
+      delete state.userColumns[payload._id];
       state.isLoading = false;
     });
     builder.addCase(createTask.pending, (state) => {
       state.isLoading = true;
     });
     builder.addCase(createTask.fulfilled, (state, { payload }) => {
-      state.userTasks.push(payload);
+      if (state.userColumns[payload.columnId].items) {
+        state.userColumns[payload.columnId].items.push(payload);
+      } else {
+        state.userColumns[payload.columnId].items = [payload];
+      }
+      console.log(state.userColumns);
       state.isLoading = false;
     });
-    builder.addCase(getTasksSet.pending, (state) => {
+    builder.addCase(patchTask.pending, (state) => {
       state.isLoading = true;
     });
+    builder.addCase(patchTask.fulfilled, (state, { payload }) => {
+      payload.map((item: ITask) => {
+        if (state.userColumns[item.columnId].items) {
+          state.userColumns[item.columnId].items.push(item);
+        } else {
+          state.userColumns[item.columnId].items = [item];
+        }
+      });
+      state.isLoading = false;
+    });
+    builder.addCase(getTasksSet.pending, () => {
+      // state.isLoading = true;
+    });
     builder.addCase(getTasksSet.fulfilled, (state, { payload }) => {
-      state.userTasks = payload;
+      payload.map((item: ITask) => state.userColumns[item.columnId].items.push(item));
       state.isLoading = false;
     });
     builder.addCase(deleteTask.pending, (state) => {
@@ -152,6 +246,14 @@ const boardsSlice = createSlice({
     });
     builder.addCase(deleteTask.fulfilled, (state, { payload }) => {
       state.userTasks = state.userTasks.filter((task) => task._id !== payload._id);
+      state.isLoading = false;
+    });
+    builder.addCase(putTask.pending, () => {
+      // state.isLoading = true;
+    });
+    builder.addCase(putTask.fulfilled, (state, { payload }) => {
+      //   state.userTasks = [...state.userTasks.filter((task) => task._id !== payload._id), payload];
+      console.log(payload);
       state.isLoading = false;
     });
   },
@@ -175,4 +277,9 @@ export const {
   setTaskToBeDeleted,
   setColumnToBeDeleted,
   setBoardToBeDeleted,
+  setColumnOrder,
+  setTaskOrder,
+  setNewColumnIdForTask,
+  setTasks,
+  setTasks2,
 } = boardsSlice.actions;
