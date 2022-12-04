@@ -19,6 +19,7 @@ const AddColumnModal = lazy(() => import('components/addColumnModal/AddColumnMod
 const AddTaskModal = lazy(() => import('components/addTaskModal/AddTaskModal'));
 const LoadingModal = lazy(() => import('components/LoadingModal/LoadingModal'));
 const DeleteModal = lazy(() => import('components/DeleteModal/DeleteModal'));
+const NotFoundPage = lazy(() => import('pages/notFoundPage'));
 const HomePage = lazy(() => import('pages/homePage'));
 const BoardsPage = lazy(() => import('pages/boardsPage'));
 const ProfilePage = lazy(() => import('pages/profilePage'));
@@ -54,6 +55,7 @@ function App() {
           <Route path="/profile" element={<ProfilePage />} />
           <Route path="/signIn" element={<SignInPage />} />
           <Route path="/signUp" element={<SignUpPage />} />
+          <Route path="/*" element={<NotFoundPage />} />
         </Routes>
         {openBoardsModal && <Modal item={<AddBoardModal />} />}
         {openColumnsModal && <Modal item={<AddColumnModal />} />}
