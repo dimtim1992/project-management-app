@@ -209,7 +209,8 @@ const boardsSlice = createSlice({
     builder.addCase(deleteBoard.pending, (state) => {
       state.isLoading = true;
     });
-    builder.addCase(deleteBoard.fulfilled, (state) => {
+    builder.addCase(deleteBoard.fulfilled, (state, { payload }) => {
+      state.userBoards = state.userBoards.filter((item) => item._id !== payload._id);
       state.isLoading = false;
     });
     builder.addCase(deleteBoard.rejected, (state) => {
