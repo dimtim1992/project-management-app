@@ -17,15 +17,6 @@ export const AddTaskModal = () => {
   const tasks = useSelector(selectors.tasksSelector);
 
   const onAddTask = () => {
-    console.log({
-      boardId: localStorage.getItem('activeBoardId'),
-      columnId: columnId,
-      title: taskTitle,
-      order: tasks.filter((task) => task.columnId === columnId).length + 1,
-      description: taskDescription,
-      userId: 2,
-      users: ['test users'],
-    });
     dispatch(
       createTask({
         boardId: localStorage.getItem('activeBoardId'),
@@ -33,7 +24,7 @@ export const AddTaskModal = () => {
         title: taskTitle,
         order: tasks.filter((task) => task.columnId === columnId).length + 1,
         description: taskDescription,
-        userId: 2,
+        userId: localStorage.getItem('userId'),
         users: ['test users'],
       })
     );

@@ -27,3 +27,5 @@ export const deleteToggleSelector = (state: State) => state.boards.deleteToggle;
 export const taskToBeDeletedSelector = (state: State) => state.boards.taskToBeDeleted;
 export const columnToBeDeletedSelector = (state: State) => state.boards.columnToBeDeleted;
 export const boardToBeDeletedSelector = (state: State) => state.boards.boardToBeDeleted;
+export const patchedTasksSelector = (state: State) => state.boards.patchedTasks;
+export const editColumnTitleSelector = (state: State) => state.boards.editedColumnTitle;

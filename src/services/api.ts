@@ -1,6 +1,6 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
-import { ITask } from 'types/types';
+import { ITask, IColumn } from 'types/types';
 
 export const basicUrl = 'https://final-task-backend-production-2b03.up.railway.app/';
 
@@ -178,6 +178,29 @@ export const getColumns = createAsyncThunk('boards/getColumns', async (boardId: 
     });
 });
 
+export const putColumns = createAsyncThunk(
+  'boards/putColumns',
+  async (info: { column: IColumn; title: string }) => {
+    return axios
+      .put(
+        `${basicUrl}${boardsUrl}${info.column.boardId}${columnsUrl}${info.column._id}`,
+        {
+          title: info.title,
+          order: info.column.order,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem('userToken')}`,
+          },
+        }
+      )
+      .then((res) => res.data)
+      .catch((error) => {
+        console.log(error);
+      });
+  }
+);
+
 export const deleteColumn = createAsyncThunk(
   'boards/deleteColumn',
   async (info: { boardId: string; columnId: string } | null) => {
@@ -202,7 +225,7 @@ export const createTask = createAsyncThunk(
     title: string;
     order: number;
     description: string;
-    userId: number;
+    userId: string | null;
     users: string[];
   }) => {
     return axios

@@ -1,8 +1,15 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { selectLang } from 'pages/langPage/langPage';
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
-import { getBoards, getColumns, getTasksSet, patchColumn } from 'services/api';
+import {
+  getBoards,
+  getColumns,
+  getTasksSet,
+  patchColumn,
+  patchTask,
+  putColumns,
+} from 'services/api';
 import {
   setColumnOrder,
   setColumnToBeDeleted,
@@ -12,9 +19,10 @@ import {
   setTaskToBeDeleted,
   toggleAddColumnModal,
   toggleAddTaskModal,
+  editColumnTitle,
 } from 'store/boardsSlice';
 import * as selectors from 'store/selectors';
-import { IColumn, useAppDispatch } from 'types/types';
+import { IColumn, ITask, useAppDispatch } from 'types/types';
 import {
   DragDropContext,
   Draggable,
@@ -31,6 +39,8 @@ export const Board = () => {
   const saveTitle = localStorage.getItem('activeBoardTitle');
   const columns = useSelector(selectors.columnsSelector);
   const langKey = useSelector(selectors.langSelector);
+  const patchedTasks = useSelector(selectors.patchedTasksSelector);
+  const editedColumnTitle = useSelector(selectors.editColumnTitleSelector);
   const lang = selectLang(langKey);
   const dispatch = useAppDispatch();
 
@@ -43,11 +53,15 @@ export const Board = () => {
     };
     const f = async () => {
       dispatch(getBoards);
+
       await dispatch(getColumns(saveId()));
       await dispatch(getTasksSet(saveId()));
     };
     f();
     return function cleanup() {
+      if (patchedTasks) {
+        dispatch(patchTask(patchedTasks));
+      }
       // dispatch(cleanUserColumn());
     };
   }, [activeBoard._id, dispatch]);
@@ -86,7 +100,7 @@ export const Board = () => {
     if (!result.destination) return;
     const { source, destination, type } = result;
     if (type === 'column') {
-      const items = Object.entries(columns).map(([columnId, column], index) => column);
+      const items = Object.entries(columns).map((columns) => columns[1]);
       const [reorderedItem] = items.splice(source.index, 1);
       items.splice(destination.index, 0, reorderedItem);
 
@@ -100,11 +114,13 @@ export const Board = () => {
     if (type !== 'column') {
       if (source.droppableId !== destination.droppableId) {
         dispatch(setTasks({ source: source, destination: destination }));
-        // const sourceColumn = columns[source.droppableId];
-        // const destColumn = columns[destination.droppableId];
-        // const sourceItems = sourceColumn.items;
-        // const destItems = destColumn.items;
-        // const removed = sourceItems[source.index];
+        const sourceColumn = columns[source.droppableId];
+        const destColumn = columns[destination.droppableId];
+        const sourceItems = sourceColumn.items;
+        const newSourceItems = sourceColumn.items.filter((item, index) => index !== source.index);
+        const destItems = destColumn.items;
+        const removed = sourceItems[source.index];
+        const newDestItems = [...destItems, removed];
         // const newOrderedItem = {
         //   _id: removed._id,
         //   title: removed.title,
@@ -115,21 +131,37 @@ export const Board = () => {
         //   userId: removed.userId,
         //   users: removed.users,
         // };
+        const taskSourceOrders = [] as { _id: string; order: number; columnId: string }[];
+        const taskDestOrders = [] as { _id: string; order: number; columnId: string }[];
+        newSourceItems.map((task: ITask, index: number) => {
+          taskSourceOrders.push({ _id: task._id, order: index, columnId: sourceColumn._id });
+        });
+        newDestItems.map((task: ITask, index: number) => {
+          taskDestOrders.push({ _id: task._id, order: index, columnId: destColumn._id });
+        });
         // dispatch(putTask({ newColumnId: destination.droppableId, task: newOrderedItem }));
-        // patchTask(reordered);
+        dispatch(patchTask([...taskSourceOrders, ...taskDestOrders]));
       } else {
         dispatch(setTasks2({ source: source, destination: destination }));
       }
     }
   };
 
-  console.log(columns);
+  const [newTitle, setNewTitle] = useState('');
 
   return (
     <div className={style.boardContainer}>
-      <h2>{saveTitle ? saveTitle.split('&')[0] : activeBoard.title.split('&')[0]}</h2>
-      <p>{saveTitle ? saveTitle.split('&')[1] : activeBoard.title.split('&')[1]}</p>
-      <Button event={openModal} name={lang.board.addColumnButton} />
+      <div className={style.header}>
+        <div className={style.title}>
+          <div>
+            <h2>{saveTitle ? saveTitle.split('&')[0] : activeBoard.title.split('&')[0]}</h2>
+          </div>
+          <div>
+            <h3>{saveTitle ? saveTitle.split('&')[1] : activeBoard.title.split('&')[1]}</h3>
+          </div>
+        </div>
+        <Button event={openModal} name={lang.board.addColumnButton} />
+      </div>
       <DragDropContext onDragEnd={(result) => onDragEnd(result)}>
         <Droppable droppableId="droppable" direction="horizontal" type="column">
           {(provided: DroppableProvided) => (
@@ -148,10 +180,46 @@ export const Board = () => {
                         {...provided.dragHandleProps}
                         ref={provided.innerRef}
                       >
-                        <div>{column.title}</div>
-                        <button onClick={() => openTaskModal(column._id)}>
-                          {lang.board.addTaskButton}
-                        </button>
+                        <div
+                          onClick={() => {
+                            dispatch(editColumnTitle(columnId));
+                            setNewTitle(column.title);
+                          }}
+                          className={style.columnTitle}
+                        >
+                          {editedColumnTitle === column._id ? (
+                            <div>
+                              <input
+                                defaultValue={column.title}
+                                onChange={(e) => setNewTitle(e.target.value)}
+                                autoFocus
+                                className={style.columnTitleInput}
+                              ></input>
+                              <span
+                                className={style.editButtons}
+                                onClick={() => {
+                                  dispatch(putColumns({ column: column, title: newTitle }));
+                                }}
+                              >
+                                ok
+                              </span>
+                              <span
+                                className={style.editButtons}
+                                onClick={() => {
+                                  dispatch(putColumns({ column: column, title: newTitle }));
+                                }}
+                              >
+                                x
+                              </span>
+                            </div>
+                          ) : (
+                            column.title
+                          )}
+                        </div>
+                        <Button
+                          event={() => openTaskModal(column._id)}
+                          name={lang.board.addTaskButton}
+                        />
                         <Droppable droppableId={columnId} key={columnId}>
                           {(provided) => {
                             return (
@@ -178,13 +246,10 @@ export const Board = () => {
                                             >
                                               <div>{item.title}</div>
                                               <div>{item.description}</div>
-                                              <button
-                                                onClick={() =>
-                                                  onDeleteTaskInit(column._id, item._id)
-                                                }
-                                              >
-                                                {lang.board.deleteTaskButton}
-                                              </button>
+                                              <Button
+                                                event={() => onDeleteTaskInit(column._id, item._id)}
+                                                name={lang.board.deleteTaskButton}
+                                              />
                                             </div>
                                           );
                                         }}
@@ -196,13 +261,10 @@ export const Board = () => {
                             );
                           }}
                         </Droppable>
-                        <button
-                          onClick={() => {
-                            onDeleteColumnInit(column._id);
-                          }}
-                        >
-                          {lang.board.deleteColumnButton}
-                        </button>
+                        <Button
+                          event={() => onDeleteColumnInit(column._id)}
+                          name={lang.board.deleteColumnButton}
+                        />
                       </div>
                     )}
                   </Draggable>

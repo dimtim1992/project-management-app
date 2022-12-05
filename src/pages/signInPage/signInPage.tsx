@@ -12,10 +12,9 @@ import { useForm } from 'react-hook-form';
 
 function SignInPage() {
   const login = useSelector(signInLoginSelector);
-  const password = useSelector(signInPasswordSelector);
   const langKey = useSelector(langSelector);
   const lang = selectLang(langKey);
-
+  const password = useSelector(signInPasswordSelector);
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
 
@@ -67,11 +66,7 @@ function SignInPage() {
         {errors.password?.type === 'required' && <span>{lang.signIn.validationRequired}</span>}
         {errors.password?.type === 'minLength' && <span>{lang.signIn.validationMinLength}</span>}
       </label>
-
-      {/* <button>SIGNIN</button> */}
-      <button className="submitButton">
-        <Button event={sign} name={lang.signIn.name} />
-      </button>
+      <Button event={undefined} name={lang.signIn.name} />
     </form>
   );
 }
