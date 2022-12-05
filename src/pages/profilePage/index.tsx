@@ -1,3 +1,4 @@
+import Button from 'components/button';
 import { selectLang } from 'pages/langPage/langPage';
 import React from 'react';
 import { useSelector } from 'react-redux';
@@ -58,9 +59,9 @@ const ProfilePage = () => {
           onChange={(e) => dispatch(setUserPassword(e.target.value))}
           value={profile.password}
         />
-        <button onClick={onSave}>{lang.profilePage.save}</button>
+        <Button event={onSave} name={lang.profilePage.save} />
         <br />
-        <button onClick={deleteUser}>{lang.profilePage.deleteUser}</button>
+        <Button event={deleteUser} name={lang.profilePage.deleteUser} />
       </form>
     </div>
   );

@@ -25,6 +25,7 @@
 .link {
   text-decoration: none;
   color: #ffffff;
+  transition: 0.3s;
 }
 
 .link:hover {
@@ -38,18 +39,27 @@
 
 .RSSImage {
   height: 35px;
- }
+}
 
-@media (max-width: 683px) {
+@media (max-width: 560px) {
+  .wrapper {
+    padding: 0;
+  }
+  
   .list{
     flex-direction: column;
     align-items: center;
     padding: 0;
+    margin: 0;
+  }
+
+  .RSSImage {
+    height: 20px;
   }
 }
 
-@media (max-width: 375px) {
-  .wrapper{
-    flex-direction: column;
+@media (max-height: 540px) and (max-width: 560px) {
+  .list {
+    gap: 0;
   }
 }

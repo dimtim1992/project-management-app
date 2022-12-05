@@ -1,3 +1,4 @@
+import Button from 'components/button';
 import { selectLang } from 'pages/langPage/langPage';
 import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
@@ -41,14 +42,13 @@ const BoardsPage = () => {
           <div className={style.board} key={board._id}>
             <div className={style.boardTitle}>{board.title.split('&')[0]}</div>
             <div className={style.boardDescription}>{board.title.split('&')[1]}</div>
-            <button
-              onClick={(e) => {
+            <Button
+              event={(e) => {
                 e.stopPropagation();
                 onDeleteBoardInit(board._id);
               }}
-            >
-              {lang.boards.deleteBoardButton}
-            </button>
+              name={lang.boards.deleteBoardButton}
+            />
           </div>
         </div>
       )
@@ -79,7 +79,7 @@ const BoardsPage = () => {
           {lang.search.title}:
           <input type="text" onChange={handleChange} value={inputValue} />
         </label>
-        <button>Submit</button>
+        <Button event={() => {}} name="Submit" />
       </form>
       {inputValue && <ul>{searchResultsTag}</ul>}
       <h2>{lang.boards.name}</h2>

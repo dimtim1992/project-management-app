@@ -54,7 +54,7 @@
   },
   "signUp": {
     "name": "Sign Up",
-    "title": "You are ready?",
+    "title": "Are you ready?",
     "userName": "Name",
     "login": "Login",
     "password": "Password",
