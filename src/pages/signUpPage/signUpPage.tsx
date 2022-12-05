@@ -21,6 +21,12 @@ function SignUpPage() {
     navigate('/signin');
   };
 
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<ISignUp>();
+
   return (
     <form onSubmit={handleSubmit(sign)} className="sign-up-container">
       <h2>{lang.signUp.name}</h2>

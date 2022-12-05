@@ -12,12 +12,12 @@ import { useForm } from 'react-hook-form';
 
 function SignInPage() {
   const login = useSelector(signInLoginSelector);
-  const password = useSelector(signInPasswordSelector);
   const langKey = useSelector(langSelector);
   const lang = selectLang(langKey);
-
+  const password = useSelector(signInPasswordSelector);
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
+
 
   const sign = () => {
     dispatch(signIn({ login, password })).then((res) => {
@@ -31,8 +31,6 @@ function SignInPage() {
     });
   };
 
-<<<<<<< HEAD
-=======
   const {
     register,
     formState: { errors },
@@ -40,7 +38,6 @@ function SignInPage() {
 
   const [password, setPassword] = useState('');
 
->>>>>>> d7596bd (feat: add validation to sign in form)
   return (
     <form className="sign-in-container">
       <h2>{lang.signIn.name}</h2>
@@ -58,22 +55,20 @@ function SignInPage() {
         {errors.login?.type === 'minLength' && <span>{lang.signIn.validationMinLength}</span>}
       </label>
 
-<<<<<<< HEAD
+
       <label>{lang.signIn.password}</label>
       <input type="text" onChange={(e) => dispatch(setSignInPassword(e.target.value))} />
-=======
       <label>
         {lang.signIn.password}
         <input
           type="password"
           {...register('password', { required: true, minLength: 3 })}
-          onChange={(e) => setPassword(e.target.value)}
+          onChange={(e) => dispatch(setSignInPassword(e.target.value))
           name="password"
         />
         {errors.login?.type === 'required' && <span>{lang.signIn.validationRequired}</span>}
         {errors.login?.type === 'minLength' && <span>{lang.signIn.validationMinLength}</span>}
       </label>
->>>>>>> d7596bd (feat: add validation to sign in form)
 
       {/* <button onClick={sign}>SIGNIN</button> */}
       <Button event={sign} name={lang.signIn.name} />

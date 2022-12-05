@@ -1,8 +1,15 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { selectLang } from 'pages/langPage/langPage';
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
-import { getBoards, getColumns, getTasksSet, patchColumn, patchTask } from 'services/api';
+import {
+  getBoards,
+  getColumns,
+  getTasksSet,
+  patchColumn,
+  patchTask,
+  putColumns,
+} from 'services/api';
 import {
   setColumnOrder,
   setColumnToBeDeleted,
@@ -12,6 +19,7 @@ import {
   setTaskToBeDeleted,
   toggleAddColumnModal,
   toggleAddTaskModal,
+  editColumnTitle,
 } from 'store/boardsSlice';
 import * as selectors from 'store/selectors';
 import { IColumn, ITask, useAppDispatch } from 'types/types';
@@ -32,6 +40,7 @@ export const Board = () => {
   const columns = useSelector(selectors.columnsSelector);
   const langKey = useSelector(selectors.langSelector);
   const patchedTasks = useSelector(selectors.patchedTasksSelector);
+  const editedColumnTitle = useSelector(selectors.editColumnTitleSelector);
   const lang = selectLang(langKey);
   const dispatch = useAppDispatch();
 
@@ -138,6 +147,8 @@ export const Board = () => {
     }
   };
 
+  const [newTitle, setNewTitle] = useState('');
+
   return (
     <div className={style.boardContainer}>
       <h2>{saveTitle ? saveTitle.split('&')[0] : activeBoard.title.split('&')[0]}</h2>
@@ -161,7 +172,39 @@ export const Board = () => {
                         {...provided.dragHandleProps}
                         ref={provided.innerRef}
                       >
-                        <div>{column.title}</div>
+                        <div
+                          onClick={() => {
+                            dispatch(editColumnTitle(columnId));
+                            setNewTitle(column.title);
+                          }}
+                        >
+                          {editedColumnTitle === column._id ? (
+                            <div>
+                              <input
+                                defaultValue={column.title}
+                                onChange={(e) => setNewTitle(e.target.value)}
+                              ></input>
+                              <span
+                                className={style.editButtons}
+                                onClick={() => {
+                                  dispatch(putColumns({ column: column, title: newTitle }));
+                                }}
+                              >
+                                ok
+                              </span>
+                              <span
+                                className={style.editButtons}
+                                onClick={() => {
+                                  dispatch(putColumns({ column: column, title: newTitle }));
+                                }}
+                              >
+                                x
+                              </span>
+                            </div>
+                          ) : (
+                            column.title
+                          )}
+                        </div>
                         <button onClick={() => openTaskModal(column._id)}>
                           {lang.board.addTaskButton}
                         </button>

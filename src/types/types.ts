@@ -49,6 +49,7 @@ export type BoardsState = {
   } | null;
   boardToBeDeleted: string | null;
   patchedTasks: IPatchTask[];
+  editedColumnTitle: string;
 };
 
 export interface IPatchTask {

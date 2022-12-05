@@ -1,6 +1,7 @@
 import React, { Suspense, useEffect, lazy } from 'react';
 import { Routes, Route } from 'react-router-dom';
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 import Header from 'components/header';
 import Footer from 'components/footer';
@@ -14,6 +15,9 @@ import { SignUpPage } from './pages/signUpPage/signUpPage';
 import Modal from 'components/modal/Modal';
 import AddBoardModal from 'components/addBoardModal/AddBoardModal';
 >>>>>>> d7596bd (feat: add validation to sign in form)
+=======
+
+>>>>>>> ab89b4f (feat: edit column title)
 import { useDispatch, useSelector } from 'react-redux';
 import {
   addBoardsModalSelector,

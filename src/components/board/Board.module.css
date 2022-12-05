@@ -36,3 +36,11 @@
 .droppable {
     flex: 1;
 }
+
+.editButtons {
+    padding: 7px;
+}
+
+.editButtons:hover {
+    cursor: pointer;
+}
