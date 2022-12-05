@@ -29,3 +29,14 @@
     font-size: 22px;
     font-weight: 700;
 }
+
+.searchList {
+    list-style: none;
+}
+
+.searchListItem {
+    border-radius: 5px;
+    box-shadow: 0 2px 7px grey;
+    padding: 10px;
+    margin: 5px;
+}
