@@ -61,7 +61,7 @@ export const Board = () => {
     };
     f();
     return function cleanup() {
-      if (patchedTasks) {
+      if (patchedTasks.length > 0) {
         dispatch(patchTask(patchedTasks));
       }
       // dispatch(cleanUserColumn());

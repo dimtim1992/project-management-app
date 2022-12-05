@@ -40,6 +40,7 @@ const initialState: BoardsState = {
   editedColumnTitle: '',
   editTask: {} as ITask,
   isError: false,
+  searchResults: [] as ITask[],
 };
 
 const boardsSlice = createSlice({
@@ -180,6 +181,9 @@ const boardsSlice = createSlice({
     setEditTaskDescription(state, action) {
       state.editTask.description = action.payload;
     },
+    setSearchResults(state, action) {
+      state.searchResults = action.payload;
+    },
   },
   extraReducers: (builder) => {
     builder.addCase(createBoard.pending, (state) => {
@@ -281,9 +285,7 @@ const boardsSlice = createSlice({
     builder.addCase(patchTask.rejected, (state) => {
       state.isError = true;
     });
-    builder.addCase(getTasksSet.pending, () => {
-      // state.isLoading = true;
-    });
+    builder.addCase(getTasksSet.pending, () => {});
     builder.addCase(getTasksSet.fulfilled, (state, { payload }) => {
       payload.sort((a: ITask, b: ITask) => a.order - b.order);
 
@@ -293,9 +295,7 @@ const boardsSlice = createSlice({
     builder.addCase(getTasksSet.rejected, (state) => {
       state.isError = true;
     });
-    builder.addCase(deleteTask.pending, (state) => {
-      state.isLoading = true;
-    });
+    builder.addCase(deleteTask.pending, () => {});
     builder.addCase(deleteTask.fulfilled, (state, { payload }) => {
       state.userColumns[payload.columnId].items = state.userColumns[payload.columnId].items.filter(
         (task) => task._id !== payload._id
@@ -359,4 +359,5 @@ export const {
   setEditTask,
   setEditTaskTitle,
   setEditTaskDescription,
+  setSearchResults,
 } = boardsSlice.actions;

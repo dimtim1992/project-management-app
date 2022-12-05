@@ -41,7 +41,8 @@
   },
   "search": {
     "name": "Search",
-    "title": "Search tasks by title or description"
+    "title": "Search tasks by title or description",
+    "delete": "Delete task"
   },
   "signIn": {
     "name": "Sign in",

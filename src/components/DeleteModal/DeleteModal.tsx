@@ -5,11 +5,13 @@ import {
   setBoardToBeDeleted,
   setColumnToBeDeleted,
   setDeleteToggle,
+  setSearchResults,
   setTaskToBeDeleted,
 } from 'store/boardsSlice';
 import {
   boardToBeDeletedSelector,
   columnToBeDeletedSelector,
+  searchResultsSelector,
   taskToBeDeletedSelector,
 } from 'store/selectors';
 import { useAppDispatch } from 'types/types';
@@ -20,11 +22,15 @@ export const DeleteModal = () => {
   const taskToBeDeleted = useSelector(taskToBeDeletedSelector);
   const columnToBeDeleted = useSelector(columnToBeDeletedSelector);
   const boardToBeDeleted = useSelector(boardToBeDeletedSelector);
+  const searchResults = useSelector(searchResultsSelector);
 
   const onDeleteItem = () => {
     if (taskToBeDeleted) {
       dispatch(deleteTask(taskToBeDeleted));
       dispatch(setTaskToBeDeleted(null));
+      dispatch(
+        setSearchResults(searchResults.filter((item) => item._id !== taskToBeDeleted.taskId))
+      );
     }
     if (columnToBeDeleted) {
       dispatch(deleteColumn(columnToBeDeleted));

@@ -4,7 +4,13 @@ import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { getBoards, getBoardsSearch, getTasksSetSearch } from 'services/api';
-import { setActiveBoard, setBoardToBeDeleted, setDeleteToggle } from 'store/boardsSlice';
+import {
+  setActiveBoard,
+  setBoardToBeDeleted,
+  setDeleteToggle,
+  setSearchResults,
+  setTaskToBeDeleted,
+} from 'store/boardsSlice';
 import { IBoard, ITask, useAppDispatch } from 'types/types';
 import * as selectors from '../../store/selectors';
 import style from './index.module.css';
@@ -17,9 +23,10 @@ const BoardsPage = () => {
   const lang = selectLang(langKey);
   const isUserError = useSelector(selectors.isUserErrorSelector);
   const isBoardError = useSelector(selectors.isBoardErrorSelector);
+  const activeBoard = useSelector(selectors.activeBoardSelector);
+  const searchResults = useSelector(selectors.searchResultsSelector);
 
   const [inputValue, setInputValue] = useState<string>('');
-  const [searchResults, setSearchResults] = useState<ITask[]>([]);
   const [isSearched, setIsSearched] = useState<boolean>(false);
 
   useEffect(() => {
@@ -77,7 +84,18 @@ const BoardsPage = () => {
 
     inputValue.length ? setIsSearched(true) : setIsSearched(false);
 
-    setSearchResults(result);
+    dispatch(setSearchResults(result));
+  };
+
+  const onDeleteTaskInit = (columnId: string, taskId: string) => {
+    dispatch(setDeleteToggle(true));
+    dispatch(
+      setTaskToBeDeleted({
+        boardId: activeBoard._id,
+        columnId: columnId,
+        taskId: taskId,
+      })
+    );
   };
 
   const searchResultsTag = searchResults.map((item: ITask) => {
@@ -85,6 +103,12 @@ const BoardsPage = () => {
       <li key={item._id} className={style.searchListItem}>
         <p>{item.title}</p>
         <p>{item.description}</p>
+        <Button
+          event={() => {
+            onDeleteTaskInit(item.columnId, item._id);
+          }}
+          name={lang.search.delete}
+        />
       </li>
     );
   });

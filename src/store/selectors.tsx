@@ -33,3 +33,4 @@ export const patchedTasksSelector = (state: State) => state.boards.patchedTasks;
 export const editColumnTitleSelector = (state: State) => state.boards.editedColumnTitle;
 export const editTaskSelector = (state: State) => state.boards.editTask;
 export const isBoardErrorSelector = (state: State) => state.boards.isError;
+export const searchResultsSelector = (state: State) => state.boards.searchResults;

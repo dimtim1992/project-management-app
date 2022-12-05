@@ -54,6 +54,7 @@ export type BoardsState = {
   editedColumnTitle: string;
   editTask: ITask;
   isError: boolean;
+  searchResults: ITask[];
 };
 
 export interface IPatchTask {
