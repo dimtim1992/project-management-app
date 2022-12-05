@@ -41,7 +41,8 @@
   },
   "search": {
     "name": "Search",
-    "title": "Search tasks by title or description"
+    "title": "Search tasks by title or description",
+    "delete": "Delete task"
   },
   "signIn": {
     "name": "Sign in",
@@ -76,5 +77,10 @@
     "taskTitle": "Task title",
     "taskDescription": "Task description",
     "addTaskButton": "Add task"
+  },
+  "editTasksModal": {
+    "taskTitle": "Task title",
+    "taskDescription": "Task description",
+    "aditTaskButton": "Edit task"
   }
 }

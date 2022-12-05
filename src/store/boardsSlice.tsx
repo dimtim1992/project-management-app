@@ -28,6 +28,7 @@ const initialState: BoardsState = {
   openAddBoardModal: false,
   openAddColumnModal: false,
   openAddTaskModal: false,
+  openEditTaskModal: false,
   boardLoading: '',
   activeBoard: {} as IBoard,
   isLoading: false,
@@ -37,6 +38,9 @@ const initialState: BoardsState = {
   boardToBeDeleted: null,
   patchedTasks: [] as IPatchTask[],
   editedColumnTitle: '',
+  editTask: {} as ITask,
+  isError: false,
+  searchResults: [] as ITask[],
 };
 
 const boardsSlice = createSlice({
@@ -51,6 +55,9 @@ const boardsSlice = createSlice({
     },
     toggleAddTaskModal(state, action) {
       state.openAddTaskModal = action.payload;
+    },
+    toggleEditTaskModal(state, action) {
+      state.openEditTaskModal = action.payload;
     },
     addBoard(state, action) {
       state.userBoards.push(action.payload);
@@ -74,9 +81,6 @@ const boardsSlice = createSlice({
       state.activeBoard = state.userBoards.filter((board) => board._id === action.payload)[0];
       localStorage.setItem('activeBoardId', action.payload);
       localStorage.setItem('activeBoardTitle', state.activeBoard.title);
-      console.log(localStorage.getItem('activeBoardId'));
-      console.log(localStorage.getItem('activeBoardTitle'));
-      console.log(localStorage);
     },
     resetActiveBoard(state) {
       state.activeBoard = {} as IBoard;
@@ -168,6 +172,18 @@ const boardsSlice = createSlice({
     editColumnTitle(state, { payload }) {
       state.editedColumnTitle = payload;
     },
+    setEditTask(state, action) {
+      state.editTask = action.payload;
+    },
+    setEditTaskTitle(state, action) {
+      state.editTask.title = action.payload;
+    },
+    setEditTaskDescription(state, action) {
+      state.editTask.description = action.payload;
+    },
+    setSearchResults(state, action) {
+      state.searchResults = action.payload;
+    },
   },
   extraReducers: (builder) => {
     builder.addCase(createBoard.pending, (state) => {
@@ -177,6 +193,9 @@ const boardsSlice = createSlice({
       state.userBoards.push(payload);
       state.isLoading = false;
     });
+    builder.addCase(createBoard.rejected, (state) => {
+      state.isError = true;
+    });
     builder.addCase(getBoards.pending, (state) => {
       state.isLoading = true;
     });
@@ -184,11 +203,18 @@ const boardsSlice = createSlice({
       state.userBoards = payload;
       state.isLoading = false;
     });
+    builder.addCase(getBoards.rejected, (state) => {
+      state.isError = true;
+    });
     builder.addCase(deleteBoard.pending, (state) => {
       state.isLoading = true;
     });
-    builder.addCase(deleteBoard.fulfilled, (state) => {
+    builder.addCase(deleteBoard.fulfilled, (state, { payload }) => {
+      state.userBoards = state.userBoards.filter((item) => item._id !== payload._id);
       state.isLoading = false;
+    });
+    builder.addCase(deleteBoard.rejected, (state) => {
+      state.isError = true;
     });
     builder.addCase(getColumns.pending, (state) => {
       state.isLoading = true;
@@ -204,26 +230,27 @@ const boardsSlice = createSlice({
       );
       state.isLoading = false;
     });
+    builder.addCase(getColumns.rejected, (state) => {
+      state.isError = true;
+    });
     builder.addCase(createColumn.pending, (state) => {
       state.isLoading = true;
     });
     builder.addCase(createColumn.fulfilled, (state, { payload }) => {
-      console.log(current(state.userColumns));
-      console.log(payload);
       state.userColumns[payload._id] = payload;
       state.isLoading = false;
+    });
+    builder.addCase(createColumn.rejected, (state) => {
+      state.isError = true;
     });
     builder.addCase(patchColumn.pending, () => {
       // state.isLoading = true;
     });
     builder.addCase(patchColumn.fulfilled, (state) => {
-      // state.userColumns = Object.assign(
-      //   {},
-      //   ...payload.map((column: { _id: string }) => ({
-      //     [column._id]: { ...column, items: [] as ITask[] },
-      //   }))
-      // );
       state.isLoading = false;
+    });
+    builder.addCase(patchColumn.rejected, (state) => {
+      state.isError = true;
     });
     builder.addCase(deleteColumn.pending, (state) => {
       state.isLoading = true;
@@ -231,6 +258,9 @@ const boardsSlice = createSlice({
     builder.addCase(deleteColumn.fulfilled, (state, { payload }) => {
       delete state.userColumns[payload._id];
       state.isLoading = false;
+    });
+    builder.addCase(deleteColumn.rejected, (state) => {
+      state.isError = true;
     });
     builder.addCase(createTask.pending, (state) => {
       state.isLoading = true;
@@ -243,48 +273,65 @@ const boardsSlice = createSlice({
       }
       state.isLoading = false;
     });
+    builder.addCase(createTask.rejected, (state) => {
+      state.isError = true;
+    });
     builder.addCase(patchTask.pending, () => {
       // state.isLoading = true;
     });
     builder.addCase(patchTask.fulfilled, (state) => {
       state.patchedTasks = [] as IPatchTask[];
-      // payload.sort((a: ITask, b: ITask) => a.order - b.order);
-
-      // state.userColumns[payload[0].columnId].items = payload;
-      state.isLoading = false;
-
       state.isLoading = false;
     });
-    builder.addCase(getTasksSet.pending, () => {
-      // state.isLoading = true;
+    builder.addCase(patchTask.rejected, (state) => {
+      state.isError = true;
     });
+    builder.addCase(getTasksSet.pending, () => {});
     builder.addCase(getTasksSet.fulfilled, (state, { payload }) => {
       payload.sort((a: ITask, b: ITask) => a.order - b.order);
 
       payload.map((item: ITask) => state.userColumns[item.columnId].items.push(item));
       state.isLoading = false;
     });
-    builder.addCase(deleteTask.pending, (state) => {
+    builder.addCase(getTasksSet.rejected, (state) => {
+      state.isError = true;
+    });
+    builder.addCase(deleteTask.pending, () => {});
+    builder.addCase(deleteTask.fulfilled, (state, { payload }) => {
+      if (state.userColumns[payload.columnId]) {
+        state.userColumns[payload.columnId].items = state.userColumns[
+          payload.columnId
+        ].items.filter((task) => task._id !== payload._id);
+      } else {
+        return;
+      }
+      state.isLoading = false;
+    });
+    builder.addCase(deleteTask.rejected, (state) => {
+      state.isError = true;
+    });
+    builder.addCase(putTask.pending, (state) => {
       state.isLoading = true;
     });
-    builder.addCase(deleteTask.fulfilled, (state, { payload }) => {
-      console.log(payload);
-      state.userColumns[payload.columnId].items = state.userColumns[payload.columnId].items.filter(
-        (task) => task._id !== payload._id
-      );
-      state.isLoading = false;
-    });
-    builder.addCase(putTask.pending, () => {
-      // state.isLoading = true;
-    });
     builder.addCase(putTask.fulfilled, (state, { payload }) => {
-      //   state.userTasks = [...state.userTasks.filter((task) => task._id !== payload._id), payload];
-      console.log(payload);
+      state.userColumns[payload.columnId].items[payload.order] = payload;
+      state.userColumns[payload.columnId].items = [
+        ...state.userColumns[payload.columnId].items.filter((item) => {
+          item._id !== payload.id;
+        }),
+        payload,
+      ];
       state.isLoading = false;
+    });
+    builder.addCase(putTask.rejected, (state) => {
+      state.isError = true;
     });
     builder.addCase(putColumns.fulfilled, (state, { payload }) => {
       state.userColumns[payload._id].title = payload.title;
       state.editedColumnTitle = '';
+    });
+    builder.addCase(putColumns.rejected, (state) => {
+      state.isError = true;
     });
   },
 });
@@ -294,6 +341,7 @@ export const {
   toggleAddBoardModal,
   toggleAddColumnModal,
   toggleAddTaskModal,
+  toggleEditTaskModal,
   addBoard,
   setNewBoardTitle,
   setNewBoardDescription,
@@ -313,4 +361,8 @@ export const {
   setTasks,
   setTasks2,
   editColumnTitle,
+  setEditTask,
+  setEditTaskTitle,
+  setEditTaskDescription,
+  setSearchResults,
 } = boardsSlice.actions;

@@ -16,6 +16,7 @@ const initialState = {
     login: '',
     password: '',
   },
+  isError: false,
 };
 
 const usersSlice = createSlice({
@@ -72,7 +73,6 @@ const usersSlice = createSlice({
     });
     builder.addCase(signIn.rejected, (state) => {
       state.isLoading = false;
-      alert('User is not found');
     });
     builder.addCase(getUsers.pending, (state) => {
       state.isLoading = true;

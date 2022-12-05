@@ -9,6 +9,7 @@ export const signInPasswordSelector = (state: State) => state.users.signInPasswo
 export const langSelector = (state: State) => state.users.lang;
 export const userLoadingSelector = (state: State) => state.users.isLoading;
 export const userProfileSelector = (state: State) => state.users.userProfile;
+export const isUserErrorSelector = (state: State) => state.users.isError;
 
 export const activeBoardSelector = (state: State) => state.boards.activeBoard;
 export const boardsSelector = (state: State) => state.boards.userBoards;
@@ -22,6 +23,7 @@ export const tasksSelector = (state: State) => state.boards.userTasks;
 export const addBoardsModalSelector = (state: State) => state.boards.openAddBoardModal;
 export const addColumnsModalSelector = (state: State) => state.boards.openAddColumnModal;
 export const addTaskModalSelector = (state: State) => state.boards.openAddTaskModal;
+export const editTaskModalSelector = (state: State) => state.boards.openEditTaskModal;
 export const boardLoadingSelector = (state: State) => state.boards.isLoading;
 export const deleteToggleSelector = (state: State) => state.boards.deleteToggle;
 export const taskToBeDeletedSelector = (state: State) => state.boards.taskToBeDeleted;
@@ -29,3 +31,6 @@ export const columnToBeDeletedSelector = (state: State) => state.boards.columnTo
 export const boardToBeDeletedSelector = (state: State) => state.boards.boardToBeDeleted;
 export const patchedTasksSelector = (state: State) => state.boards.patchedTasks;
 export const editColumnTitleSelector = (state: State) => state.boards.editedColumnTitle;
+export const editTaskSelector = (state: State) => state.boards.editTask;
+export const isBoardErrorSelector = (state: State) => state.boards.isError;
+export const searchResultsSelector = (state: State) => state.boards.searchResults;

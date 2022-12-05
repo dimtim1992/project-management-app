@@ -20,6 +20,8 @@ import {
   toggleAddColumnModal,
   toggleAddTaskModal,
   editColumnTitle,
+  toggleEditTaskModal,
+  setEditTask,
 } from 'store/boardsSlice';
 import * as selectors from 'store/selectors';
 import { IColumn, ITask, useAppDispatch } from 'types/types';
@@ -59,7 +61,7 @@ export const Board = () => {
     };
     f();
     return function cleanup() {
-      if (patchedTasks) {
+      if (patchedTasks.length > 0) {
         dispatch(patchTask(patchedTasks));
       }
       // dispatch(cleanUserColumn());
@@ -121,16 +123,6 @@ export const Board = () => {
         const destItems = destColumn.items;
         const removed = sourceItems[source.index];
         const newDestItems = [...destItems, removed];
-        // const newOrderedItem = {
-        //   _id: removed._id,
-        //   title: removed.title,
-        //   order: destination.index,
-        //   boardId: removed.boardId,
-        //   columnId: destination.droppableId,
-        //   description: removed.description,
-        //   userId: removed.userId,
-        //   users: removed.users,
-        // };
         const taskSourceOrders = [] as { _id: string; order: number; columnId: string }[];
         const taskDestOrders = [] as { _id: string; order: number; columnId: string }[];
         newSourceItems.map((task: ITask, index: number) => {
@@ -139,7 +131,6 @@ export const Board = () => {
         newDestItems.map((task: ITask, index: number) => {
           taskDestOrders.push({ _id: task._id, order: index, columnId: destColumn._id });
         });
-        // dispatch(putTask({ newColumnId: destination.droppableId, task: newOrderedItem }));
         dispatch(patchTask([...taskSourceOrders, ...taskDestOrders]));
       } else {
         dispatch(setTasks2({ source: source, destination: destination }));
@@ -243,11 +234,18 @@ export const Board = () => {
                                               ref={provided.innerRef}
                                               {...provided.draggableProps}
                                               {...provided.dragHandleProps}
+                                              onClick={() => {
+                                                dispatch(toggleEditTaskModal(true));
+                                                dispatch(setEditTask(item));
+                                              }}
                                             >
                                               <div>{item.title}</div>
                                               <div>{item.description}</div>
                                               <Button
-                                                event={() => onDeleteTaskInit(column._id, item._id)}
+                                                event={(e) => {
+                                                  e.stopPropagation();
+                                                  onDeleteTaskInit(column._id, item._id);
+                                                }}
                                                 name={lang.board.deleteTaskButton}
                                               />
                                             </div>

@@ -6,7 +6,6 @@ import { signUp } from 'services/api';
 import { ISignUp, useAppDispatch } from 'types/types';
 import { langSelector, userProfileSelector } from 'store/selectors';
 import { setUserLogin, setUserName, setUserPassword } from 'store/usersSlice';
-import { ISignUp, useAppDispatch } from 'types/types';
 import './signUpPage.css';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import Button from 'components/button';

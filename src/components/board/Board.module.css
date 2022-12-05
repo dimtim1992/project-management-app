@@ -37,11 +37,11 @@
     padding: 10px;
     overflow-y: scroll;
     overflow-wrap: break-word;
-    transition: 0.3s;
 }
 
 .column:hover {
     box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+    transition: 0.3s;
 }
 
 .columnTitle {
@@ -60,11 +60,11 @@
     box-shadow: 0 2px 7px grey;
     padding: 10px;
     margin: 5px;
-    transition: 0.3s;
 }
 
 .task:hover {
     box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+    transition: 0.3s;
 }
 
 .droppable {

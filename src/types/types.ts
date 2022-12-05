@@ -20,6 +20,7 @@ export type UsersState = {
     login: string;
     password: string;
   };
+  isError: boolean;
 };
 
 export type BoardsState = {
@@ -34,6 +35,7 @@ export type BoardsState = {
   openAddBoardModal: boolean;
   openAddColumnModal: boolean;
   openAddTaskModal: boolean;
+  openEditTaskModal: boolean;
   boardLoading: string;
   activeBoard: IBoard;
   isLoading: boolean;
@@ -50,6 +52,9 @@ export type BoardsState = {
   boardToBeDeleted: string | null;
   patchedTasks: IPatchTask[];
   editedColumnTitle: string;
+  editTask: ITask;
+  isError: boolean;
+  searchResults: ITask[];
 };
 
 export interface IPatchTask {

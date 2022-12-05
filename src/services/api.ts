@@ -18,9 +18,9 @@ export const signUp = createAsyncThunk(
   async (info: { name: string; login: string; password: string }) => {
     return axios
       .post(`${basicUrl}${signUpUrl}`, info)
-      .then((res) => console.log(res.data))
+      .then((res) => res.data)
       .catch((error) => {
-        console.log(error.response.data);
+        alert(error.response.data.message);
       });
   }
 );
@@ -41,7 +41,7 @@ export const getUsers = createAsyncThunk('users/getUsers', async () => {
     })
     .then((res) => res.data)
     .catch((error) => {
-      console.log(error.response.data);
+      alert(error.response.data.message);
     });
 });
 
@@ -54,7 +54,7 @@ export const userDelete = createAsyncThunk('users/deleteUsers', async (id: strin
     })
     .then((res) => res.data)
     .catch((error) => {
-      console.log(error.response.data);
+      alert(error.response.data.message);
     });
 });
 
@@ -82,7 +82,7 @@ export const userUpdate = createAsyncThunk(
       )
       .then((res) => res.data)
       .catch((error) => {
-        console.log(error.response.data);
+        alert(error.response.data.message);
       });
   }
 );
@@ -96,7 +96,7 @@ export const getBoards = createAsyncThunk('boards/getBoards', async () => {
     })
     .then((res) => res.data)
     .catch((error) => {
-      console.log(error);
+      alert(error.response.data.message);
     });
 });
 
@@ -111,7 +111,7 @@ export const createBoard = createAsyncThunk(
       })
       .then((res) => res.data)
       .catch((error) => {
-        console.log(error);
+        alert(error.response.data.message);
       });
   }
 );
@@ -125,7 +125,7 @@ export const deleteBoard = createAsyncThunk('boards/deleteBoard', async (id: str
     })
     .then((res) => res.data)
     .catch((error) => {
-      console.log(error);
+      alert(error.response.data.message);
     });
 });
 
@@ -144,7 +144,7 @@ export const createColumn = createAsyncThunk(
       )
       .then((res) => res.data)
       .catch((error) => {
-        console.log(error);
+        alert(error.response.data.message);
       });
   }
 );
@@ -160,7 +160,7 @@ export const patchColumn = createAsyncThunk(
       })
       .then((res) => res.data)
       .catch((error) => {
-        console.log(error);
+        alert(error.response.data.message);
       });
   }
 );
@@ -174,7 +174,7 @@ export const getColumns = createAsyncThunk('boards/getColumns', async (boardId: 
     })
     .then((res) => res.data)
     .catch((error) => {
-      console.log(error);
+      alert(error.response.data.message);
     });
 });
 
@@ -196,7 +196,7 @@ export const putColumns = createAsyncThunk(
       )
       .then((res) => res.data)
       .catch((error) => {
-        console.log(error);
+        alert(error.response.data.message);
       });
   }
 );
@@ -212,7 +212,7 @@ export const deleteColumn = createAsyncThunk(
       })
       .then((res) => res.data)
       .catch((error) => {
-        console.log(error);
+        alert(error.response.data.message);
       });
   }
 );
@@ -246,7 +246,7 @@ export const createTask = createAsyncThunk(
       )
       .then((res) => res.data)
       .catch((error) => {
-        console.log(error);
+        alert(error.response.data.message);
       });
   }
 );
@@ -262,37 +262,34 @@ export const patchTask = createAsyncThunk(
       })
       .then((res) => res.data)
       .catch((error) => {
-        console.log(error);
+        alert(error.response.data.message);
       });
   }
 );
 
-export const putTask = createAsyncThunk(
-  'boards/putTask',
-  async (info: { newColumnId: string; task: ITask }) => {
-    return axios
-      .put(
-        `${basicUrl}${boardsUrl}${info.task.boardId}${columnsUrl}${info.task.columnId}${tasksUrl}${info.task._id}`,
-        {
-          title: info.task.title,
-          order: info.task.order,
-          description: info.task.description,
-          columnId: info.newColumnId,
-          userId: info.task.userId,
-          users: ['string'],
+export const putTask = createAsyncThunk('boards/putTask', async (task: ITask) => {
+  return axios
+    .put(
+      `${basicUrl}${boardsUrl}${task.boardId}${columnsUrl}${task.columnId}${tasksUrl}${task._id}`,
+      {
+        title: task.title,
+        order: task.order,
+        description: task.description,
+        columnId: task.columnId,
+        userId: task.userId,
+        users: task.users,
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('userToken')}`,
         },
-        {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem('userToken')}`,
-          },
-        }
-      )
-      .then((res) => res.data)
-      .catch((error) => {
-        console.log(error);
-      });
-  }
-);
+      }
+    )
+    .then((res) => res.data)
+    .catch((error) => {
+      alert(error.response.data.message);
+    });
+});
 
 export const getTasks = createAsyncThunk(
   'boards/getTasks',
@@ -305,7 +302,7 @@ export const getTasks = createAsyncThunk(
       })
       .then((res) => res.data)
       .catch((error) => {
-        console.log(error);
+        alert(error.response.data.message);
       });
   }
 );
@@ -321,22 +318,12 @@ export const getTasksSet = createAsyncThunk(
       })
       .then((res) => res.data)
       .catch((error) => {
-        console.log(error);
+        alert(error.response.data.message);
       });
   }
 );
 
 export const getTasksSetSearch = async (boardId: string | null) => {
-  // return axios
-  //   .get(`${basicUrl}${tasksSetUrl}${boardId}`, {
-  //     headers: {
-  //       Authorization: `Bearer ${localStorage.getItem('userToken')}`,
-  //     },
-  //   })
-  //   .then((res) => res.data)
-  //   .catch((error) => {
-  //     console.log(error);
-  //   });
   const response = await axios.get(`${basicUrl}${tasksSetUrl}${boardId}`, {
     headers: {
       Authorization: `Bearer ${localStorage.getItem('userToken')}`,
@@ -360,7 +347,7 @@ export const deleteTask = createAsyncThunk(
       )
       .then((res) => res.data)
       .catch((error) => {
-        console.log(error);
+        alert(error.response.data.message);
       });
   }
 );
@@ -374,22 +361,11 @@ export const getTasksBySearch = async (searchValue: string) => {
     })
     .then((res) => res.data)
     .catch((error) => {
-      console.log(error);
+      alert(error.response.data.message);
     });
 };
 
 export const getBoardsSearch = async () => {
-  // return axios
-  //   .get(`${basicUrl}${boardsUrl}`, {
-  //     headers: {
-  //       Authorization: `Bearer ${localStorage.getItem('userToken')}`,
-  //     },
-  //   })
-  //   .then((res) => res.data)
-  //   .catch((error) => {
-  //     console.log(error);
-  //   });
-
   const response = await axios.get(`${basicUrl}${boardsUrl}`, {
     headers: {
       Authorization: `Bearer ${localStorage.getItem('userToken')}`,

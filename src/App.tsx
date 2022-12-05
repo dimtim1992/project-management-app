@@ -1,5 +1,5 @@
 import React, { Suspense, useEffect, lazy } from 'react';
-import { Routes, Route } from 'react-router-dom';
+import { Routes, Route, useNavigate } from 'react-router-dom';
 
 import { useDispatch, useSelector } from 'react-redux';
 import {
@@ -8,10 +8,14 @@ import {
   addTaskModalSelector,
   boardLoadingSelector,
   deleteToggleSelector,
+  editTaskModalSelector,
   isAuthorizedSelector,
+  isBoardErrorSelector,
+  isUserErrorSelector,
   userLoadingSelector,
 } from 'store/selectors';
 import { setLang } from 'store/usersSlice';
+import EditTaskModal from 'components/EditTaskModal/EditTaskModal';
 
 const Header = lazy(() => import('components/header'));
 const Footer = lazy(() => import('components/footer'));
@@ -33,16 +37,21 @@ function App() {
   const openBoardsModal = useSelector(addBoardsModalSelector);
   const openColumnsModal = useSelector(addColumnsModalSelector);
   const openTasksModal = useSelector(addTaskModalSelector);
+  const openEditTaskModal = useSelector(editTaskModalSelector);
   const boardsLoading = useSelector(boardLoadingSelector);
   const userLoading = useSelector(userLoadingSelector);
   const deleteToggle = useSelector(deleteToggleSelector);
   const isAuthorized = useSelector(isAuthorizedSelector);
+  const isUserError = useSelector(isUserErrorSelector);
+  const isBoardError = useSelector(isBoardErrorSelector);
 
+  const navigate = useNavigate();
   const dispatch = useDispatch();
 
   useEffect(() => {
     dispatch(setLang(localStorage.getItem('langKey')));
-  }, [dispatch]);
+    if (isUserError || isBoardError) navigate('/');
+  }, [dispatch, isBoardError, isUserError, navigate]);
 
   return (
     <>
@@ -60,6 +69,7 @@ function App() {
         {openBoardsModal && <Modal item={<AddBoardModal />} />}
         {openColumnsModal && <Modal item={<AddColumnModal />} />}
         {openTasksModal && <Modal item={<AddTaskModal />} />}
+        {openEditTaskModal && <Modal item={<EditTaskModal />} />}
         {deleteToggle && <Modal item={<DeleteModal />} />}
         {!openBoardsModal && (boardsLoading || userLoading) && <LoadingModal />}
         <Footer />
