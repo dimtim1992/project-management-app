@@ -31,7 +31,7 @@ export const AddTaskModal = () => {
       <div className={style.cross} onClick={() => dispatch(toggleEditTaskModal(false))}>
         ×
       </div>
-      <label>{lang.addTasksModal.taskTitle}</label>
+      <label>{lang.editTasksModal.taskTitle}</label>
       <input
         type="text"
         onChange={(e) => {
@@ -39,7 +39,7 @@ export const AddTaskModal = () => {
         }}
         defaultValue={taskTitle}
       />
-      <label>{lang.addTasksModal.taskDescription}</label>
+      <label>{lang.editTasksModal.taskDescription}</label>
       <input
         type="text"
         required
@@ -49,8 +49,7 @@ export const AddTaskModal = () => {
         defaultValue={taskDescription}
       />
       <br />
-      {/* <button onClick={onEditTask}>{lang.addTasksModal.addTaskButton}</button> */}
-      <button onClick={onEditTask}>edit</button>
+      <button onClick={onEditTask}>{lang.editTasksModal.aditTaskButton}</button>
     </div>
   );
 };

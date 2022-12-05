@@ -18,9 +18,9 @@ export const signUp = createAsyncThunk(
   async (info: { name: string; login: string; password: string }) => {
     return axios
       .post(`${basicUrl}${signUpUrl}`, info)
-      .then((res) => console.log(res.data))
+      .then((res) => res.data)
       .catch((error) => {
-        console.log(error.response.data);
+        alert(error.response.data.message);
       });
   }
 );
@@ -41,7 +41,7 @@ export const getUsers = createAsyncThunk('users/getUsers', async () => {
     })
     .then((res) => res.data)
     .catch((error) => {
-      console.log(error.response.data);
+      alert(error.response.data.message);
     });
 });
 
@@ -54,7 +54,7 @@ export const userDelete = createAsyncThunk('users/deleteUsers', async (id: strin
     })
     .then((res) => res.data)
     .catch((error) => {
-      console.log(error.response.data);
+      alert(error.response.data.message);
     });
 });
 
@@ -82,7 +82,7 @@ export const userUpdate = createAsyncThunk(
       )
       .then((res) => res.data)
       .catch((error) => {
-        console.log(error.response.data);
+        alert(error.response.data.message);
       });
   }
 );
@@ -96,7 +96,7 @@ export const getBoards = createAsyncThunk('boards/getBoards', async () => {
     })
     .then((res) => res.data)
     .catch((error) => {
-      console.log(error);
+      alert(error.response.data.message);
     });
 });
 
@@ -111,7 +111,7 @@ export const createBoard = createAsyncThunk(
       })
       .then((res) => res.data)
       .catch((error) => {
-        console.log(error);
+        alert(error.response.data.message);
       });
   }
 );
@@ -125,7 +125,7 @@ export const deleteBoard = createAsyncThunk('boards/deleteBoard', async (id: str
     })
     .then((res) => res.data)
     .catch((error) => {
-      console.log(error);
+      alert(error.response.data.message);
     });
 });
 
@@ -144,7 +144,7 @@ export const createColumn = createAsyncThunk(
       )
       .then((res) => res.data)
       .catch((error) => {
-        console.log(error);
+        alert(error.response.data.message);
       });
   }
 );
@@ -160,7 +160,7 @@ export const patchColumn = createAsyncThunk(
       })
       .then((res) => res.data)
       .catch((error) => {
-        console.log(error);
+        alert(error.response.data.message);
       });
   }
 );
@@ -174,7 +174,7 @@ export const getColumns = createAsyncThunk('boards/getColumns', async (boardId: 
     })
     .then((res) => res.data)
     .catch((error) => {
-      console.log(error);
+      alert(error.response.data.message);
     });
 });
 
@@ -196,7 +196,7 @@ export const putColumns = createAsyncThunk(
       )
       .then((res) => res.data)
       .catch((error) => {
-        console.log(error);
+        alert(error.response.data.message);
       });
   }
 );
@@ -212,7 +212,7 @@ export const deleteColumn = createAsyncThunk(
       })
       .then((res) => res.data)
       .catch((error) => {
-        console.log(error);
+        alert(error.response.data.message);
       });
   }
 );
@@ -246,7 +246,7 @@ export const createTask = createAsyncThunk(
       )
       .then((res) => res.data)
       .catch((error) => {
-        console.log(error);
+        alert(error.response.data.message);
       });
   }
 );
@@ -262,7 +262,7 @@ export const patchTask = createAsyncThunk(
       })
       .then((res) => res.data)
       .catch((error) => {
-        console.log(error);
+        alert(error.response.data.message);
       });
   }
 );
@@ -287,7 +287,7 @@ export const putTask = createAsyncThunk('boards/putTask', async (task: ITask) =>
     )
     .then((res) => res.data)
     .catch((error) => {
-      console.log(error);
+      alert(error.response.data.message);
     });
 });
 
@@ -302,7 +302,7 @@ export const getTasks = createAsyncThunk(
       })
       .then((res) => res.data)
       .catch((error) => {
-        console.log(error);
+        alert(error.response.data.message);
       });
   }
 );
@@ -318,7 +318,7 @@ export const getTasksSet = createAsyncThunk(
       })
       .then((res) => res.data)
       .catch((error) => {
-        console.log(error);
+        alert(error.response.data.message);
       });
   }
 );
@@ -337,7 +337,7 @@ export const deleteTask = createAsyncThunk(
       )
       .then((res) => res.data)
       .catch((error) => {
-        console.log(error);
+        alert(error.response.data.message);
       });
   }
 );
@@ -351,6 +351,6 @@ export const getTasksBySearch = async (searchValue: string) => {
     })
     .then((res) => res.data)
     .catch((error) => {
-      console.log(error);
+      alert(error.response.data.message);
     });
 };

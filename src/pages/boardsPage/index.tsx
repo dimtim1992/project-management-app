@@ -15,13 +15,19 @@ const BoardsPage = () => {
   const navigate = useNavigate();
   const langKey = useSelector(selectors.langSelector);
   const lang = selectLang(langKey);
+  const isUserError = useSelector(selectors.isUserErrorSelector);
+  const isBoardError = useSelector(selectors.isBoardErrorSelector);
 
   const [inputValue, setInputValue] = useState<string>('');
   const [searchResults, setSearchResults] = useState<ITask[]>([]);
 
   useEffect(() => {
-    dispatch(getBoards());
-  }, [dispatch]);
+    if (isUserError || isBoardError) {
+      navigate('/');
+    } else {
+      dispatch(getBoards());
+    }
+  }, [dispatch, isBoardError, isUserError, navigate]);
 
   const onDeleteBoardInit = (boardId: string) => {
     dispatch(setDeleteToggle(true));

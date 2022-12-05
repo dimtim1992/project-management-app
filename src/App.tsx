@@ -1,5 +1,5 @@
 import React, { Suspense, useEffect, lazy } from 'react';
-import { Routes, Route } from 'react-router-dom';
+import { Routes, Route, useNavigate } from 'react-router-dom';
 
 import { useDispatch, useSelector } from 'react-redux';
 import {
@@ -10,6 +10,8 @@ import {
   deleteToggleSelector,
   editTaskModalSelector,
   isAuthorizedSelector,
+  isBoardErrorSelector,
+  isUserErrorSelector,
   userLoadingSelector,
 } from 'store/selectors';
 import { setLang } from 'store/usersSlice';
@@ -40,12 +42,16 @@ function App() {
   const userLoading = useSelector(userLoadingSelector);
   const deleteToggle = useSelector(deleteToggleSelector);
   const isAuthorized = useSelector(isAuthorizedSelector);
+  const isUserError = useSelector(isUserErrorSelector);
+  const isBoardError = useSelector(isBoardErrorSelector);
 
+  const navigate = useNavigate();
   const dispatch = useDispatch();
 
   useEffect(() => {
     dispatch(setLang(localStorage.getItem('langKey')));
-  }, [dispatch]);
+    if (isUserError || isBoardError) navigate('/');
+  }, [dispatch, isBoardError, isUserError, navigate]);
 
   return (
     <>

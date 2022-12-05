@@ -9,6 +9,7 @@ export const signInPasswordSelector = (state: State) => state.users.signInPasswo
 export const langSelector = (state: State) => state.users.lang;
 export const userLoadingSelector = (state: State) => state.users.isLoading;
 export const userProfileSelector = (state: State) => state.users.userProfile;
+export const isUserErrorSelector = (state: State) => state.users.isError;
 
 export const activeBoardSelector = (state: State) => state.boards.activeBoard;
 export const boardsSelector = (state: State) => state.boards.userBoards;
@@ -31,3 +32,4 @@ export const boardToBeDeletedSelector = (state: State) => state.boards.boardToBe
 export const patchedTasksSelector = (state: State) => state.boards.patchedTasks;
 export const editColumnTitleSelector = (state: State) => state.boards.editedColumnTitle;
 export const editTaskSelector = (state: State) => state.boards.editTask;
+export const isBoardErrorSelector = (state: State) => state.boards.isError;

@@ -76,5 +76,10 @@
     "taskTitle": "Task title",
     "taskDescription": "Task description",
     "addTaskButton": "Add task"
+  },
+  "editTasksModal": {
+    "taskTitle": "Task title",
+    "taskDescription": "Task description",
+    "aditTaskButton": "Edit task"
   }
 }

@@ -20,6 +20,7 @@ export type UsersState = {
     login: string;
     password: string;
   };
+  isError: boolean;
 };
 
 export type BoardsState = {
@@ -52,6 +53,7 @@ export type BoardsState = {
   patchedTasks: IPatchTask[];
   editedColumnTitle: string;
   editTask: ITask;
+  isError: boolean;
 };
 
 export interface IPatchTask {

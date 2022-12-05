@@ -75,6 +75,12 @@
   "addTasksModal": {
     "taskTitle": "Название задачи",
     "taskDescription": "Описание задачи",
-    "addTaskButton": "Добавить задачу"
+    "addTaskButton": "Добавить задачу",
+    "aditTaskButton": "Добавить задачу"
+  },
+  "editTasksModal": {
+    "taskTitle": "Название задачи",
+    "taskDescription": "Описание задачи",
+    "aditTaskButton": "Редактировать задачу"
   }
 }

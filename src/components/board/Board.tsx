@@ -253,7 +253,10 @@ export const Board = () => {
                                               <div>{item.title}</div>
                                               <div>{item.description}</div>
                                               <Button
-                                                event={() => onDeleteTaskInit(column._id, item._id)}
+                                                event={(e) => {
+                                                  e.stopPropagation();
+                                                  onDeleteTaskInit(column._id, item._id);
+                                                }}
                                                 name={lang.board.deleteTaskButton}
                                               />
                                             </div>
