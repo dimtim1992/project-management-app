@@ -3,6 +3,7 @@ import { Routes, Route } from 'react-router-dom';
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 import Header from 'components/header';
 import Footer from 'components/footer';
@@ -22,6 +23,8 @@ import AddBoardModal from 'components/addBoardModal/AddBoardModal';
 =======
 
 >>>>>>> b56d029 (fix: fix some bugs according to task decription)
+=======
+>>>>>>> fa7884b (fix: some style fixes)
 import { useDispatch, useSelector } from 'react-redux';
 import {
   addBoardsModalSelector,
@@ -74,13 +77,14 @@ function App() {
           <Route path="/" element={<HomePage />} />
           <Route path="/boards" element={<BoardsPage />} />
           <Route path="/boards/:id" element={<Board />} />
+<<<<<<< HEAD
           <Route path="/search" element={<SearchPage />} />
+=======
+>>>>>>> fa7884b (fix: some style fixes)
           <Route path="/lang" element={<LangPage />} />
           <Route path="/profile" element={<ProfilePage />} />
-          {isAuthorized && <Route path="/signIn" element={<HomePage />} />}
-          {isAuthorized && <Route path="/signUp" element={<HomePage />} />}
-          <Route path="/signIn" element={<SignInPage />} />
-          <Route path="/signUp" element={<SignUpPage />} />
+          <Route path="/signIn" element={isAuthorized ? <BoardsPage /> : <SignInPage />} />
+          <Route path="/signUp" element={isAuthorized ? <BoardsPage /> : <SignUpPage />} />
           <Route path="/*" element={<NotFoundPage />} />
         </Routes>
         {openBoardsModal && <Modal item={<AddBoardModal />} />}

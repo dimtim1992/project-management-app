@@ -11,7 +11,7 @@ const HomePage = () => {
   return (
     <article className={style.wrapper}>
       <section className={style.app}>
-        <p>{lang.home.textApp}</p>
+        <p className={style.paragraph}>{lang.home.textApp}</p>
         <h2>{lang.home.titleVideo}</h2>
         <iframe
           width="560"
@@ -22,7 +22,7 @@ const HomePage = () => {
           allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
           allowFullScreen
         ></iframe>
-        <p>{lang.home.textCourse}</p>
+        <p className={style.paragraph}>{lang.home.textCourse}</p>
       </section>
       <section className={style.team}>
         <h2>{lang.home.titleTeam}</h2>

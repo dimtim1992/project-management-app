@@ -151,9 +151,17 @@ export const Board = () => {
 
   return (
     <div className={style.boardContainer}>
-      <h2>{saveTitle ? saveTitle.split('&')[0] : activeBoard.title.split('&')[0]}</h2>
-      <p>{saveTitle ? saveTitle.split('&')[1] : activeBoard.title.split('&')[1]}</p>
-      <Button event={openModal} name={lang.board.addColumnButton} />
+      <div className={style.header}>
+        <div className={style.title}>
+          <div>
+            <h2>{saveTitle ? saveTitle.split('&')[0] : activeBoard.title.split('&')[0]}</h2>
+          </div>
+          <div>
+            <h3>{saveTitle ? saveTitle.split('&')[1] : activeBoard.title.split('&')[1]}</h3>
+          </div>
+        </div>
+        <Button event={openModal} name={lang.board.addColumnButton} />
+      </div>
       <DragDropContext onDragEnd={(result) => onDragEnd(result)}>
         <Droppable droppableId="droppable" direction="horizontal" type="column">
           {(provided: DroppableProvided) => (
