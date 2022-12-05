@@ -123,16 +123,6 @@ export const Board = () => {
         const destItems = destColumn.items;
         const removed = sourceItems[source.index];
         const newDestItems = [...destItems, removed];
-        // const newOrderedItem = {
-        //   _id: removed._id,
-        //   title: removed.title,
-        //   order: destination.index,
-        //   boardId: removed.boardId,
-        //   columnId: destination.droppableId,
-        //   description: removed.description,
-        //   userId: removed.userId,
-        //   users: removed.users,
-        // };
         const taskSourceOrders = [] as { _id: string; order: number; columnId: string }[];
         const taskDestOrders = [] as { _id: string; order: number; columnId: string }[];
         newSourceItems.map((task: ITask, index: number) => {
@@ -141,7 +131,6 @@ export const Board = () => {
         newDestItems.map((task: ITask, index: number) => {
           taskDestOrders.push({ _id: task._id, order: index, columnId: destColumn._id });
         });
-        // dispatch(putTask({ newColumnId: destination.droppableId, task: newOrderedItem }));
         dispatch(patchTask([...taskSourceOrders, ...taskDestOrders]));
       } else {
         dispatch(setTasks2({ source: source, destination: destination }));

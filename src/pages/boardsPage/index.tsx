@@ -21,8 +21,6 @@ const BoardsPage = () => {
   const navigate = useNavigate();
   const langKey = useSelector(selectors.langSelector);
   const lang = selectLang(langKey);
-  const isUserError = useSelector(selectors.isUserErrorSelector);
-  const isBoardError = useSelector(selectors.isBoardErrorSelector);
   const activeBoard = useSelector(selectors.activeBoardSelector);
   const searchResults = useSelector(selectors.searchResultsSelector);
 
@@ -30,12 +28,8 @@ const BoardsPage = () => {
   const [isSearched, setIsSearched] = useState<boolean>(false);
 
   useEffect(() => {
-    if (isUserError || isBoardError) {
-      navigate('/');
-    } else {
-      dispatch(getBoards());
-    }
-  }, [dispatch, isBoardError, isUserError, navigate]);
+    dispatch(getBoards());
+  }, [dispatch]);
 
   const onDeleteBoardInit = (boardId: string) => {
     dispatch(setDeleteToggle(true));
@@ -104,7 +98,8 @@ const BoardsPage = () => {
         <p>{item.title}</p>
         <p>{item.description}</p>
         <Button
-          event={() => {
+          event={(e) => {
+            e.stopPropagation();
             onDeleteTaskInit(item.columnId, item._id);
           }}
           name={lang.search.delete}
@@ -114,7 +109,7 @@ const BoardsPage = () => {
   });
 
   return (
-    <div className={style.wrapper}>
+    <div className={style.wrapper} onClick={() => setIsSearched(false)}>
       <form onSubmit={handleSubmit} className="form">
         <label>
           {lang.search.title}:
@@ -122,7 +117,11 @@ const BoardsPage = () => {
         </label>
         <Button event={() => {}} name={lang.search.name} />
       </form>
-      {isSearched && <ul className={style.searchList}>{searchResultsTag}</ul>}
+      {isSearched && (
+        <ul className={style.searchList}>
+          {searchResults.length ? searchResultsTag : 'Not found...'}
+        </ul>
+      )}
       {!isSearched && (
         <>
           <h2>{lang.boards.name}</h2>

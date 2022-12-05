@@ -297,9 +297,13 @@ const boardsSlice = createSlice({
     });
     builder.addCase(deleteTask.pending, () => {});
     builder.addCase(deleteTask.fulfilled, (state, { payload }) => {
-      state.userColumns[payload.columnId].items = state.userColumns[payload.columnId].items.filter(
-        (task) => task._id !== payload._id
-      );
+      if (state.userColumns[payload.columnId]) {
+        state.userColumns[payload.columnId].items = state.userColumns[
+          payload.columnId
+        ].items.filter((task) => task._id !== payload._id);
+      } else {
+        return;
+      }
       state.isLoading = false;
     });
     builder.addCase(deleteTask.rejected, (state) => {

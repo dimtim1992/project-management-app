@@ -324,16 +324,6 @@ export const getTasksSet = createAsyncThunk(
 );
 
 export const getTasksSetSearch = async (boardId: string | null) => {
-  // return axios
-  //   .get(`${basicUrl}${tasksSetUrl}${boardId}`, {
-  //     headers: {
-  //       Authorization: `Bearer ${localStorage.getItem('userToken')}`,
-  //     },
-  //   })
-  //   .then((res) => res.data)
-  //   .catch((error) => {
-  //     console.log(error);
-  //   });
   const response = await axios.get(`${basicUrl}${tasksSetUrl}${boardId}`, {
     headers: {
       Authorization: `Bearer ${localStorage.getItem('userToken')}`,
@@ -376,17 +366,6 @@ export const getTasksBySearch = async (searchValue: string) => {
 };
 
 export const getBoardsSearch = async () => {
-  // return axios
-  //   .get(`${basicUrl}${boardsUrl}`, {
-  //     headers: {
-  //       Authorization: `Bearer ${localStorage.getItem('userToken')}`,
-  //     },
-  //   })
-  //   .then((res) => res.data)
-  //   .catch((error) => {
-  //     console.log(error);
-  //   });
-
   const response = await axios.get(`${basicUrl}${boardsUrl}`, {
     headers: {
       Authorization: `Bearer ${localStorage.getItem('userToken')}`,
