@@ -303,6 +303,26 @@ export const getTasksSet = createAsyncThunk(
   }
 );
 
+export const getTasksSetSearch = async (boardId: string | null) => {
+  // return axios
+  //   .get(`${basicUrl}${tasksSetUrl}${boardId}`, {
+  //     headers: {
+  //       Authorization: `Bearer ${localStorage.getItem('userToken')}`,
+  //     },
+  //   })
+  //   .then((res) => res.data)
+  //   .catch((error) => {
+  //     console.log(error);
+  //   });
+  const response = await axios.get(`${basicUrl}${tasksSetUrl}${boardId}`, {
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem('userToken')}`,
+    },
+  });
+
+  return response.data;
+};
+
 export const deleteTask = createAsyncThunk(
   'boards/deleteTask',
   async (info: { boardId: string; columnId: string; taskId: string } | null) => {
@@ -333,4 +353,25 @@ export const getTasksBySearch = async (searchValue: string) => {
     .catch((error) => {
       console.log(error);
     });
+};
+
+export const getBoardsSearch = async () => {
+  // return axios
+  //   .get(`${basicUrl}${boardsUrl}`, {
+  //     headers: {
+  //       Authorization: `Bearer ${localStorage.getItem('userToken')}`,
+  //     },
+  //   })
+  //   .then((res) => res.data)
+  //   .catch((error) => {
+  //     console.log(error);
+  //   });
+
+  const response = await axios.get(`${basicUrl}${boardsUrl}`, {
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem('userToken')}`,
+    },
+  });
+
+  return response.data;
 };
