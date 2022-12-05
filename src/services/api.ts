@@ -267,32 +267,29 @@ export const patchTask = createAsyncThunk(
   }
 );
 
-export const putTask = createAsyncThunk(
-  'boards/putTask',
-  async (info: { newColumnId: string; task: ITask }) => {
-    return axios
-      .put(
-        `${basicUrl}${boardsUrl}${info.task.boardId}${columnsUrl}${info.task.columnId}${tasksUrl}${info.task._id}`,
-        {
-          title: info.task.title,
-          order: info.task.order,
-          description: info.task.description,
-          columnId: info.newColumnId,
-          userId: info.task.userId,
-          users: ['string'],
+export const putTask = createAsyncThunk('boards/putTask', async (task: ITask) => {
+  return axios
+    .put(
+      `${basicUrl}${boardsUrl}${task.boardId}${columnsUrl}${task.columnId}${tasksUrl}${task._id}`,
+      {
+        title: task.title,
+        order: task.order,
+        description: task.description,
+        columnId: task.columnId,
+        userId: task.userId,
+        users: task.users,
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('userToken')}`,
         },
-        {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem('userToken')}`,
-          },
-        }
-      )
-      .then((res) => res.data)
-      .catch((error) => {
-        console.log(error);
-      });
-  }
-);
+      }
+    )
+    .then((res) => res.data)
+    .catch((error) => {
+      console.log(error);
+    });
+});
 
 export const getTasks = createAsyncThunk(
   'boards/getTasks',

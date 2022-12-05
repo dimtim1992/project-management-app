@@ -47,11 +47,6 @@ const Header = () => {
           {lang.header.addBoard}
         </a>
       )}
-      {isAuthorized && (
-        <Link to="/search" className={style.link}>
-          {lang.header.search}
-        </Link>
-      )}
       <a className={style.link}>
         <LangChoice />
       </a>

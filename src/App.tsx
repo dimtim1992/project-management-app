@@ -8,9 +8,12 @@ import {
   addTaskModalSelector,
   boardLoadingSelector,
   deleteToggleSelector,
+  editTaskModalSelector,
+  isAuthorizedSelector,
   userLoadingSelector,
 } from 'store/selectors';
 import { setLang } from 'store/usersSlice';
+import EditTaskModal from 'components/EditTaskModal/EditTaskModal';
 
 const Header = lazy(() => import('components/header'));
 const Footer = lazy(() => import('components/footer'));
@@ -25,8 +28,6 @@ const NotFoundPage = lazy(() => import('pages/notFoundPage'));
 const HomePage = lazy(() => import('pages/homePage'));
 const BoardsPage = lazy(() => import('pages/boardsPage'));
 const ProfilePage = lazy(() => import('pages/profilePage'));
-const SearchPage = lazy(() => import('pages/searchPage/searchPage'));
-const LangPage = lazy(() => import('pages/langPage/langPage'));
 const SignInPage = lazy(() => import('pages/signInPage/signInPage'));
 const SignUpPage = lazy(() => import('pages/signUpPage/signUpPage'));
 
@@ -34,9 +35,11 @@ function App() {
   const openBoardsModal = useSelector(addBoardsModalSelector);
   const openColumnsModal = useSelector(addColumnsModalSelector);
   const openTasksModal = useSelector(addTaskModalSelector);
+  const openEditTaskModal = useSelector(editTaskModalSelector);
   const boardsLoading = useSelector(boardLoadingSelector);
   const userLoading = useSelector(userLoadingSelector);
   const deleteToggle = useSelector(deleteToggleSelector);
+  const isAuthorized = useSelector(isAuthorizedSelector);
 
   const dispatch = useDispatch();
 
@@ -50,18 +53,17 @@ function App() {
         <Header />
         <Routes>
           <Route path="/" element={<HomePage />} />
-          <Route path="/boards" element={<BoardsPage />} />
-          <Route path="/boards/:id" element={<Board />} />
-          {/* <Route path="/search" element={<SearchPage />} /> */}
-          <Route path="/lang" element={<LangPage />} />
-          <Route path="/profile" element={<ProfilePage />} />
-          <Route path="/signIn" element={<SignInPage />} />
-          <Route path="/signUp" element={<SignUpPage />} />
+          <Route path="/boards" element={isAuthorized ? <BoardsPage /> : <SignInPage />} />
+          <Route path="/boards/:id" element={isAuthorized ? <Board /> : <SignInPage />} />
+          <Route path="/profile" element={isAuthorized ? <ProfilePage /> : <SignInPage />} />
+          <Route path="/signIn" element={isAuthorized ? <BoardsPage /> : <SignInPage />} />
+          <Route path="/signUp" element={isAuthorized ? <BoardsPage /> : <SignUpPage />} />
           <Route path="/*" element={<NotFoundPage />} />
         </Routes>
         {openBoardsModal && <Modal item={<AddBoardModal />} />}
         {openColumnsModal && <Modal item={<AddColumnModal />} />}
         {openTasksModal && <Modal item={<AddTaskModal />} />}
+        {openEditTaskModal && <Modal item={<EditTaskModal />} />}
         {deleteToggle && <Modal item={<DeleteModal />} />}
         {!openBoardsModal && (boardsLoading || userLoading) && <LoadingModal />}
         <Footer />

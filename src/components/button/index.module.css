@@ -1,22 +1,26 @@
 .wrapper {
-  background-color: #27f1ae;
+  background-color: black;
+  color: ghostwhite;
+  width: max-content;
   margin: 0.5em;
   padding: 0.5em;
   text-align: center;
+  border: none;
   border-radius: 0.5em;
+  transition: 0.3s;
   transform: translateY(-1px);
   box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
   cursor: pointer;
 }
 
 .wrapper:hover {
-  background-color: aquamarine;
+  background-color: rgb(66, 66, 66);
   box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
   
 }
 
 .wrapper:active {
-  background-color: #27f1ae;
+  background-color: black;
   transform: translateY(-1px);
   box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
 }

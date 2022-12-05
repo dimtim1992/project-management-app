@@ -2,13 +2,13 @@ import React from 'react';
 import style from './index.module.css';
 
 const Button = (props: {
-  event: React.MouseEventHandler<HTMLDivElement> | undefined;
+  event: React.MouseEventHandler<HTMLButtonElement> | undefined;
   name: string | undefined;
 }) => {
   return (
-    <div className={style.wrapper} onClick={props.event}>
+    <button className={style.wrapper} onClick={props.event}>
       {props.name}
-    </div>
+    </button>
   );
 };
 

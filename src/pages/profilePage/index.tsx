@@ -1,3 +1,4 @@
+import Button from 'components/button';
 import { selectLang } from 'pages/langPage/langPage';
 import React from 'react';
 import { useSelector } from 'react-redux';
@@ -39,27 +40,29 @@ const ProfilePage = () => {
     <div className={style.wrapper}>
       <h2>Profile</h2>
       <p>{lang.profilePage.text}</p>
-      <label>{lang.profilePage.name}</label>
-      <input
-        type="text"
-        onChange={(e) => dispatch(setUserName(e.target.value))}
-        value={profile.name}
-      />
-      <label>{lang.profilePage.login}</label>
-      <input
-        type="text"
-        onChange={(e) => dispatch(setUserLogin(e.target.value))}
-        value={profile.login}
-      />
-      <label>{lang.profilePage.password}</label>
-      <input
-        type="password"
-        onChange={(e) => dispatch(setUserPassword(e.target.value))}
-        value={profile.password}
-      />
-      <button onClick={onSave}>{lang.profilePage.save}</button>
-      <br />
-      <button onClick={deleteUser}>{lang.profilePage.deleteUser}</button>
+      <form autoComplete="off">
+        <label>{lang.profilePage.name}</label>
+        <input
+          type="text"
+          onChange={(e) => dispatch(setUserName(e.target.value))}
+          value={profile.name}
+        />
+        <label>{lang.profilePage.login}</label>
+        <input
+          type="text"
+          onChange={(e) => dispatch(setUserLogin(e.target.value))}
+          value={profile.login}
+        />
+        <label>{lang.profilePage.password}</label>
+        <input
+          type="password"
+          onChange={(e) => dispatch(setUserPassword(e.target.value))}
+          value={profile.password}
+        />
+        <Button event={onSave} name={lang.profilePage.save} />
+        <br />
+        <Button event={deleteUser} name={lang.profilePage.deleteUser} />
+      </form>
     </div>
   );
 };

@@ -20,6 +20,8 @@ import {
   toggleAddColumnModal,
   toggleAddTaskModal,
   editColumnTitle,
+  toggleEditTaskModal,
+  setEditTask,
 } from 'store/boardsSlice';
 import * as selectors from 'store/selectors';
 import { IColumn, ITask, useAppDispatch } from 'types/types';
@@ -151,9 +153,17 @@ export const Board = () => {
 
   return (
     <div className={style.boardContainer}>
-      <h2>{saveTitle ? saveTitle.split('&')[0] : activeBoard.title.split('&')[0]}</h2>
-      <p>{saveTitle ? saveTitle.split('&')[1] : activeBoard.title.split('&')[1]}</p>
-      <Button event={openModal} name={lang.board.addColumnButton} />
+      <div className={style.header}>
+        <div className={style.title}>
+          <div>
+            <h2>{saveTitle ? saveTitle.split('&')[0] : activeBoard.title.split('&')[0]}</h2>
+          </div>
+          <div>
+            <h3>{saveTitle ? saveTitle.split('&')[1] : activeBoard.title.split('&')[1]}</h3>
+          </div>
+        </div>
+        <Button event={openModal} name={lang.board.addColumnButton} />
+      </div>
       <DragDropContext onDragEnd={(result) => onDragEnd(result)}>
         <Droppable droppableId="droppable" direction="horizontal" type="column">
           {(provided: DroppableProvided) => (
@@ -177,12 +187,15 @@ export const Board = () => {
                             dispatch(editColumnTitle(columnId));
                             setNewTitle(column.title);
                           }}
+                          className={style.columnTitle}
                         >
                           {editedColumnTitle === column._id ? (
                             <div>
                               <input
                                 defaultValue={column.title}
                                 onChange={(e) => setNewTitle(e.target.value)}
+                                autoFocus
+                                className={style.columnTitleInput}
                               ></input>
                               <span
                                 className={style.editButtons}
@@ -205,9 +218,10 @@ export const Board = () => {
                             column.title
                           )}
                         </div>
-                        <button onClick={() => openTaskModal(column._id)}>
-                          {lang.board.addTaskButton}
-                        </button>
+                        <Button
+                          event={() => openTaskModal(column._id)}
+                          name={lang.board.addTaskButton}
+                        />
                         <Droppable droppableId={columnId} key={columnId}>
                           {(provided) => {
                             return (
@@ -231,16 +245,17 @@ export const Board = () => {
                                               ref={provided.innerRef}
                                               {...provided.draggableProps}
                                               {...provided.dragHandleProps}
+                                              onClick={() => {
+                                                dispatch(toggleEditTaskModal(true));
+                                                dispatch(setEditTask(item));
+                                              }}
                                             >
                                               <div>{item.title}</div>
                                               <div>{item.description}</div>
-                                              <button
-                                                onClick={() =>
-                                                  onDeleteTaskInit(column._id, item._id)
-                                                }
-                                              >
-                                                {lang.board.deleteTaskButton}
-                                              </button>
+                                              <Button
+                                                event={() => onDeleteTaskInit(column._id, item._id)}
+                                                name={lang.board.deleteTaskButton}
+                                              />
                                             </div>
                                           );
                                         }}
@@ -252,13 +267,10 @@ export const Board = () => {
                             );
                           }}
                         </Droppable>
-                        <button
-                          onClick={() => {
-                            onDeleteColumnInit(column._id);
-                          }}
-                        >
-                          {lang.board.deleteColumnButton}
-                        </button>
+                        <Button
+                          event={() => onDeleteColumnInit(column._id)}
+                          name={lang.board.deleteColumnButton}
+                        />
                       </div>
                     )}
                   </Draggable>

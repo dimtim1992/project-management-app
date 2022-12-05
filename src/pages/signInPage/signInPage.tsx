@@ -32,11 +32,12 @@ function SignInPage() {
 
   const {
     register,
+    handleSubmit,
     formState: { errors },
   } = useForm<ISignIn>();
 
   return (
-    <form className="sign-in-container">
+    <form onSubmit={handleSubmit(sign)} className="sign-in-container" autoComplete="off">
       <h2>{lang.signIn.name}</h2>
       <p>{lang.signIn.title}</p>
 
@@ -47,6 +48,7 @@ function SignInPage() {
           {...register('login', { required: true, minLength: 3 })}
           onChange={(e) => dispatch(setSignInLogin(e.target.value))}
           name="login"
+          value={login}
         />
         {errors.login?.type === 'required' && <span>{lang.signIn.validationRequired}</span>}
         {errors.login?.type === 'minLength' && <span>{lang.signIn.validationMinLength}</span>}
@@ -59,13 +61,12 @@ function SignInPage() {
           {...register('password', { required: true, minLength: 3 })}
           onChange={(e) => dispatch(setSignInPassword(e.target.value))}
           name="password"
+          value={password}
         />
-        {errors.login?.type === 'required' && <span>{lang.signIn.validationRequired}</span>}
-        {errors.login?.type === 'minLength' && <span>{lang.signIn.validationMinLength}</span>}
+        {errors.password?.type === 'required' && <span>{lang.signIn.validationRequired}</span>}
+        {errors.password?.type === 'minLength' && <span>{lang.signIn.validationMinLength}</span>}
       </label>
-
-      {/* <button onClick={sign}>SIGNIN</button> */}
-      <Button event={sign} name={lang.signIn.name} />
+      <Button event={undefined} name={lang.signIn.name} />
     </form>
   );
 }

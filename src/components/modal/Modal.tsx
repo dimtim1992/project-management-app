@@ -9,12 +9,14 @@ import {
   toggleAddBoardModal,
   toggleAddColumnModal,
   toggleAddTaskModal,
+  toggleEditTaskModal,
 } from 'store/boardsSlice';
 import {
   addBoardsModalSelector,
   addColumnsModalSelector,
   addTaskModalSelector,
   deleteToggleSelector,
+  editTaskModalSelector,
 } from 'store/selectors';
 import style from './Modal.module.css';
 
@@ -27,6 +29,7 @@ export const Modal = (props: {
   const openBoardsModal = useSelector(addBoardsModalSelector);
   const openColumnsModal = useSelector(addColumnsModalSelector);
   const openTasksModal = useSelector(addTaskModalSelector);
+  const openEditTasksModal = useSelector(editTaskModalSelector);
   const deleteToggle = useSelector(deleteToggleSelector);
 
   const dispatch = useDispatch();
@@ -35,6 +38,7 @@ export const Modal = (props: {
     dispatch(toggleAddBoardModal(false));
     dispatch(toggleAddColumnModal(false));
     dispatch(toggleAddTaskModal(false));
+    dispatch(toggleEditTaskModal(false));
     dispatch(setDeleteToggle(false));
     dispatch(setTaskToBeDeleted(null));
     dispatch(setColumnToBeDeleted(null));
@@ -42,16 +46,29 @@ export const Modal = (props: {
   };
 
   useEffect(() => {
-    if (openBoardsModal || openColumnsModal || openTasksModal || deleteToggle) {
+    if (
+      openBoardsModal ||
+      openColumnsModal ||
+      openTasksModal ||
+      openEditTasksModal ||
+      deleteToggle
+    ) {
       modalRootElement?.appendChild(element);
 
       return () => {
         modalRootElement?.removeChild(element);
       };
     }
-  }, [deleteToggle, element, openBoardsModal, openColumnsModal, openTasksModal]);
+  }, [
+    deleteToggle,
+    element,
+    openBoardsModal,
+    openColumnsModal,
+    openEditTasksModal,
+    openTasksModal,
+  ]);
 
-  if (openBoardsModal || openColumnsModal || openTasksModal || deleteToggle) {
+  if (openBoardsModal || openColumnsModal || openTasksModal || openEditTasksModal || deleteToggle) {
     return createPortal(
       <div className={style.modalBackground} onClick={closeModal}>
         <div

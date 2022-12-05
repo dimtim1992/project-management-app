@@ -8,6 +8,7 @@ import { langSelector, userProfileSelector } from 'store/selectors';
 import { setUserLogin, setUserName, setUserPassword } from 'store/usersSlice';
 import './signUpPage.css';
 import { useForm, SubmitHandler } from 'react-hook-form';
+import Button from 'components/button';
 
 function SignUpPage() {
   const navigate = useNavigate();
@@ -28,7 +29,7 @@ function SignUpPage() {
   } = useForm<ISignUp>();
 
   return (
-    <form onSubmit={handleSubmit(sign)} className="sign-up-container">
+    <form onSubmit={handleSubmit(sign)} className="sign-up-container" autoComplete="off">
       <h2>{lang.signUp.name}</h2>
       <p>{lang.signUp.title}</p>
 
@@ -67,11 +68,10 @@ function SignUpPage() {
           name="password"
           value={profile.password}
         />
-        {errors.login?.type === 'required' && <span>{lang.signUp.validationRequired}</span>}
-        {errors.login?.type === 'minLength' && <span>{lang.signUp.validationMinLength}</span>}
+        {errors.password?.type === 'required' && <span>{lang.signUp.validationRequired}</span>}
+        {errors.password?.type === 'minLength' && <span>{lang.signUp.validationMinLength}</span>}
       </label>
-
-      <button>{lang.signUp.button}</button>
+      <Button event={() => {}} name={lang.signUp.button} />
     </form>
   );
 }

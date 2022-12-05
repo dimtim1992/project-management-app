@@ -22,6 +22,7 @@ export const tasksSelector = (state: State) => state.boards.userTasks;
 export const addBoardsModalSelector = (state: State) => state.boards.openAddBoardModal;
 export const addColumnsModalSelector = (state: State) => state.boards.openAddColumnModal;
 export const addTaskModalSelector = (state: State) => state.boards.openAddTaskModal;
+export const editTaskModalSelector = (state: State) => state.boards.openEditTaskModal;
 export const boardLoadingSelector = (state: State) => state.boards.isLoading;
 export const deleteToggleSelector = (state: State) => state.boards.deleteToggle;
 export const taskToBeDeletedSelector = (state: State) => state.boards.taskToBeDeleted;
@@ -29,3 +30,4 @@ export const columnToBeDeletedSelector = (state: State) => state.boards.columnTo
 export const boardToBeDeletedSelector = (state: State) => state.boards.boardToBeDeleted;
 export const patchedTasksSelector = (state: State) => state.boards.patchedTasks;
 export const editColumnTitleSelector = (state: State) => state.boards.editedColumnTitle;
+export const editTaskSelector = (state: State) => state.boards.editTask;

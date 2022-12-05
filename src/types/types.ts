@@ -34,6 +34,7 @@ export type BoardsState = {
   openAddBoardModal: boolean;
   openAddColumnModal: boolean;
   openAddTaskModal: boolean;
+  openEditTaskModal: boolean;
   boardLoading: string;
   activeBoard: IBoard;
   isLoading: boolean;
@@ -50,6 +51,7 @@ export type BoardsState = {
   boardToBeDeleted: string | null;
   patchedTasks: IPatchTask[];
   editedColumnTitle: string;
+  editTask: ITask;
 };
 
 export interface IPatchTask {

@@ -28,6 +28,7 @@ const initialState: BoardsState = {
   openAddBoardModal: false,
   openAddColumnModal: false,
   openAddTaskModal: false,
+  openEditTaskModal: false,
   boardLoading: '',
   activeBoard: {} as IBoard,
   isLoading: false,
@@ -37,6 +38,7 @@ const initialState: BoardsState = {
   boardToBeDeleted: null,
   patchedTasks: [] as IPatchTask[],
   editedColumnTitle: '',
+  editTask: {} as ITask,
 };
 
 const boardsSlice = createSlice({
@@ -51,6 +53,9 @@ const boardsSlice = createSlice({
     },
     toggleAddTaskModal(state, action) {
       state.openAddTaskModal = action.payload;
+    },
+    toggleEditTaskModal(state, action) {
+      state.openEditTaskModal = action.payload;
     },
     addBoard(state, action) {
       state.userBoards.push(action.payload);
@@ -168,6 +173,15 @@ const boardsSlice = createSlice({
     editColumnTitle(state, { payload }) {
       state.editedColumnTitle = payload;
     },
+    setEditTask(state, action) {
+      state.editTask = action.payload;
+    },
+    setEditTaskTitle(state, action) {
+      state.editTask.title = action.payload;
+    },
+    setEditTaskDescription(state, action) {
+      state.editTask.description = action.payload;
+    },
   },
   extraReducers: (builder) => {
     builder.addCase(createBoard.pending, (state) => {
@@ -274,12 +288,14 @@ const boardsSlice = createSlice({
       );
       state.isLoading = false;
     });
-    builder.addCase(putTask.pending, () => {
-      // state.isLoading = true;
+    builder.addCase(putTask.pending, (state) => {
+      state.isLoading = true;
     });
     builder.addCase(putTask.fulfilled, (state, { payload }) => {
-      //   state.userTasks = [...state.userTasks.filter((task) => task._id !== payload._id), payload];
-      console.log(payload);
+      // ...state.userColumns[payload.columnId].items
+
+      state.userColumns[payload.columnId].items[payload.order] = payload;
+
       state.isLoading = false;
     });
     builder.addCase(putColumns.fulfilled, (state, { payload }) => {
@@ -294,6 +310,7 @@ export const {
   toggleAddBoardModal,
   toggleAddColumnModal,
   toggleAddTaskModal,
+  toggleEditTaskModal,
   addBoard,
   setNewBoardTitle,
   setNewBoardDescription,
@@ -313,4 +330,7 @@ export const {
   setTasks,
   setTasks2,
   editColumnTitle,
+  setEditTask,
+  setEditTaskTitle,
+  setEditTaskDescription,
 } = boardsSlice.actions;
