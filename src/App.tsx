@@ -1,5 +1,6 @@
 import React, { Suspense, useEffect, lazy } from 'react';
 import { Routes, Route } from 'react-router-dom';
+
 import { useDispatch, useSelector } from 'react-redux';
 import {
   addBoardsModalSelector,
@@ -11,6 +12,7 @@ import {
   userLoadingSelector,
 } from 'store/selectors';
 import { setLang } from 'store/usersSlice';
+
 const Header = lazy(() => import('components/header'));
 const Footer = lazy(() => import('components/footer'));
 const Modal = lazy(() => import('components/modal/Modal'));

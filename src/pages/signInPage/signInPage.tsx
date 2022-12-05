@@ -66,7 +66,6 @@ function SignInPage() {
         {errors.password?.type === 'required' && <span>{lang.signIn.validationRequired}</span>}
         {errors.password?.type === 'minLength' && <span>{lang.signIn.validationMinLength}</span>}
       </label>
-
       <Button event={undefined} name={lang.signIn.name} />
     </form>
   );
