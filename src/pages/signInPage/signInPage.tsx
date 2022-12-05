@@ -54,9 +54,7 @@ function SignInPage() {
         {errors.login?.type === 'minLength' && <span>{lang.signIn.validationMinLength}</span>}
       </label>
 
-
       <label>{lang.signIn.password}</label>
-      <input type="text" onChange={(e) => dispatch(setSignInPassword(e.target.value))} />
       <label>
         {lang.signIn.password}
         <input
@@ -70,7 +68,6 @@ function SignInPage() {
         {errors.password?.type === 'minLength' && <span>{lang.signIn.validationMinLength}</span>}
       </label>
 
-      {/* <button>SIGNIN</button> */}
       <button className="submitButton">
         <Button event={sign} name={lang.signIn.name} />
       </button>

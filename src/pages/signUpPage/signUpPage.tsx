@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router';
 import { signUp } from 'services/api';
 import { langSelector, userProfileSelector } from 'store/selectors';
 import { setUserLogin, setUserName, setUserPassword } from 'store/usersSlice';
-import { useAppDispatch } from 'types/types';
+import { ISignUp, useAppDispatch } from 'types/types';
 import './signUpPage.css';
 import { useForm, SubmitHandler } from 'react-hook-form';
 
