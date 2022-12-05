@@ -24,7 +24,6 @@ const NotFoundPage = lazy(() => import('pages/notFoundPage'));
 const HomePage = lazy(() => import('pages/homePage'));
 const BoardsPage = lazy(() => import('pages/boardsPage'));
 const ProfilePage = lazy(() => import('pages/profilePage'));
-const LangPage = lazy(() => import('pages/langPage/langPage'));
 const SignInPage = lazy(() => import('pages/signInPage/signInPage'));
 const SignUpPage = lazy(() => import('pages/signUpPage/signUpPage'));
 
@@ -49,10 +48,9 @@ function App() {
         <Header />
         <Routes>
           <Route path="/" element={<HomePage />} />
-          <Route path="/boards" element={<BoardsPage />} />
-          <Route path="/boards/:id" element={<Board />} />
-          <Route path="/lang" element={<LangPage />} />
-          <Route path="/profile" element={<ProfilePage />} />
+          <Route path="/boards" element={isAuthorized ? <BoardsPage /> : <SignInPage />} />
+          <Route path="/boards/:id" element={isAuthorized ? <Board /> : <SignInPage />} />
+          <Route path="/profile" element={isAuthorized ? <ProfilePage /> : <SignInPage />} />
           <Route path="/signIn" element={isAuthorized ? <BoardsPage /> : <SignInPage />} />
           <Route path="/signUp" element={isAuthorized ? <BoardsPage /> : <SignUpPage />} />
           <Route path="/*" element={<NotFoundPage />} />

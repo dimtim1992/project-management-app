@@ -8,6 +8,7 @@ import { setUserLogin, setUserName, setUserPassword } from 'store/usersSlice';
 import { ISignUp, useAppDispatch } from 'types/types';
 import './signUpPage.css';
 import { useForm, SubmitHandler } from 'react-hook-form';
+import Button from 'components/button';
 
 function SignUpPage() {
   const navigate = useNavigate();
@@ -32,19 +33,23 @@ function SignUpPage() {
       <h2>{lang.signUp.name}</h2>
       <p>{lang.signUp.title}</p>
 
-      <label>{lang.signUp.userName}</label>
-      <input
-        type="text"
-        onChange={(e) => dispatch(setUserName(e.target.value))}
-        value={profile.name}
-      />
+      <label>
+        {lang.signUp.userName}
+        <input
+          type="text"
+          onChange={(e) => dispatch(setUserName(e.target.value))}
+          value={profile.name}
+        />
+      </label>
 
-      <label>{lang.signUp.login}</label>
-      <input
-        type="text"
-        onChange={(e) => dispatch(setUserLogin(e.target.value))}
-        value={profile.login}
-      />
+      <label>
+        {lang.signUp.login}
+        <input
+          type="text"
+          onChange={(e) => dispatch(setUserLogin(e.target.value))}
+          value={profile.login}
+        />
+      </label>
 
       <label>
         {lang.signUp.password}
@@ -59,7 +64,7 @@ function SignUpPage() {
         {errors.password?.type === 'minLength' && <span>{lang.signUp.validationMinLength}</span>}
       </label>
 
-      <button>{lang.signUp.button}</button>
+      <Button event={() => {}} name={lang.signUp.button} />
     </form>
   );
 }

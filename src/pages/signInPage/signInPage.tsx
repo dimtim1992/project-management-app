@@ -54,7 +54,6 @@ function SignInPage() {
         {errors.login?.type === 'minLength' && <span>{lang.signIn.validationMinLength}</span>}
       </label>
 
-      <label>{lang.signIn.password}</label>
       <label>
         {lang.signIn.password}
         <input
@@ -68,9 +67,7 @@ function SignInPage() {
         {errors.password?.type === 'minLength' && <span>{lang.signIn.validationMinLength}</span>}
       </label>
 
-      <button className="submitButton">
-        <Button event={sign} name={lang.signIn.name} />
-      </button>
+      <Button event={undefined} name={lang.signIn.name} />
     </form>
   );
 }
