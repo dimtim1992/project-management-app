@@ -47,6 +47,7 @@ const Header = () => {
           {lang.header.addBoard}
         </a>
       )}
+
       <a className={style.link}>
         <LangChoice />
       </a>

@@ -3,7 +3,7 @@ import { selectLang } from 'pages/langPage/langPage';
 import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { getBoards, getTasksBySearch } from 'services/api';
+import { getBoards, getBoardsSearch, getTasksSetSearch } from 'services/api';
 import { setActiveBoard, setBoardToBeDeleted, setDeleteToggle } from 'store/boardsSlice';
 import { IBoard, ITask, useAppDispatch } from 'types/types';
 import * as selectors from '../../store/selectors';
@@ -20,6 +20,7 @@ const BoardsPage = () => {
 
   const [inputValue, setInputValue] = useState<string>('');
   const [searchResults, setSearchResults] = useState<ITask[]>([]);
+  const [isSearched, setIsSearched] = useState<boolean>(false);
 
   useEffect(() => {
     if (isUserError || isBoardError) {
@@ -66,12 +67,22 @@ const BoardsPage = () => {
   };
 
   const handleSubmit = async () => {
-    setSearchResults(await getTasksBySearch(inputValue));
+    event?.preventDefault();
+    const boards = await getBoardsSearch();
+    const arrPromises = boards.map((item: IBoard) => getTasksSetSearch(item._id));
+    const tasks = (await Promise.all(arrPromises)).flat();
+    const result = tasks.filter((item: ITask) => {
+      return item.title.includes(inputValue) || item.description.includes(inputValue);
+    });
+
+    inputValue.length ? setIsSearched(true) : setIsSearched(false);
+
+    setSearchResults(result);
   };
 
   const searchResultsTag = searchResults.map((item: ITask) => {
     return (
-      <li key={item._id}>
+      <li key={item._id} className={style.searchListItem}>
         <p>{item.title}</p>
         <p>{item.description}</p>
       </li>
@@ -85,11 +96,15 @@ const BoardsPage = () => {
           {lang.search.title}:
           <input type="text" onChange={handleChange} value={inputValue} />
         </label>
-        <Button event={() => {}} name="Submit" />
+        <Button event={() => {}} name={lang.search.name} />
       </form>
-      {inputValue && <ul>{searchResultsTag}</ul>}
-      <h2>{lang.boards.name}</h2>
-      <div className={style.boardsWrapper}>{boards.map(renderBoard)}</div>
+      {isSearched && <ul className={style.searchList}>{searchResultsTag}</ul>}
+      {!isSearched && (
+        <>
+          <h2>{lang.boards.name}</h2>
+          <div className={style.boardsWrapper}>{boards.map(renderBoard)}</div>
+        </>
+      )}
     </div>
   );
 };
