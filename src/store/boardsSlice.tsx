@@ -11,6 +11,7 @@ import {
   getTasksSet,
   patchColumn,
   patchTask,
+  putColumns,
   putTask,
 } from 'services/api';
 import { BoardsState, IBoard, IColumn, IPatchTask, ITask, w } from 'types/types';
@@ -35,6 +36,7 @@ const initialState: BoardsState = {
   columnToBeDeleted: null,
   boardToBeDeleted: null,
   patchedTasks: [] as IPatchTask[],
+  editedColumnTitle: '',
 };
 
 const boardsSlice = createSlice({
@@ -163,6 +165,9 @@ const boardsSlice = createSlice({
       });
       state.patchedTasks = taskOrders;
     },
+    editColumnTitle(state, { payload }) {
+      state.editedColumnTitle = payload;
+    },
   },
   extraReducers: (builder) => {
     builder.addCase(createBoard.pending, (state) => {
@@ -277,6 +282,10 @@ const boardsSlice = createSlice({
       console.log(payload);
       state.isLoading = false;
     });
+    builder.addCase(putColumns.fulfilled, (state, { payload }) => {
+      state.userColumns[payload._id].title = payload.title;
+      state.editedColumnTitle = '';
+    });
   },
 });
 
@@ -303,4 +312,5 @@ export const {
   setNewColumnIdForTask,
   setTasks,
   setTasks2,
+  editColumnTitle,
 } = boardsSlice.actions;

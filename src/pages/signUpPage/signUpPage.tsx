@@ -27,10 +27,6 @@ function SignUpPage() {
     formState: { errors },
   } = useForm<ISignUp>();
 
-  const [name, setName] = useState('');
-  const [login, setLogin] = useState('');
-  const [password, setPassword] = useState('');
-
   return (
     <form onSubmit={handleSubmit(sign)} className="sign-up-container">
       <h2>{lang.signUp.name}</h2>

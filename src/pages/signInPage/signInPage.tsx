@@ -12,13 +12,11 @@ import { useForm } from 'react-hook-form';
 
 function SignInPage() {
   const login = useSelector(signInLoginSelector);
-  const password = useSelector(signInPasswordSelector);
   const langKey = useSelector(langSelector);
   const lang = selectLang(langKey);
-
+  const password = useSelector(signInPasswordSelector);
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
-
 
   const sign = () => {
     dispatch(signIn({ login, password })).then((res) => {
@@ -36,8 +34,6 @@ function SignInPage() {
     register,
     formState: { errors },
   } = useForm<ISignIn>();
-
-  const [password, setPassword] = useState('');
 
   return (
     <form className="sign-in-container">
@@ -61,7 +57,7 @@ function SignInPage() {
         <input
           type="password"
           {...register('password', { required: true, minLength: 3 })}
-          onChange={(e) => dispatch(setSignInPassword(e.target.value))
+          onChange={(e) => dispatch(setSignInPassword(e.target.value))}
           name="password"
         />
         {errors.login?.type === 'required' && <span>{lang.signIn.validationRequired}</span>}
