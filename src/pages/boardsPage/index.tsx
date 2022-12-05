@@ -90,7 +90,7 @@ const BoardsPage = () => {
           {lang.search.title}:
           <input type="text" onChange={handleChange} value={inputValue} />
         </label>
-        <button>Submit</button>
+        <button>{lang.search.name}</button>
       </form>
       {isSearched && <ul className={style.searchList}>{searchResultsTag}</ul>}
       {!isSearched && (

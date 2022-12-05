@@ -41,7 +41,7 @@
   },
   "search": {
     "name": "Search",
-    "title": "Search jobs by title, description, and the name of the owners or responsible users"
+    "title": "Search tasks by title or description"
   },
   "signIn": {
     "name": "Sign in",
