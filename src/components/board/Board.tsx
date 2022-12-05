@@ -185,12 +185,15 @@ export const Board = () => {
                             dispatch(editColumnTitle(columnId));
                             setNewTitle(column.title);
                           }}
+                          className={style.columnTitle}
                         >
                           {editedColumnTitle === column._id ? (
                             <div>
                               <input
                                 defaultValue={column.title}
                                 onChange={(e) => setNewTitle(e.target.value)}
+                                autoFocus
+                                className={style.columnTitleInput}
                               ></input>
                               <span
                                 className={style.editButtons}
@@ -213,9 +216,10 @@ export const Board = () => {
                             column.title
                           )}
                         </div>
-                        <button onClick={() => openTaskModal(column._id)}>
-                          {lang.board.addTaskButton}
-                        </button>
+                        <Button
+                          event={() => openTaskModal(column._id)}
+                          name={lang.board.addTaskButton}
+                        />
                         <Droppable droppableId={columnId} key={columnId}>
                           {(provided) => {
                             return (
@@ -242,13 +246,10 @@ export const Board = () => {
                                             >
                                               <div>{item.title}</div>
                                               <div>{item.description}</div>
-                                              <button
-                                                onClick={() =>
-                                                  onDeleteTaskInit(column._id, item._id)
-                                                }
-                                              >
-                                                {lang.board.deleteTaskButton}
-                                              </button>
+                                              <Button
+                                                event={() => onDeleteTaskInit(column._id, item._id)}
+                                                name={lang.board.deleteTaskButton}
+                                              />
                                             </div>
                                           );
                                         }}
@@ -260,13 +261,10 @@ export const Board = () => {
                             );
                           }}
                         </Droppable>
-                        <button
-                          onClick={() => {
-                            onDeleteColumnInit(column._id);
-                          }}
-                        >
-                          {lang.board.deleteColumnButton}
-                        </button>
+                        <Button
+                          event={() => onDeleteColumnInit(column._id)}
+                          name={lang.board.deleteColumnButton}
+                        />
                       </div>
                     )}
                   </Draggable>

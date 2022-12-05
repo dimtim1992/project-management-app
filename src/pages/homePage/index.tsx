@@ -1,5 +1,5 @@
-import { selectLang } from 'pages/langPage/langPage';
 import React from 'react';
+import { selectLang } from 'pages/langPage/langPage';
 import { useSelector } from 'react-redux';
 import { langSelector } from 'store/selectors';
 import style from './index.module.css';
@@ -28,27 +28,33 @@ const HomePage = () => {
         <h2>{lang.home.titleTeam}</h2>
         <ul className={style.teamList}>
           <li className={style.teamMember}>
-            <img
-              className={style.teamMemberImage}
-              src="https://avatars.githubusercontent.com/u/95276425?v=4"
-              alt="alex-image"
-            />
+            <a href="https://github.com/Zankorrr">
+              <img
+                className={style.teamMemberImage}
+                src="https://avatars.githubusercontent.com/u/95276425?v=4"
+                alt="alex-image"
+              />
+            </a>
             <h3>{lang.home.nameAlex}</h3>
           </li>
           <li className={style.teamMember}>
-            <img
-              className={style.teamMemberImage}
-              src="https://avatars.githubusercontent.com/u/36646929?v=4"
-              alt="dima-image"
-            />
+            <a href="https://github.com/dimtim1992">
+              <img
+                className={style.teamMemberImage}
+                src="https://avatars.githubusercontent.com/u/36646929?v=4"
+                alt="dima-image"
+              />
+            </a>
             <h3>{lang.home.nameDima}</h3>
           </li>
           <li className={style.teamMember}>
-            <img
-              className={style.teamMemberImage}
-              src="https://avatars.githubusercontent.com/u/99993317?v=4"
-              alt="max-image"
-            />
+            <a href="https://github.com/MaxNikitenok">
+              <img
+                className={style.teamMemberImage}
+                src="https://avatars.githubusercontent.com/u/99993317?v=4"
+                alt="max-image"
+              />
+            </a>
             <h3>{lang.home.nameMax}</h3>
           </li>
         </ul>
