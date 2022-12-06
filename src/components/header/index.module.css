@@ -1,0 +1,65 @@
+.wrapper,
+.stickyWrapper {
+  display: flex;
+  flex-wrap: wrap;
+  align-content: center;
+  align-items: center;
+  justify-content: center;
+  position: sticky;
+  top: 0;
+  height: 70px;
+  background-color: #000000;
+  row-gap: 5px;
+  column-gap: 20px;
+  font-size: 20px;
+  color: white;
+  padding: 10px;
+  transition: 1s;
+  z-index: 1;
+}
+
+.stickyWrapper {
+  height: 30px;
+}
+
+.link {
+  text-decoration: none;
+  color: #ffffff;
+  transition: 0.3s;
+}
+
+.link:hover {
+  color: #858585;
+}
+
+.link:active {
+  text-decoration: underline;
+}
+
+.link:hover {
+  cursor: pointer;
+}
+
+@media (max-width: 683px) {
+  .wrapper {
+    height: 150px;
+  }
+  .stickyWrapper {
+    height: 90px;
+  }
+}
+
+@media (max-width: 375px) {
+  .wrapper,
+  .stickyWrapper {
+    height: 140px;
+  }
+}
+
+@media (max-height: 540px) {
+  .wrapper,
+  .stickyWrapper {
+    height: 100px;
+    padding: 0;
+  }
+}

@@ -1,0 +1,15 @@
+.columnModal {
+  display: flex;
+  flex-direction: column;
+}
+
+.cross {
+  position: absolute;
+  top: -9px;
+  right: 3px;
+  font-size: 30px;
+}
+
+.cross:hover {
+  cursor: pointer;
+}

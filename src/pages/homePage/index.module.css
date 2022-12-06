@@ -1,0 +1,57 @@
+.wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    flex: 1;
+}
+
+.paragraph {
+    font-size: xx-large;
+}
+
+.app {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+    flex: 2;
+}
+
+.video {
+    flex: 10;
+}
+
+.team {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+    gap: 20px;
+    flex: 3;
+}
+
+.teamList {
+    list-style: none;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+    gap: 50px;
+    flex: 4;
+}
+
+.teamMember {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    flex: 5;
+}
+
+.teamMemberImage {
+    height: 160px;
+    border-radius: 50%;
+}
+
+.teamMemberImage:hover {
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+}

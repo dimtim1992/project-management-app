@@ -1,0 +1,93 @@
+.header {
+    display: flex;
+    flex-direction: column;
+    position: sticky;
+    left: 0;
+}
+
+.title {
+    display: flex;
+    align-items: baseline;
+    column-gap: 1em;
+}
+
+.boardContainer {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    padding: 20px;
+    overflow-x: auto;
+}
+
+.boardWrapper {
+    display: flex;
+    flex: 1;
+    width: fit-content;
+    margin-top: 2em;
+    gap: 10px;
+}
+
+.column {
+    display: flex;
+    flex-direction: column;
+    width: 250px;
+    max-height: 450px;
+    border-radius: 5px; 
+    box-shadow: 0 2px 7px grey;
+    padding: 10px;
+    overflow-y: scroll;
+    overflow-wrap: break-word;
+}
+
+.column:hover {
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+    transition: 0.3s;
+}
+
+.columnTitle {
+    border-radius: 3px;
+    padding-left: 5px;
+    cursor: text;
+    transition: 0.3s;
+}
+
+.columnTitle:hover {
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+}
+
+.task {
+    border-radius: 5px; 
+    box-shadow: 0 2px 7px grey;
+    padding: 10px;
+    margin: 5px;
+}
+
+.task:hover {
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+    transition: 0.3s;
+}
+
+.droppable {
+    flex: 1;
+}
+
+.editButtons {
+    padding: 7px;
+}
+
+.editButtons:hover {
+    cursor: pointer;
+}
+
+@media (max-height: 800px) {
+    .title h2,
+    .title h3 {
+        margin: 0;
+    }
+    .boardContainer {
+        padding: 5px 20px;
+    }
+    .boardWrapper {
+        margin-top: 0;
+    }
+}

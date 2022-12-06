@@ -1,0 +1,86 @@
+{
+  "header": {
+    "home": "home",
+    "boards": "Boards",
+    "addBoard": "Add board",
+    "search": "Search",
+    "language": "Language",
+    "profile": "Profile",
+    "signIn": "Sign in",
+    "signUp": "Sign up",
+    "logOut": "Log out"
+  },
+  "profilePage": {
+    "text": "Profile info with edit and delete buttons",
+    "name": "Name",
+    "login": "Login",
+    "password": "Password",
+    "save": "Save",
+    "deleteUser": "Delete user"
+  },
+  "home": {
+    "name": "Home",
+    "title": "About app and team",
+    "text": "Lorem ipsum dolor sit amet consectetur, adipisicing elit. Minus numquam excepturi, nisi qui at possimus repellendus sit cupiditate, nesciunt nam, aut esse optio neque. Quasi exercitationem tempore nostrum natus maxime?",
+    "textApp": "Optimize your time with PMA",
+    "titleVideo": "Video instruction",
+    "textCourse": "The application was made as part of the React 2022 Q3 course from RS School",
+    "titleTeam": "Our team",
+    "nameAlex": "Alexey",
+    "nameDima": "Dmitry",
+    "nameMax": "Maksim"
+  },
+  "boards": {
+    "name": "Boards",
+    "deleteBoardButton": "Delete board"
+  },
+  "addBoardsModal": {
+    "boardTitle": "Board title",
+    "boardDescription": "Description",
+    "button": "Add board"
+  },
+  "search": {
+    "name": "Search",
+    "title": "Search tasks by title or description",
+    "delete": "Delete task"
+  },
+  "signIn": {
+    "name": "Sign in",
+    "title": "Sign in form",
+    "login": "Login",
+    "password": "Password",
+    "button": "Sign in",
+    "validationRequired": "This field is required",
+    "validationMinLength": "You must enter min three symbols"
+  },
+  "signUp": {
+    "name": "Sign Up",
+    "title": "Are you ready?",
+    "userName": "Name",
+    "login": "Login",
+    "password": "Password",
+    "button": "Register",
+    "validationRequired": "This field is required",
+    "validationMinLength": "You must enter min three symbols"
+  },
+  "board": {
+    "addColumnButton": "Add column",
+    "addTaskButton": "Add task",
+    "deleteColumnButton": "Delete column",
+    "deleteTaskButton": "Delete task"
+  },
+  "addColumnsModal": {
+    "columnTitle": "Column title",
+    "addColumnButton": "Add column"
+  },
+  "addTasksModal": {
+    "taskTitle": "Task title",
+    "taskDescription": "Task description",
+    "addTaskButton": "Add task"
+  },
+  "editTasksModal": {
+    "taskTitle": "Task title",
+    "taskDescription": "Task description",
+    "aditTaskButton": "Edit task"
+  }
+}

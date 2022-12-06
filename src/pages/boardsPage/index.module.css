@@ -1,0 +1,42 @@
+.wrapper {
+    flex: 1 1 auto;
+    overflow: auto;
+}
+
+.boardsWrapper {
+    height: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin: 10px;
+}
+
+.board {
+    min-width: 200px;
+    height: 300px;
+    border-radius: 5px; 
+    box-shadow: 0 2px 7px grey;
+    padding: 10px;
+    transition: 0.3s;
+}
+
+.board:hover {
+    cursor: pointer;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+}
+
+.boardTitle {
+    font-size: 22px;
+    font-weight: 700;
+}
+
+.searchList {
+    list-style: none;
+}
+
+.searchListItem {
+    border-radius: 5px;
+    box-shadow: 0 2px 7px grey;
+    padding: 10px;
+    margin: 5px;
+}
